@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello MainController!{% endblock %}
+
+{% block body %}
+
+    {{ include('./composants/events.html.twig') }}  
+   {#  {{ include('./composants/carousel_images.html.twig') }}   #}
+    {{ include('./composants/about.html.twig') }}   
+    {{ include('./composants/counters_area.html.twig') }}  
+    {{ include('./composants/dance_teacher.html.twig') }}  
+    {# {{ include('./composants/latest_news.html.twig') }}   #}
+    {# {{ include('./composants/slider_hero_home.html.twig') }}  #}
+    {# testimanials et events marchent ensemble ... #}
+    {# {{ include('./composants/testimonials.html.twig') }} #}
+      
+    {# ne pas les dissocier et les laisser dans ce sens #}
+   
+   {#
+    {{ include('./composants/tabs_and_big_image_on_right.html.twig') }}  
+    {{ include('./composants/services.html.twig') }}  
+    
+    {{ include('./composants/gallery.html.twig') }}  
+    {{ include('./composants/call_to_action.html.twig') }}   #}
+ 
+{% endblock %}

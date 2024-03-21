@@ -1,0 +1,157 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello MainController!{% endblock %}
+
+{% block body %}
+    <!--==============================
+    Breadcumb
+============================== -->
+    <div class="breadcumb-wrapper " data-bg-src="assets/img/breadcumb/breadcumb-bg.jpg">
+        <div class="container">
+            <div class="breadcumb-content">
+                <h1 class="breadcumb-title">Liste des Clubs</h1>
+                <ul class="breadcumb-menu">
+                    <li><a href="index.html">Accueil</a></li>
+                    <li>Events</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="my-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-xl-6">
+                    <div class="tab-content" id="nav-tabContent">
+                        <div class="tab-pane fade active show" id="nav-1st" role="tabpanel">
+                            <div class="event-item">
+                                <div class="event-item_wrapper">
+                                    <div class="event-item-wrapp">
+                                        <div class="event-item_content">
+                                            <div class="event-item_list">
+                                                <h3 class="event-item_title">ALL DANCES</h3>
+                                                <span class="event-item_time"><i class="fa-solid fa-user text-danger"></i>Mmes FADE SABRINA et DIDIER JUSTINE</span>
+                                            </div>
+                                        </div>
+                                        <p class="event-item_text"><i class="fa-solid fa-house text-danger"></i> 91 Rue de la Moise 88220 HADOL</p>
+                                        <p class="event-item_text"><i class="fa-solid fa-phone text-danger"></i> Tél : 06.14.89.45.99 - Fax : - GSM :</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-6">
+                    <div class="tab-content" id="nav-tabContent">
+                        <div class="tab-pane fade active show" id="nav-1st" role="tabpanel">
+                            <div class="event-item">
+                                <div class="event-item_wrapper">
+                                    <div class="event-item-wrapp">
+                                        <div class="event-item_content">
+                                            <div class="event-item_list">
+                                                <h3 class="event-item_title">ALL DANCES</h3>
+                                                <span class="event-item_time"><i class="fa-regular fa-clock"></i>Mmes FADE SABRINA et DIDIER JUSTINE</span>
+                                            </div>
+                                        </div>
+                                        <p class="event-item_text">91 Rue de la Moise 88220 HADOL</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+                        <!--==============================
+                        Faq Area
+                        ==============================-->
+                        <div class="overflow-hidden mt-25">
+                            <div class="container">
+                                
+                                
+                                {#  A Dynamiser #}
+                                
+                                <div class="row justify-content-center">
+                                    <div class="col-xl-12">
+
+                                        {# CLUBS #}
+                                        <div class="text-xl-start">
+                                            <div class="title-area mb-30">
+                                                <h2 class="h4">Moving Show Dance</h2>
+                                            </div>
+                                        </div>
+
+                                        {# Eleves de ce club #}
+                                        <div class="accordion-area accordion" id="faqAccordion">
+                                            
+                                            {# 1er dossard #}
+                                            <div class="accordion-card">
+                                                <div class="accordion-header" id="collapse-item-1">
+                                                    <button class="accordion-button " type="button" data-bs-toggle="collapse" data-bs-target="#collapse-1" aria-expanded="true" aria-controls="collapse-1">
+                                                        Solo Disco Enfants
+                                                    </button>
+                                                </div>
+                                                <div id="collapse-1" class="accordion-collapse collapse" aria-labelledby="collapse-item-1" data-bs-parent="#faqAccordion">
+                                                    <div class="accordion-body">
+                                                        <div class="row">
+                                                            <div class="col-xl-6">
+                                                                <div class="card">
+                                                                    <div class="card-body">
+                                                                        <div class="card-title">
+                                                                            dossard 1008 
+                                                                        </div>
+                                                                        <div class="card-text">
+                                                                            HENRY Mathilde, BRETIN Jade, DHEYRIAT Gwenaelle, VINCENT-BUGAUT Amanda, THEVENIN Sarah<br>
+                                                                            <a href="#" class="btn btn-primary"> imprimer</a>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div> 
+                                                              <div class="col-xl-6">
+                                                                <div class="card">
+                                                                    <div class="card-body">
+                                                                        <div class="card-title">
+                                                                            dossard 1012 
+                                                                        </div>
+                                                                        <div class="card-text">
+                                                                            HENRY Mathilde<br>
+                                                                            <a href="#" class="btn btn-primary"> imprimer</a>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div> 
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>{# Fin du 1er dossard #}
+
+                                            <div class="accordion-card ">
+                                                <div class="accordion-header" id="collapse-item-2">
+                                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-2" aria-expanded="false" aria-controls="collapse-2">
+                                                    Solo Disco Adultes
+                                                </button>
+                                                </div>
+                                                <div id="collapse-2" class="accordion-collapse collapse " aria-labelledby="collapse-item-2" data-bs-parent="#faqAccordion">
+                                                    <div class="accordion-body">
+                                                        <p class="faq-text">Completely whiteboard functionalize process improvement before transparent model. Intrinsically morph seamless scenarios whereas.</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>{# FIN DES Eleves de ce club #}    
+
+                                        
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            
+                        </div>{# div fin container #}
+
+
+
+{% endblock %}
