@@ -21,45 +21,62 @@
     <div class="my-5">
         <div class="container">
             <div class="row">
-                <div class="col-xl-6">
-                    <div class="tab-content" id="nav-tabContent">
-                        <div class="tab-pane fade active show" id="nav-1st" role="tabpanel">
-                            <div class="event-item">
-                                <div class="event-item_wrapper">
-                                    <div class="event-item-wrapp">
-                                        <div class="event-item_content">
-                                            <div class="event-item_list">
-                                                <h3 class="event-item_title">ALL DANCES</h3>
-                                                <span class="event-item_time"><i class="fa-solid fa-user text-danger"></i>Mmes FADE SABRINA et DIDIER JUSTINE</span>
+
+                {# Foreach #}
+                {% for club in clubs %}
+                    <div class="col-xl-6">
+                        <div class="tab-content" id="nav-tabContent">
+                            <div class="tab-pane fade active show" id="nav-1st" role="tabpanel">
+                                <div class="event-item">
+                                    <div class="event-item_wrapper">
+                                        <div class="event-item-wrapp">
+                                            <div class="event-item_content">
+                                                <div class="event-item_list">
+                                                    <h3 class="event-item_title">{{ club.name }}</h3>
+                                                    <span class="event-item_time"><i class="fa-solid fa-user text-danger"></i>{{ club.correspondents is defined ? club.correspondents : "-" }}</span>
+                                                </div>
                                             </div>
+                                            <p class="event-item_text"><i class="fa-solid fa-house text-danger"></i> 
+                                                {{ club.adress is defined and club.adress is not null ? club.adress : "-" }}
+                                            </p>
+                                            <p class="event-item_text"><i class="fa-solid fa-phone text-danger"></i> 
+                                                {{ club.phonePrimary is defined and club.phonePrimary is not null ? club.phonePrimary : "-" }} 
+                                            </p>
+                                            
+                                            {% if club.phoneSecondary is defined and club.phoneSecondary is not null %}
+                                                <p class="event-item_text"><i class="fa-solid fa-phone text-danger"></i> 
+                                                   {{club.phoneSecondary}}
+                                                </p>
+                                            {% endif %}
+
+                                            <p class="event-item_text"><i class="fa-solid fa-envelope text-danger"></i> 
+                                                {{ club.emailPrimary is defined and club.emailPrimary is not null ? club.emailPrimary : "-" }} 
+                                            </p>
+
+                                            {% if club.emailSecondary is defined and club.emailSecondary is not null %}
+                                            <p class="event-item_text"><i class="fa-solid fa-envelope text-danger"></i> 
+                                                {{  club.emailSecondary }} 
+                                            </p>
+                                            {% endif %}
+
+                                            {% if club.fax is defined and club.fax is not null %}
+                                                <p class="event-item_text"><i class="fa-solid fa-fax text-danger"></i> </i> 
+                                                    {{  club.fax }} 
+                                                </p>
+                                            {% endif %}
+
+                                            <p class="event-item_text"><i class="fa-solid fa-globe text-danger"></i></i> 
+                                                {{ club.website is defined and club.website is not null ? club.website : "-" }} 
+                                            </p>
+
                                         </div>
-                                        <p class="event-item_text"><i class="fa-solid fa-house text-danger"></i> 91 Rue de la Moise 88220 HADOL</p>
-                                        <p class="event-item_text"><i class="fa-solid fa-phone text-danger"></i> Tél : 06.14.89.45.99 - Fax : - GSM :</p>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="col-xl-6">
-                    <div class="tab-content" id="nav-tabContent">
-                        <div class="tab-pane fade active show" id="nav-1st" role="tabpanel">
-                            <div class="event-item">
-                                <div class="event-item_wrapper">
-                                    <div class="event-item-wrapp">
-                                        <div class="event-item_content">
-                                            <div class="event-item_list">
-                                                <h3 class="event-item_title">ALL DANCES</h3>
-                                                <span class="event-item_time"><i class="fa-regular fa-clock"></i>Mmes FADE SABRINA et DIDIER JUSTINE</span>
-                                            </div>
-                                        </div>
-                                        <p class="event-item_text">91 Rue de la Moise 88220 HADOL</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                {% endfor %}
+                {# END FOREACH  #}
             </div>
         </div>
     </div>

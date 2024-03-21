@@ -37,10 +37,13 @@ class MainController extends AbstractController
         ]);
     }
     #[Route('/clubs', name: 'app_clubs')]
-    public function clubs(): Response
+    public function clubs(ClubRepository $clubRepository): Response
     {
+
+        $clubs = $clubRepository->findBy([], ['name' => 'ASC']);
+
         return $this->render('main/clubs.html.twig', [
-           
+            'clubs' => $clubs,
         ]);
     }
 }
