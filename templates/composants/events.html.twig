@@ -6,85 +6,45 @@
             <div class="event-box">
                 <div class="event-box_wrapper">
                     <div class="title-area">
-                        <span class="sub-title style1 mt-n1">Evénements</span>
-                        <h2 class="sec-title mb-0">A venir</h2>
+                        <span class="sub-title style1 mt-n1">Championnats</span>
+                        {# <h2 class="sec-title mb-0">A venir</h2> #}
                     </div>
                     <div class="event-btn style1">
                         <a href="single-event.html" class="th-btn style5">VIEW ALL EVENT</a>
                     </div>
                 </div>
                 <div class="row event-slide" id="eventSlide">
+                    
+                    {% for championnat in listeDesChampionnats|sort((a, b) => b.championshipDate <=> a.championshipDate) %}
+                        <div class="col-lg-12">
+                            <div class="event-slide">
+                                <div class="event-box-content">
+                                    <div class="event-box_list">
+                                        <span class="event-box_date">{{ championnat.championshipDate|date('d')}} <span class="event-box_month">Mar</span></span>
+                                        <p class="event-box_text">{{ championnat.place|length >25 ? championnat.place|slice(0, 25) ~'...' : championnat.place }}<br></p>
+                                        <a href="event.html" class="th-btn style3">CHECK EVENT</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                    
+                    
+                    {# les exemples du template 
                     <div class="col-lg-12">
                         <div class="event-slide">
                             <div class="event-box-content">
                                 <div class="event-box_list">
                                     <span class="event-box_date">23 <span class="event-box_month">Mar</span></span>
-                                    <p class="event-box_text">SENNECEY LE GRAND<br></p>
+                                    <p class="event-box_text">1234567890123456789012345...<br></p>
                                     <a href="event.html" class="th-btn style3">CHECK EVENT</a>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> 
+                    #}
 
-                    <div class="col-lg-12">
-                        <div class="event-slide">
-                            <div class="event-box-content">
-                                <div class="event-box_list">
-                                    <span class="event-box_date">14 <span class="event-box_month">feb</span></span>
-                                    <p class="event-box_text">Open House Morris Dance</p>
-                                    <a href="event.html" class="th-btn style3">CHECK EVENT</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
 
-                    <div class="col-lg-12">
-                        <div class="event-slide">
-                            <div class="event-box-content">
-                                <div class="event-box_list">
-                                    <span class="event-box_date">26 <span class="event-box_month">mar</span></span>
-                                    <p class="event-box_text">Open House And Dance Studio.</p>
-                                    <a href="event.html" class="th-btn style3">CHECK EVENT</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-lg-12">
-                        <div class="event-slide">
-                            <div class="event-box-content">
-                                <div class="event-box_list">
-                                    <span class="event-box_date">22 <span class="event-box_month">Apr</span></span>
-                                    <p class="event-box_text">Open House - Koresh Dance.</p>
-                                    <a href="event.html" class="th-btn style3">CHECK EVENT</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-lg-12">
-                        <div class="event-slide">
-                            <div class="event-box-content">
-                                <div class="event-box_list">
-                                    <span class="event-box_date">15 <span class="event-box_month">may</span></span>
-                                    <p class="event-box_text">Open House - Dance Studio.</p>
-                                    <a href="event.html" class="th-btn style3">CHECK EVENT</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-lg-12">
-                        <div class="event-slide">
-                            <div class="event-box-content">
-                                <div class="event-box_list">
-                                    <span class="event-box_date">30 <span class="event-box_month">jun</span></span>
-                                    <p class="event-box_text">Open House - Springs Dance.</p>
-                                    <a href="event.html" class="th-btn style3">CHECK EVENT</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
 
                 </div>
                 <div class="icon-box event-icon-box">

@@ -5,7 +5,7 @@
         <div class="container z-index-common">
             <div class="counter-card_wrapper">
                 <div class="counter-card">
-                    <h2 class="counter-card_number"><span class="counter-number">146</span>+</h2>
+                    <h2 class="counter-card_number"><span class="counter-number">{{ nombreClubs is defined ? nombreClubs : "-" }}</span>+</h2>
                     <p class="counter-card_text">Clubs</p>
                 </div>
                 <div class="counter-card">
@@ -13,11 +13,11 @@
                     <p class="counter-card_text">Licenciés</p>
                 </div>
                 <div class="counter-card">
-                    <h2 class="counter-card_number"><span class="counter-number">15</span>+</h2>
+                    <h2 class="counter-card_number"><span class="counter-number">{{ nombreChampionnats is defined ? nombreChampionnats : "-"}} </span>+</h2>
                     <p class="counter-card_text">Championnats</p>
                 </div>
                 <div class="counter-card">
-                    <h2 class="counter-card_number"><span class="counter-number">560</span>+</h2>
+                    <h2 class="counter-card_number"><span class="counter-number">{{ nombreCategories is defined ? nombreCategories : "-"}} </span>+</h2>
                     <p class="counter-card_text">Catégories</p>
                 </div>
             </div>
