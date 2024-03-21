@@ -1,0 +1,54 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Club index{% endblock %}
+
+{% block body %}
+
+<div class="container">
+    <h2>Club index</h2>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Correspondents</th>
+                <th>Adress</th>
+                <th>PhonePrimary</th>
+                <th>PhoneSecondary</th>
+                <th>EmailPrimary</th>
+                <th>EmailSecondary</th>
+                <th>Fax</th>
+                <th>WebSite</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for club in clubs %}
+            <tr>
+                <td>{{ club.id }}</td>
+                <td>{{ club.name }}</td>
+                <td>{{ club.correspondents }}</td>
+                <td>{{ club.adress }}</td>
+                <td>{{ club.phonePrimary }}</td>
+                <td>{{ club.phoneSecondary }}</td>
+                <td>{{ club.emailPrimary }}</td>
+                <td>{{ club.emailSecondary }}</td>
+                <td>{{ club.fax }}</td>
+                <td>{{ club.webSite }}</td>
+                <td>
+                    <a href="{{ path('app_admin_club_show', {'id': club.id}) }}">show</a>
+                    <a href="{{ path('app_admin_club_edit', {'id': club.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="11">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_admin_club_new') }}">Create new</a>
+</div>
+{% endblock %}
