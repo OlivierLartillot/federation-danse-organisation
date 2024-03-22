@@ -23,13 +23,28 @@ class ChampionshipController extends AbstractController
     }
 
     #[Route('/new', name: 'app_admin_championship_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
+    public function new(Request $request, EntityManagerInterface $entityManager, ChampionshipRepository $championshipRepository): Response
     {
         $championship = new Championship();
         $form = $this->createForm(ChampionshipType::class, $championship);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            // Il ne peut pas y avoir 2 championnats Courant en même temps !!!
+            // ca vaut true il faut regarder tous les autres et passer à false les autres
+            // Déplacer dans un subscriber ?
+            if ($championship->isCurrentChampionship()) {
+                $championnatsAvecCurrentTrue = $championshipRepository->findBy(['isCurrentChampionship' => true]);
+                foreach ($championnatsAvecCurrentTrue as $championnatCourantDeLaBoucle) {
+                    if ($championnatCourantDeLaBoucle != $championship) {
+                        $championnatCourantDeLaBoucle->setIsCurrentChampionship(false);
+                    }
+                    continue;
+                }
+            }
+
+
             $entityManager->persist($championship);
             $entityManager->flush();
 

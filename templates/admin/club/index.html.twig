@@ -4,51 +4,44 @@
 
 {% block body %}
 
-<div class="container">
-    <h2>Club index</h2>
+<div class="container my-5">
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Name</th>
-                <th>Correspondents</th>
-                <th>Adress</th>
-                <th>PhonePrimary</th>
-                <th>PhoneSecondary</th>
-                <th>EmailPrimary</th>
-                <th>EmailSecondary</th>
-                <th>Fax</th>
-                <th>WebSite</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for club in clubs %}
-            <tr>
-                <td>{{ club.id }}</td>
-                <td>{{ club.name }}</td>
-                <td>{{ club.correspondents }}</td>
-                <td>{{ club.adress }}</td>
-                <td>{{ club.phonePrimary }}</td>
-                <td>{{ club.phoneSecondary }}</td>
-                <td>{{ club.emailPrimary }}</td>
-                <td>{{ club.emailSecondary }}</td>
-                <td>{{ club.fax }}</td>
-                <td>{{ club.webSite }}</td>
-                <td>
-                    <a href="{{ path('app_admin_club_show', {'id': club.id}) }}">show</a>
-                    <a href="{{ path('app_admin_club_edit', {'id': club.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="11">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+    <h3 class="my-5">Index des Clubs </h3>
 
-    <a href="{{ path('app_admin_club_new') }}">Create new</a>
+    <a href="{{ path('app_admin_club_new') }}" class="btn btn-sm btn-success mb-3">Créer un nouveau club</a>
+
+    <div class="card my-3 p-3 shadow">
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Nom</th>
+                        <th>Correspondants</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for club in clubs %}
+                    <tr>
+                        <td>{{ club.id }}</td>
+                        <td>{{ club.name|title }}</td>
+                        <td>{{ club.correspondents }}</td>
+                        <td>
+                            <a href="{{ path('app_admin_club_edit', {'id': club.id}) }}" class="mx-2"><i class="fa-solid fa-pen-to-square"></i></a>
+                            <a href="{{ path('app_admin_club_show', {'id': club.id}) }}" class="mx-2"><i class="fa-solid fa-eye"></i></a>
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="11">no records found</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    
 </div>
+
 {% endblock %}

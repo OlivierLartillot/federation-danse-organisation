@@ -4,43 +4,51 @@
 
 {% block body %}
 
-<div class="container">
-    <h1>Category index</h1>
+<div class="container my-5">
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Name</th>
-                <th>MinAge</th>
-                <th>MaxAge</th>
-                <th>NbMin</th>
-                <th>NbMax</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for category in categories %}
-            <tr>
-                <td>{{ category.id }}</td>
-                <td>{{ category.name }}</td>
-                <td>{{ category.minAge }}</td>
-                <td>{{ category.maxAge }}</td>
-                <td>{{ category.nbMin }}</td>
-                <td>{{ category.nbMax }}</td>
-                <td>
-                    <a href="{{ path('app_admin_category_show', {'id': category.id}) }}">show</a>
-                    <a href="{{ path('app_admin_category_edit', {'id': category.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="7">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+    <h3 class="my-5">Index des Catégories </h3>
 
-    <a href="{{ path('app_admin_category_new') }}">Create new</a>
+    <a href="{{ path('app_admin_category_new') }}" class="btn btn-sm btn-success mb-3">Créer une nouvelle catégorie</a>
+
+    <div class="card my-3 p-3 shadow">
+        <div class="table-responsive">
+
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Nom</th>
+                        <th>MinAge</th>
+                        <th>MaxAge</th>
+                        <th>NbMin</th>
+                        <th>NbMax</th>
+                        <th>actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for category in categories %}
+                    <tr>
+                        <td>{{ category.id }}</td>
+                        <td>{{ category.name }}</td>
+                        <td>{{ category.minAge }}</td>
+                        <td>{{ category.maxAge }}</td>
+                        <td>{{ category.nbMin }}</td>
+                        <td>{{ category.nbMax }}</td>
+                        <td>
+                            <a href="{{ path('app_admin_category_edit', {'id': category.id}) }}" class="mx-2"><i class="fa-solid fa-pen-to-square"></i></a>
+                            <a href="{{ path('app_admin_category_show', {'id': category.id}) }}" class="mx-2"><i class="fa-solid fa-eye"></i></a>
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="7">no records found</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+
 </div>
 {% endblock %}

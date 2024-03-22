@@ -3,11 +3,17 @@
 {% block title %}Edit Club{% endblock %}
 
 {% block body %}
-    <h1>Edit Club</h1>
 
-    {{ include('admin/club/_form.html.twig', {'button_label': 'Update'}) }}
+<div class="container my-5">
 
-    <a href="{{ path('app_admin_club_index') }}">back to list</a>
+    <h3 class="my-5">Modifier le club </h3>
+    
+    <a href="{{ path('app_admin_club_index') }}" class="btn btn-sm btn-secondary">Retour liste Clubs</a>
+    
+    <div class="card my-3 p-3 shadow">
 
-    {{ include('admin/club/_delete_form.html.twig') }}
+        {{ include('admin/club/_form.html.twig', {'button_label': 'Update'}) }}
+
+    </div>
+</div>
 {% endblock %}

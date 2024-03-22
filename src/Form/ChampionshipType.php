@@ -16,25 +16,41 @@ class ChampionshipType extends AbstractType
     {
         $builder
             ->add('season', EntityType::class, [
+                'label' => 'Saison',
                 'class' => Season::class,
                 'choice_label' => 'name',
-                'attr' => ['class' => 'mb-5']
+                'row_attr' => ['class' => 'mb-5']
             ])
             ->add('championshipDate', null, [
+                'label' => 'Date du championnat',
                 'widget' => 'single_text',
-                'attr' => ['class' => 'mb-5']
+                'row_attr' => ['class' => 'mb-5']
             ])
             ->add('championshipInscriptionsLimitDate', null, [
+                'label' => 'Date Limite d\'inscription',
                 'widget' => 'single_text',
-                'attr' => ['class' => 'mb-5']
+                'row_attr' => ['class' => 'mb-5']
             ])
             ->add('organizingClub', EntityType::class, [
+                'label' => 'Club organisateur',
                 'class' => Club::class,
                 'choice_label' => 'name',
-                'attr' => ['class' => 'mb-5']
+                'row_attr' => ['class' => 'mb-5'],
             ])
-            ->add('place')
-            ->add('number')
+            ->add('place', NULL, [
+                'label' => 'Lieu',
+                'row_attr' => ['class' => 'mb-5'],
+                'help' => '*ex: Sennecy Le Grand',
+                'help_attr' => ['class' => 'text-danger fst-italic']
+            ] )
+            ->add('number', NULL, [
+                'label' => 'Numéro',
+                'row_attr' => ['class' => 'mb-5']
+            ] )
+            ->add('isCurrentChampionship', NULL, [
+                'label' => 'Championnat en cours',
+                'row_attr' => ['class' => 'mb-5']
+            ] )
 
         ;
     }

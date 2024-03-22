@@ -3,9 +3,17 @@
 {% block title %}New Category{% endblock %}
 
 {% block body %}
-    <h1>Create new Category</h1>
 
-    {{ include('admin/category/_form.html.twig') }}
+    <div class="container my-5">
 
-    <a href="{{ path('app_admin_category_index') }}">back to list</a>
+        <h3 class="my-5">Créer une nouvelle Catégorie</h3>
+
+        <a href="{{ path('app_admin_category_index') }}" class="btn btn-sm btn-secondary">Retour liste Catégories</a>
+
+        <div class="card my-3 p-3 shadow">
+            {{ include('admin/category/_form.html.twig') }}
+        </div>
+    </div>
+
+
 {% endblock %}

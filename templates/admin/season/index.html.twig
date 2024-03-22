@@ -4,37 +4,45 @@
 
 {% block body %}
 
-<div class="container">
-    <h2>Season index</h2>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Name</th>
-                <th>IsCurrentSeason</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for season in seasons %}
-            <tr>
-                <td>{{ season.id }}</td>
-                <td>{{ season.name }}</td>
-                <td>{{ season.isCurrentSeason ? 'Yes' : 'No' }}</td>
-                <td>
-                    <a href="{{ path('app_admin_season_show', {'id': season.id}) }}">show</a>
-                    <a href="{{ path('app_admin_season_edit', {'id': season.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="4">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+<div class="container my-5">
 
-    <a href="{{ path('app_admin_season_new') }}">Create new</a>
+    <h3 class="my-5">Index des Saisons </h3>
+    
+    <a href="{{ path('app_admin_season_new') }}" class="btn btn-sm btn-success mb-3">Créer une nouvelle saison</a>
+
+    <div class="card my-3 p-3 shadow">
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Nom</th>
+                        <th>Saison Actuelle</th>
+                        <th>actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for season in seasons %}
+                    <tr>
+                        <td>{{ season.id }}</td>
+                        <td>{{ season.name }}</td>
+                        <td {{ season.isCurrentSeason ? 'class= "bg-success text-white"' : ''}}>{{ season.isCurrentSeason ? 'Oui' : 'Non' }}</td>
+                        <td>
+                            <a href="{{ path('app_admin_season_edit', {'id': season.id}) }}" class="mx-2"><i class="fa-solid fa-pen-to-square"></i></a>
+                            <a href="{{ path('app_admin_season_show', {'id': season.id}) }}" class="mx-2"><i class="fa-solid fa-eye"></i></a>
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="4">no records found</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    
 </div>
 {% endblock %}

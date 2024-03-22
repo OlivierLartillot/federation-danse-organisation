@@ -1,4 +1,29 @@
 {{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="btn">{{ button_label|default('Save') }}</button>
+    {# {{ form_widget(form) }} #}
+
+    {{ form_row(form.season) }}
+    {{ form_row(form.championshipDate) }}
+    {{ form_row(form.championshipInscriptionsLimitDate) }}
+    {{ form_row(form.organizingClub) }}
+    {{ form_row(form.place) }}
+    {{ form_row(form.number) }}
+
+    <div class="row mt-3">
+    
+        <div class="form-group col-12 ms-3 mt-3">
+            <div class="">
+                {{ form_widget(form.isCurrentChampionship) }}
+                {{ form_label(form.isCurrentChampionship) }}
+
+                <small>{{ form_help(form.isCurrentChampionship) }}</small>
+
+                <div class="form-error">
+                    {{ form_errors(form.isCurrentChampionship) }}
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <button class="btn btn-success btn btn-success my-5">{{ button_label|default('Enregistrer') }}</button>
 {{ form_end(form) }}

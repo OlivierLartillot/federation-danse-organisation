@@ -3,12 +3,18 @@
 {% block title %}New OrganizationTeam{% endblock %}
 
 {% block body %}
-<div class="container">
-    <h2>Create new OrganizationTeam</h2>
 
 
-    {{ include('admin/organization_team/_form.html.twig') }}
 
-    <a href="{{ path('app_admin_organization_team_index') }}">back to list</a>
-</div>
+
+    <div class="container my-5">
+
+        <h3 class="my-5">Créer un nouveau Dirigeant</h3>
+
+        <a href="{{ path('app_admin_organization_team_index') }}" class="btn btn-sm btn-secondary">Retour liste Dirigeants</a>
+
+        <div class="card my-3 p-3 shadow">
+             {{ include('admin/organization_team/_form.html.twig') }}
+        </div>
+    </div>
 {% endblock %}

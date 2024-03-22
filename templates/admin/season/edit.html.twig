@@ -3,11 +3,16 @@
 {% block title %}Edit Season{% endblock %}
 
 {% block body %}
-    <h1>Edit Season</h1>
+<div class="container my-5">
 
-    {{ include('admin/season/_form.html.twig', {'button_label': 'Update'}) }}
+    <h3 class="my-5">Modifier la Saison </h3>
+    
+    <a href="{{ path('app_admin_season_index') }}" class="btn btn-sm btn-secondary">Retour liste Saisons</a>
+    
+    <div class="card my-3 p-3 shadow">
 
-    <a href="{{ path('app_admin_season_index') }}">back to list</a>
+        {{ include('admin/season/_form.html.twig', {'button_label': 'Enregistrer'}) }}
 
-    {{ include('admin/season/_delete_form.html.twig') }}
+    </div>
+</div>
 {% endblock %}

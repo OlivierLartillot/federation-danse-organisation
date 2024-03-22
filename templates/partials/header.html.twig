@@ -32,7 +32,7 @@
                     <div class="row align-items-center justify-content-between">
                         <div class="col-auto">
                             <div class="header-logo">
-                                <a href="index.html"><img src="assets/img/logo.svg" alt="Danza"></a>
+                                <a href="index.html"><img src="{{ asset('assets/img/logo.svg')}}" alt="Danza"></a>
                             </div>
                         </div>
                         <div class="col-auto">
@@ -97,7 +97,11 @@
                                 <button type="button" class="icon-btn fs-6 sideMenuToggler">
                                     <i class="fa-thin fa-grid"></i>
                                 </button>
-                                <a href="contact.html" class="th-btn">Register Now</a>
+                                {% if app.user %}
+                                    <a href="{{ path('app_logout')}}" class="th-btn ">Déconnexion</a>
+                                {% else %}
+                                    <a href="{{ path('app_login')}}" class="th-btn th-btn--connexion">Connexion</a>
+                                {% endif %}
                             </div>
                         </div>
                     </div>

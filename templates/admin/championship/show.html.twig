@@ -3,36 +3,50 @@
 {% block title %}Championship{% endblock %}
 
 {% block body %}
-    <h1>Championship</h1>
+<div class="container my-5">
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ championship.id }}</td>
-            </tr>
-            <tr>
-                <th>ChampionshipDate</th>
-                <td>{{ championship.championshipDate ? championship.championshipDate|date('Y-m-d') : '' }}</td>
-            </tr>
-            <tr>
-                <th>ChampionshipInscriptionsLimitDate</th>
-                <td>{{ championship.championshipInscriptionsLimitDate ? championship.championshipInscriptionsLimitDate|date('Y-m-d') : '' }}</td>
-            </tr>
-            <tr>
-                <th>Place</th>
-                <td>{{ championship.place }}</td>
-            </tr>
-            <tr>
-                <th>Number</th>
-                <td>{{ championship.number }}</td>
-            </tr>
-        </tbody>
-    </table>
+    <h3 class="my-5">Championnat </h3>
+ 
 
-    <a href="{{ path('app_admin_championship_index') }}">back to list</a>
+    <div class="d-inline-flex">
+        <div class="me-2"><a href="{{ path('app_admin_championship_index') }}" class="btn btn-sm btn-secondary">Retour liste Championnats</a></div>
+        <div class="me-2"><a href="{{ path('app_admin_championship_edit', {'id': championship.id}) }}" class="btn btn-sm btn-success">Modifier</a></div>
+        <div class="mx-5">{{ include('admin/championship/_delete_form.html.twig') }}    </div>
+    </div>
 
-    <a href="{{ path('app_admin_championship_edit', {'id': championship.id}) }}">edit</a>
 
-    {{ include('admin/championship/_delete_form.html.twig') }}
+
+    <div class="card my-3 p-3 shadow">
+
+        <table class="table">
+            <tbody>
+                <tr>
+                    <th>Id</th>
+                    <td>{{ championship.id }}</td>
+                </tr>
+                <tr>
+                    <th>Nom</th>
+                    <td>{{ championship.organizingClub }}</td>
+                </tr>
+                <tr>
+                    <th>Date du Championnat</th>
+                    <td>{{ championship.championshipDate ? championship.championshipDate|date('Y-m-d') : '' }}</td>
+                </tr>
+                <tr>
+                    <th>Date Limite d'inscription</th>
+                    <td>{{ championship.championshipInscriptionsLimitDate ? championship.championshipInscriptionsLimitDate|date('Y-m-d') : '' }}</td>
+                </tr>
+                <tr>
+                    <th>Lieu</th>
+                    <td>{{ championship.place }}</td>
+                </tr>
+                <tr>
+                    <th>Numéro</th>
+                    <td>{{ championship.number }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
 {% endblock %}

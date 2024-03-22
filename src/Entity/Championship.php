@@ -34,6 +34,9 @@ class Championship
     #[ORM\JoinColumn(nullable: false)]
     private ?Club $organizingClub = null;
 
+    #[ORM\Column]
+    private ?bool $isCurrentChampionship = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -107,6 +110,18 @@ class Championship
     public function setOrganizingClub(?Club $organizingClub): static
     {
         $this->organizingClub = $organizingClub;
+
+        return $this;
+    }
+
+    public function isCurrentChampionship(): ?bool
+    {
+        return $this->isCurrentChampionship;
+    }
+
+    public function setIsCurrentChampionship(bool $isCurrentChampionship): static
+    {
+        $this->isCurrentChampionship = $isCurrentChampionship;
 
         return $this;
     }

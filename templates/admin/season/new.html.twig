@@ -3,12 +3,15 @@
 {% block title %}New Season{% endblock %}
 
 {% block body %}
-<div class="container">
-    <h2>Create new Season</h2>
+    <div class="container my-5">
 
-    {{ include('admin/season/_form.html.twig') }}
+        <h3 class="my-5">Créer une nouvelle Saison</h3>
 
-    <a href="{{ path('app_admin_season_index') }}">back to list</a>
+        <a href="{{ path('app_admin_season_index') }}" class="btn btn-sm btn-secondary">Retour liste Saisons</a>
+        
+        <div class="card my-3 p-3 shadow">
+            {{ include('admin/season/_form.html.twig') }}
+        </div>
 
-</div>
+    </div>
 {% endblock %}

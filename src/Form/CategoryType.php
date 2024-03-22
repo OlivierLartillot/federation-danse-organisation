@@ -12,11 +12,26 @@ class CategoryType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('name')
-            ->add('minAge')
-            ->add('maxAge')
-            ->add('nbMin')
-            ->add('nbMax')
+            ->add('name', NULL, [
+                'label' => 'Nom',
+                'attr' => ['class' => 'mb-5']
+            ] )
+            ->add('minAge', NULL, [
+                'label' => 'Age minimum',
+                'attr' => ['class' => 'mb-5']
+            ] )
+            ->add('maxAge', NULL, [
+                'label' => 'Age maximum',
+                'attr' => ['class' => 'mb-5']
+            ] )
+            ->add('nbMin', NULL, [
+                'label' => 'Nombre Minimum',
+                'attr' => ['class' => 'mb-5']
+            ] )
+            ->add('nbMax', NULL, [
+                'label' => 'Nombre Maximum',
+                'attr' => ['class' => 'mb-5']
+            ] )
         ;
     }
 

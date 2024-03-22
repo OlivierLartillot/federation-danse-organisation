@@ -12,8 +12,12 @@ class SeasonType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('name')
-            ->add('isCurrentSeason')
+            ->add('name', NULL, [
+                'label' => 'Nom'
+            ] )
+            ->add('isCurrentSeason', NULL, [
+                'label' => 'Saison Actuelle ?'
+            ] )
         ;
     }
 

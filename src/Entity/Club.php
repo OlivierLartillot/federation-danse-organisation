@@ -50,6 +50,11 @@ class Club
     {
         $this->championships = new ArrayCollection();
     }
+    
+    public function __toString()
+    {
+        return $this->getName();
+    }
 
     public function getId(): ?int
     {
@@ -58,7 +63,7 @@ class Club
 
     public function getName(): ?string
     {
-        return $this->name;
+        return ucwords(strtolower($this->name));
     }
 
     public function setName(string $name): static
