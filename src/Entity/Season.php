@@ -24,6 +24,9 @@ class Season
     #[ORM\OneToMany(targetEntity: Championship::class, mappedBy: 'season')]
     private Collection $championships;
 
+    #[ORM\Column]
+    private ?bool $isArchived = null;
+
     public function __construct()
     {
         $this->championships = new ArrayCollection();
@@ -84,6 +87,18 @@ class Season
                 $championship->setSeason(null);
             }
         }
+
+        return $this;
+    }
+
+    public function isArchived(): ?bool
+    {
+        return $this->isArchived;
+    }
+
+    public function setIsArchived(bool $isArchived): static
+    {
+        $this->isArchived = $isArchived;
 
         return $this;
     }

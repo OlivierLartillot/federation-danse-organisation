@@ -7,14 +7,11 @@
 
 <div class="container my-5">
 
-    <h3 class="my-5">Index des Saisons </h3>
+    <h3 class="my-5">Index des Saisons Archivées</h3>
     
     <div class="d-flex ">
         <div class="me-3">
-            <a href="{{ path('app_admin_season_new') }}" class="btn btn-sm btn-success mb-3">Créer une nouvelle saison</a>
-        </div>
-        <div >
-            <a href="{{ path('app_admin_season_archived_seasons') }}" class="btn btn-sm btn-secondary mb-3">Saisons Archivées</a>
+            <a href="{{ path('app_admin_season_index') }}" class="btn btn-sm btn-secondary">Retour liste Saisons</a>
         </div>
     </div>
     <div class="card my-3 p-3 shadow">
@@ -41,15 +38,13 @@
                     </tr>
                 {% else %}
                     <tr>
-                        <td colspan="4">no records found</td>
+                        <td colspan="4">Il n'y a pas de saison archivée pour le moment.</td>
                     </tr>
                 {% endfor %}
                 </tbody>
             </table>
         </div>
-    <p class="fst-italic">*A la fin d'une saison, vous pouvez l'archiver pour ne plus qu'elle appraraîsse dans la liste. (<i class="fa-solid fa-eye text-danger"></i></a> -> Archiver) </p>
     </div>
 
-    
 </div>
 {% endblock %}
