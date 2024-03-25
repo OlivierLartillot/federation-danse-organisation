@@ -2,23 +2,20 @@
 
 namespace App\Form;
 
-use App\Entity\OrganizationTeam;
+use App\Entity\Settings;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\File;
 use Vich\UploaderBundle\Form\Type\VichImageType;
 
-class OrganizationTeamType extends AbstractType
+class SettingsType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('name')
-            ->add('organizationRole')
             ->add('imageFile', VichImageType::class, [
-                'label' => 'Brochure (PDF file)',
+                'label' => 'Logo',
 
                 // unmapped means that this field is not associated to any entity property
                 'mapped' => true,
@@ -37,18 +34,24 @@ class OrganizationTeamType extends AbstractType
                             'image/jpeg',
                             'image/jpg',
                         ],
-                        'mimeTypesMessage' => 'Please upload a valid PDF document',
+                        'mimeTypesMessage' => 'Please upload a valid file',
                     ])
                 ],
             ])
-            
+            ->add('phone')
+            ->add('email')
+            ->add('adress')
+            ->add('facebook')
+            ->add('twitter')
+            ->add('linkedin')
+            ->add('googleCard')
         ;
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => OrganizationTeam::class,
+            'data_class' => Settings::class,
         ]);
     }
 }

@@ -5,6 +5,7 @@ namespace App\Controller\Admin;
 use App\Entity\OrganizationTeam;
 use App\Form\OrganizationTeamType;
 use App\Repository\OrganizationTeamRepository;
+use App\Service\FileUploader;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -57,6 +58,8 @@ class OrganizationTeamController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+
             $entityManager->flush();
 
             return $this->redirectToRoute('app_admin_organization_team_index', [], Response::HTTP_SEE_OTHER);

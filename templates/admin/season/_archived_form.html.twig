@@ -1,0 +1,5 @@
+
+<form method="post" action="{{ path('app_admin_season_archived', {'id': season.id}) }}" onsubmit="voulez vous archiver cette saison ?');">
+    <input type="hidden" name="_token" value="{{ csrf_token('archived' ~ season.id) }}">
+    <button class="btn btn-sm btn-danger">{{ season.isArchived ? 'Désarchiver ' : 'Archiver'  }}</button>
+</form>

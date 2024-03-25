@@ -13,7 +13,7 @@
                     <div class="col-sm-6 col-lg-4">
                         <div class="th-team team-card">
                             <div class="team-img">
-                                <img src="assets/img/team/team_2_1.jpg" alt="Team">
+                                <img src="{{ dirigeant.photo ? vich_uploader_asset(dirigeant, 'imageFile') :  'assets/img/team/team_2_1.jpg'}} " alt="Team">
                             </div>
                             <div class="team-content">
                                 <h3 class="team-title box-title"><a href="single-instructor.html">{{ dirigeant.name }}</a></h3>

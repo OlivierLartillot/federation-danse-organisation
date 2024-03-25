@@ -5,6 +5,8 @@ namespace App\Controller\Admin;
 use App\Entity\Championship;
 use App\Form\ChampionshipType;
 use App\Repository\ChampionshipRepository;
+use App\Service\SwitchCurrent;
+use App\Service\SwitchCurrentChampionship;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -23,7 +25,7 @@ class ChampionshipController extends AbstractController
     }
 
     #[Route('/new', name: 'app_admin_championship_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager, ChampionshipRepository $championshipRepository): Response
+    public function new(Request $request, EntityManagerInterface $entityManager, SwitchCurrent $switchCurrentChampionship): Response
     {
         $championship = new Championship();
         $form = $this->createForm(ChampionshipType::class, $championship);
@@ -32,18 +34,9 @@ class ChampionshipController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
 
             // Il ne peut pas y avoir 2 championnats Courant en même temps !!!
-            // ca vaut true il faut regarder tous les autres et passer à false les autres
-            // Déplacer dans un subscriber ?
-            if ($championship->isCurrentChampionship()) {
-                $championnatsAvecCurrentTrue = $championshipRepository->findBy(['isCurrentChampionship' => true]);
-                foreach ($championnatsAvecCurrentTrue as $championnatCourantDeLaBoucle) {
-                    if ($championnatCourantDeLaBoucle != $championship) {
-                        $championnatCourantDeLaBoucle->setIsCurrentChampionship(false);
-                    }
-                    continue;
-                }
-            }
-
+            // si le championnat du formulaire devient le courant il faut regarder tous les autres et passer à false les autres
+            // ATENTION: Si on le met a false, il peut ne plus y avoir de championnat courant
+            $switchCurrentChampionship->switchCurrentChampionship($championship);
 
             $entityManager->persist($championship);
             $entityManager->flush();
@@ -66,12 +59,17 @@ class ChampionshipController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'app_admin_championship_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Championship $championship, EntityManagerInterface $entityManager): Response
+    public function edit(Request $request, Championship $championship, EntityManagerInterface $entityManager, SwitchCurrent $switchCurrentChampionship): Response
     {
         $form = $this->createForm(ChampionshipType::class, $championship);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            // Il ne peut pas y avoir 2 championnats Courant en même temps !!!
+            // si le championnat du formulaire devient le courant il faut regarder tous les autres et passer à false les autres
+            // ATENTION: Si on le met a false, il peut ne plus y avoir de championnat courant
+            $switchCurrentChampionship->switchCurrentChampionship($championship);
             $entityManager->flush();
 
             return $this->redirectToRoute('app_admin_championship_index', [], Response::HTTP_SEE_OTHER);

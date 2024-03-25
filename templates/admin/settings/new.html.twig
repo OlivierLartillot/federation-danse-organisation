@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Settings{% endblock %}
+
+{% block body %}
+    <div class="container my-5">
+
+        <h3 class="my-5">Créer nouveaux réglages</h3>
+        <div class="card my-3 p-3 shadow">
+            {{ include('admin/settings/_form.html.twig') }}
+        </div>
+    </div>
+{% endblock %}
