@@ -11,7 +11,8 @@
     <div class="row mt-3">
        
        <div class="form-group col-12 ms-3 mt-3">
-            <div class="">
+            {% set curentSeason = season.isCurrentSeason ? 'd-none' : ''  %}
+            <div class="{{ curentSeason }}">
                 {{ form_widget(form.isCurrentSeason) }}
                 {{ form_label(form.isCurrentSeason) }}
 

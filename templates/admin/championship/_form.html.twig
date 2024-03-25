@@ -11,7 +11,9 @@
     <div class="row mt-3">
     
         <div class="form-group col-12 ms-3 mt-3">
-            <div class="">
+ 
+        {% set curentChampionship = championship.isCurrentChampionship ? 'd-none' : ''  %}
+            <div class="{{ curentChampionship }}">
                 {{ form_widget(form.isCurrentChampionship) }}
                 {{ form_label(form.isCurrentChampionship) }}
 
