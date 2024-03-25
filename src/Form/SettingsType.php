@@ -35,16 +35,42 @@ class SettingsType extends AbstractType
                             'image/jpg',
                         ],
                         'mimeTypesMessage' => 'Please upload a valid file',
-                    ])
-                ],
+                    ]),
+                    
+                ],'row_attr' => ['class' => 'mb-5']
             ])
-            ->add('phone')
-            ->add('email')
-            ->add('adress')
-            ->add('facebook')
-            ->add('twitter')
-            ->add('linkedin')
-            ->add('googleCard')
+            ->add('phone', null, [
+                'label' => 'Télephone FDO',
+                'row_attr' => ['class' => 'mb-5']
+            ])
+            ->add('email', null, [
+                'row_attr' => ['class' => 'mb-5']
+            ])
+            ->add('adress', null, [
+                'label' => 'Adresse',
+                'row_attr' => ['class' => 'mb-5']
+            ])
+            ->add('facebook', null, [
+                'help' => 'Ne marquer que la partie après facebook.com/ ! ',
+                'help_attr' => ['class' => 'text-danger fst-italic'],
+                'row_attr' => ['class' => 'mb-5']
+            ])
+            ->add('twitter', null, [
+                'help' => 'Ne marquer que la partie après twitter.com/! ',
+                'help_attr' => ['class' => 'text-danger fst-italic'],
+                'row_attr' => ['class' => 'mb-5']
+            ])
+            ->add('linkedin', null, [
+                'help' => 'Ne marquer que la partie après linkedin.com/ ! ',
+                'help_attr' => ['class' => 'text-danger fst-italic'],
+                'row_attr' => ['class' => 'mb-5']
+            ])
+            /*
+            ->add('googleCard', null, [
+                'help' => 'Ne marquer que la partie après googleCard.com/ ! ',
+                'help_attr' => ['class' => 'text-danger fst-italic'],
+                'row_attr' => ['class' => 'mb-5']
+            ]) */
         ;
     }
 
