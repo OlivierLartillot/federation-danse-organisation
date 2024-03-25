@@ -1,0 +1,54 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}User index{% endblock %}
+
+{% block body %}
+<div class="container my-5">
+
+    <h3 class="my-5">Index des Saisons </h3>
+    
+    <div class="d-flex ">
+        <div class="me-3">
+            <a href="{{ path('app_admin_user_new') }}" class="btn btn-sm btn-success mb-3">Créer un nouvel utilisateur</a>
+        </div>
+        <div >
+            <a href="#" class="btn btn-sm btn-secondary mb-3">Utilisateurs Archivées</a>
+        </div>
+    </div>
+    <div class="card my-3 p-3 shadow">
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Username</th>
+                        <th>Roles</th>
+                        <th>Password</th>
+                        <th>actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for user in users %}
+                    <tr>
+                        <td>{{ user.id }}</td>
+                        <td>{{ user.username }}</td>
+                        <td>{{ user.roles ? user.roles|json_encode : '' }}</td>
+                        <td>{{ user.password }}</td>
+                        <td>
+                            <a href="{{ path('app_admin_user_show', {'id': user.id}) }}">show</a>
+                            <a href="{{ path('app_admin_user_edit', {'id': user.id}) }}">edit</a>
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="5">no records found</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}
