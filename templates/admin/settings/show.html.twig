@@ -1,0 +1,54 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Settings{% endblock %}
+
+{% block body %}
+    <h1>Settings</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ setting.id }}</td>
+            </tr>
+            <tr>
+                <th>Logo</th>
+                <td>{{ setting.logo }}</td>
+            </tr>
+            <tr>
+                <th>Phone</th>
+                <td>{{ setting.phone }}</td>
+            </tr>
+            <tr>
+                <th>Email</th>
+                <td>{{ setting.email }}</td>
+            </tr>
+            <tr>
+                <th>Adress</th>
+                <td>{{ setting.adress }}</td>
+            </tr>
+            <tr>
+                <th>Facebook</th>
+                <td>{{ setting.facebook }}</td>
+            </tr>
+            <tr>
+                <th>Twitter</th>
+                <td>{{ setting.twitter }}</td>
+            </tr>
+            <tr>
+                <th>Linkedin</th>
+                <td>{{ setting.linkedin }}</td>
+            </tr>
+            <tr>
+                <th>GoogleCard</th>
+                <td>{{ setting.googleCard }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_settings_index') }}">back to list</a>
+
+    <a href="{{ path('app_settings_edit', {'id': setting.id}) }}">edit</a>
+
+    {{ include('settings/_delete_form.html.twig') }}
+{% endblock %}

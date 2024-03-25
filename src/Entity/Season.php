@@ -30,6 +30,7 @@ class Season
     public function __construct()
     {
         $this->championships = new ArrayCollection();
+        $this->isArchived = false;
     }
 
     public function getId(): ?int

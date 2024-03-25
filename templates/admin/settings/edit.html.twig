@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Settings{% endblock %}
+
+{% block body %}
+
+<div class="container my-5">
+
+    <h3 class="my-5">Modifier les réglages </h3>
+    
+    <div class="card my-3 p-3 shadow">
+
+        {{ include('admin/settings/_form.html.twig', {'button_label': 'Enregistrer'}) }}
+
+    </div>
+</div>
+{% endblock %}

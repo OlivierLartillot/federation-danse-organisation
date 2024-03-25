@@ -30,6 +30,10 @@
                         <th>Role dans l'organisation</th>
                         <td>{{ organization_team.organizationRole }}</td>
                     </tr>
+                    <tr>
+                    <td>Photo</td>
+                    <td><img src="{{ vich_uploader_asset(organization_team, 'imageFile')}}"></td>
+                    </tr>
                 </tbody>
             </table>
         </div>
