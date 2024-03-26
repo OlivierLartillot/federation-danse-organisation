@@ -18,7 +18,7 @@
                 <label for="organization_team_imageFile_delete">Supprimer ?</label>
             </div>
             
-            <img src="/images/photos/{{ organization_team.photo }}" alt="photo du dirigeant" style="height:250px;" class="rounded mx-auto d-block">
+            <img src="{{ asset('/images/photos/')}}{{ organization_team.photo }}" alt="photo du dirigeant" style="height:250px;" class="rounded mx-auto d-block">
             
         
         {#             
