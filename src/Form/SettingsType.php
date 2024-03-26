@@ -37,7 +37,10 @@ class SettingsType extends AbstractType
                         'mimeTypesMessage' => 'Please upload a valid file',
                     ]),
                     
-                ],'row_attr' => ['class' => 'mb-5']
+                ],
+                'row_attr' => ['class' => 'mb-5'],
+                'help' => 'Ne changez pas le logo si vous ne savez pas ce que vous faites !'
+
             ])
             ->add('phone', null, [
                 'label' => 'Télephone FDO',

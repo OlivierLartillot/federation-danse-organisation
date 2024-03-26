@@ -15,10 +15,16 @@ class OrganizationTeamType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('name')
-            ->add('organizationRole')
+            ->add('name', null, [
+                'label' => 'Nom',
+                'row_attr' => ['class' => 'mt-3 mb-5']
+            ])
+            ->add('organizationRole', null, [
+                'label' => 'Nom',
+                'row_attr' => ['class' => 'mb-5']
+            ])
             ->add('imageFile', VichImageType::class, [
-                'label' => 'Brochure (PDF file)',
+                'label' => 'Photo (png, jpeg, jpg)',
 
                 // unmapped means that this field is not associated to any entity property
                 'mapped' => true,

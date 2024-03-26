@@ -1,4 +1,47 @@
 {{ form_start(form) }}
-    {{ form_widget(form) }}
+   {#  {{ form_widget(form) }} #}
+    
+    {{ form_row(form.phone) }}
+    {{ form_row(form.email) }}
+    {{ form_row(form.adress) }}
+    {{ form_row(form.facebook) }}
+    {{ form_row(form.linkedin) }}
+    {{ form_row(form.twitter) }}
+
+
+    <div name="{{ field_name(form.imageFile) }}">
+        
+        <div class="mb-5">
+            <label>Logo</label>
+            <div class="vich-image">
+                <input type="file" id="settings_imageFile_file" name="settings[imageFile][file]" accept="image/*">
+                <div id="settings_imageFile_file_help" class="text-danger fst-italic help-text">Ne changez pas le logo si vous ne savez pas ce que vous faites ! </div>
+                {% if setting.logo != null %}
+                    <div class="mt-3">
+                        <input type="checkbox" id="settings_imageFile_delete" name="settings[imageFile][delete]" value="1">
+                        <label for="settings_imageFile_delete">Supprimer ?</label>
+                    </div>
+                    <div>
+                
+                        <img src="/images/logo/{{ setting.logo }}" alt="logo" style="height:250px;" class="rounded mx-auto d-block">
+                        <a href="/images/logo/{{ setting.logo }}" download="">
+                            Télécharger
+                        </a>
+                    </div>
+                {% endif %} 
+
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
+
+
+
+
     <button class="btn btn-success my-5">{{ button_label|default('Save') }}</button>
 {{ form_end(form) }}

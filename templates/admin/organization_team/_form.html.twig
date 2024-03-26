@@ -3,8 +3,33 @@
 
     {{ form_row(form.name) }}
     {{ form_row(form.organizationRole) }}
-    {{ form_row(form.imageFile) }}
-
+    <div name="{{ field_name(form.imageFile) }}">
+    {#  {{ form_row(form.imageFile) }}  #}
+    <div>
+        <label>Photo (png, jpeg, jpg)</label>
+        <div class="vich-image">
+        <input class="pt-3 pb-5 form-control" type="file" id="organization_team_imageFile_file" name="organization_team[imageFile][file]" accept="image/*">
+        
+        
+        {% if organization_team.photo != null %}
+        {# Inversion de l'input et du label pour faire apparaitre la case en front #}
+            <div class="mt-3">
+                <input type="checkbox" id="organization_team_imageFile_delete" name="organization_team[imageFile][delete]" value="1">
+                <label for="organization_team_imageFile_delete">Supprimer ?</label>
+            </div>
+            
+            <img src="/images/photos/{{ organization_team.photo }}" alt="photo du dirigeant" style="height:250px;" class="rounded mx-auto d-block">
+            
+        
+        {#             
+            <a href="/images/photos/{{ organization_team.photo }}" download="">
+                Télécharger
+            </a> 
+        #}
+        {% endif %}
+        
+        </div>
+    </div>
 
 
     <button class="btn btn-success my-5">{{ button_label|default('Enregistrer') }}</button>

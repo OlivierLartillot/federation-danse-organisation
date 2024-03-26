@@ -1,0 +1,40 @@
+{{ form_start(form) }}
+    {# {{ form_widget(form) }} #}
+
+
+
+
+<div class="my-custom-class-for-errors">
+        {{ form_errors(form) }}
+    </div>
+
+    <div class="row">
+       <div class="col-12">
+            {{ form_row(form.username) }}
+        </div>
+    </div>
+    <div class="row mt-3">
+
+    <!-- Un Bug du au CSS acheté m'a obligé a insérer des div avant et apres chaque bloc >>input / label<< -->
+    <!-- En Symfony cela oblige d'utiliser le helper name="{{ field_name(form.roles) }}" -->
+    <div name="{{ field_name(form.roles) }}">
+        {% set i = 0 %}
+        {% for label, value in field_choices(form.roles) %}
+        <div>
+            <input type="checkbox" id="user_roles_{{i }}" name="user[roles][]" value="{{ value }}" {{ value in user.roles ? 'checked' : ''}}>
+            <label for="user_roles_{{i }}">{{ label }}</label>
+        </div>
+        {% set i = i + 1 %}
+        {% endfor %}
+    </div>
+</div>
+
+    <div class="row">
+       <div class="col-12">
+            {{ form_row(form.password) }}
+        </div>
+    </div>
+
+
+    <button class="btn btn-success">{{ button_label|default('Save') }}</button>
+{{ form_end(form) }}
