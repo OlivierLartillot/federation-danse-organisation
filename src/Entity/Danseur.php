@@ -27,7 +27,7 @@ class Danseur
     #[ORM\JoinColumn(nullable: false)]
     private ?Club $club = null;
 
-    #[ORM\Column]
+    #[ORM\Column(nullable: true)]
     private ?bool $archived = null;
 
     public function getId(): ?int

@@ -52,6 +52,10 @@ security:
         # - { path: ^/admin, roles: ROLE_ADMIN }
         # - { path: ^/profile, roles: ROLE_USER }
 
+    role_hierarchy:
+            ROLE_SUPERMAN: [ROLE_USER, ROLE_CLUB]
+            ROLE_HULK: [ROLE_SUPERMAN, ROLE_ALLOWED_TO_SWITCH]
+
 when@test:
     security:
         password_hashers:

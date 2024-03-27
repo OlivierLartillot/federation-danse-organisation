@@ -3,9 +3,16 @@
 {% block title %}New Danseur{% endblock %}
 
 {% block body %}
-    <h1>Create new Danseur</h1>
+    <div class="container my-5">
 
-    {{ include('admin/danseur/_form.html.twig') }}
+        <h3 class="my-5">Créer un nouveau Danseur</h3>
 
-    <a href="{{ path('app_admin_danseur_index') }}">back to list</a>
+        <a href="{{ path('app_admin_danseur_index') }}" class="btn btn-sm btn-secondary">Retour liste Danseurs</a>
+
+        <div class="card my-3 p-3 shadow">
+
+            {{ include('admin/danseur/_form.html.twig') }}
+
+       </div>
+    </div>
 {% endblock %}
