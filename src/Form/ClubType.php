@@ -63,7 +63,7 @@ class ClubType extends AbstractType
                         'attr' => ['class' => 'mb-5'],
                         'choices'  => $owners,
                         'choice_label' => function (?User $user): string {
-                            return $user ? ucfirst($user->getUsername()) : '';
+                            return $user ? ucfirst(strtolower($user->getFirstname())) .' '. ucfirst(strtolower($user->getLastname()))  : '';
                         },
                     ]);
                 }
