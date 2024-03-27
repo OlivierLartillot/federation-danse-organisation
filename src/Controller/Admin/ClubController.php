@@ -53,6 +53,7 @@ class ClubController extends AbstractController
     #[Route('/{id}/edit', name: 'app_admin_club_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Club $club, EntityManagerInterface $entityManager): Response
     {
+
         $form = $this->createForm(ClubType::class, $club);
         $form->handleRequest($request);
 

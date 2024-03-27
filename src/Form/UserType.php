@@ -21,6 +21,7 @@ class UserType extends AbstractType
             ->add('roles', ChoiceType::class, [
                 'label' => 'Etes-vous ?',
                 'choices' => [
+                    'Club' => 'ROLE_CLUB',
                     'Admin' => 'ROLE_SUPERMAN',
                     'Secrétaire' => 'ROLE_SECRETAIRE',
                     'Licences' => 'ROLE_LICENCE',

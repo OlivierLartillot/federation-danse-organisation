@@ -46,6 +46,9 @@ class Club
     #[ORM\OneToMany(targetEntity: Championship::class, mappedBy: 'organizingClub')]
     private Collection $championships;
 
+    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
+    private ?User $owner = null;
+
     public function __construct()
     {
         $this->championships = new ArrayCollection();
@@ -195,6 +198,18 @@ class Club
                 $championship->setOrganizingClub(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getOwner(): ?User
+    {
+        return $this->owner;
+    }
+
+    public function setOwner(?User $owner): static
+    {
+        $this->owner = $owner;
 
         return $this;
     }
