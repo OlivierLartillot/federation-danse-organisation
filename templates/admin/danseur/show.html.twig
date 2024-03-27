@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Danseur{% endblock %}
+
+{% block body %}
+    <h1>Danseur</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ danseur.id }}</td>
+            </tr>
+            <tr>
+                <th>Firstname</th>
+                <td>{{ danseur.firstname }}</td>
+            </tr>
+            <tr>
+                <th>Lastname</th>
+                <td>{{ danseur.lastname }}</td>
+            </tr>
+            <tr>
+                <th>Birthday</th>
+                <td>{{ danseur.birthday ? danseur.birthday|date('Y-m-d') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Archived</th>
+                <td>{{ danseur.archived ? 'Yes' : 'No' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_admin_danseur_index') }}">back to list</a>
+
+    <a href="{{ path('app_admin_danseur_edit', {'id': danseur.id}) }}">edit</a>
+
+    {{ include('admin/danseur/_delete_form.html.twig') }}
+{% endblock %}

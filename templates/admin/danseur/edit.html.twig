@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Danseur{% endblock %}
+
+{% block body %}
+    <h1>Edit Danseur</h1>
+
+    {{ include('admin/danseur/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('app_admin_danseur_index') }}">back to list</a>
+
+    {{ include('admin/danseur/_delete_form.html.twig') }}
+{% endblock %}
