@@ -49,9 +49,13 @@ class Club
     #[ORM\OneToOne(cascade: ['persist', 'remove'])]
     private ?User $owner = null;
 
+    #[ORM\OneToMany(targetEntity: Danseur::class, mappedBy: 'club')]
+    private Collection $danseurs;
+
     public function __construct()
     {
         $this->championships = new ArrayCollection();
+        $this->danseurs = new ArrayCollection();
     }
     
     public function __toString()
@@ -210,6 +214,36 @@ class Club
     public function setOwner(?User $owner): static
     {
         $this->owner = $owner;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Danseur>
+     */
+    public function getDanseurs(): Collection
+    {
+        return $this->danseurs;
+    }
+
+    public function addDanseur(Danseur $danseur): static
+    {
+        if (!$this->danseurs->contains($danseur)) {
+            $this->danseurs->add($danseur);
+            $danseur->setClub($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDanseur(Danseur $danseur): static
+    {
+        if ($this->danseurs->removeElement($danseur)) {
+            // set the owning side to null (unless already changed)
+            if ($danseur->getClub() === $this) {
+                $danseur->setClub(null);
+            }
+        }
 
         return $this;
     }

@@ -1,0 +1,55 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Danseur index{% endblock %}
+
+{% block body %}
+<div class="container my-5">
+
+    <h3 class="my-5">Index des Danseurs </h3>
+
+    {% if identifiant_route == 'index' %}
+        <a href="{{ path('app_admin_danseur_new') }}" class="btn btn-sm btn-success mb-3">Créer un nouveau danseur</a>
+        <a href="{{ path('app_admin_danseur_archived') }}" class="btn btn-sm btn-secondary mb-3">Danseurs Archivés</a>
+    {% else %}
+        <a href="{{ path('app_admin_danseur_index') }}" class="btn btn-sm btn-secondary">Retour liste Danseurs</a>
+    {% endif %}
+
+    <div class="card my-3 p-3 shadow">
+        <div class="table-responsive">
+
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Firstname</th>
+                        <th>Lastname</th>
+                        <th>Anniversaire</th>
+                        <th>Club</th>
+                        <th>actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for danseur in danseurs %}
+                    <tr>
+                        <td>{{ danseur.id }}</td>
+                        <td>{{ danseur.firstname }}</td>
+                        <td>{{ danseur.lastname }}</td>
+                        <td>{{ danseur.birthday ? danseur.birthday|date('d-m-Y') : '' }}</td>
+                        <td>{{ danseur.club}}</td>
+                        <td>
+                            <a href="{{ path('app_admin_danseur_edit', {'id': danseur.id}) }}" class="mx-2"><i class="fa-solid fa-pen-to-square"></i></a>
+                            <a href="{{ path('app_admin_danseur_show', {'id': danseur.id}) }}" class="mx-2"><i class="fa-solid fa-eye"></i></a>
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="6">no records found</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

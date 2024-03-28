@@ -10,19 +10,21 @@ use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\Email;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
+
 
 class UserType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('username', TextType::class, [
+            ->add('username', null, [
                 'label' => 'Pseudo',
                 'row_attr' => ['class' => 'mb-5'],
-                'help' => "Le pseudo servira à l'utilisateur à se connecter sur l'application",
-                'help_attr' => ['class' => 'text-danger fst-italic'],
+                'help' => "*Le pseudo servira à l'utilisateur à se connecter sur l'application",
+                'help_attr' => ['class' => 'fst-italic'],
             ]) 
             ->add('firstname', TextType::class, [
                 'label' => 'Prénom',
@@ -31,6 +33,15 @@ class UserType extends AbstractType
             ->add('lastname', TextType::class, [
                 'label' => 'Nom',
                 'row_attr' => ['class' => 'mb-5']
+            ])  
+            ->add('email', TextType::class, [
+                'label' => 'Email',
+                'row_attr' => ['class' => 'mb-5'],
+                'constraints' => [
+                    new Email([
+                        'message' => 'Un email valide est nécessaire',
+                    ]),
+                ],
             ])  
             ->add('roles', ChoiceType::class, [
                 'label' => 'Role(s) de l\'utilisateur ?',

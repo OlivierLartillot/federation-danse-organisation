@@ -8,7 +8,9 @@
 
     <h3 class="my-5">Index des Clubs </h3>
 
-    <a href="{{ path('app_admin_club_new') }}" class="btn btn-sm btn-success mb-3">Créer un nouveau club</a>
+    {% if droitACreerUnCLub %}
+        <a href="{{ path('app_admin_club_new') }}" class="btn btn-sm btn-success mb-3">Créer un nouveau club</a>
+    {% endif %}
 
     <div class="card my-3 p-3 shadow">
         <div class="table-responsive">
@@ -29,7 +31,9 @@
                         <td>{{ club.correspondents }}</td>
                         <td>
                             <a href="{{ path('app_admin_club_edit', {'id': club.id}) }}" class="mx-2"><i class="fa-solid fa-pen-to-square"></i></a>
-                            <a href="{{ path('app_admin_club_show', {'id': club.id}) }}" class="mx-2"><i class="fa-solid fa-eye"></i></a>
+                            {% if droitACreerUnCLub %}
+                                <a href="{{ path('app_admin_club_show', {'id': club.id}) }}" class="mx-2"><i class="fa-solid fa-eye"></i></a>
+                            {% endif %}
                         </td>
                     </tr>
                 {% else %}

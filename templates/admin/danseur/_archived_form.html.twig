@@ -1,0 +1,5 @@
+
+<form method="post" action="{{ path('app_admin_danseur_archived_traitement', {'id': danseur.id}) }}" onsubmit="voulez vous archiver ce danseur ?');">
+    <input type="hidden" name="_token" value="{{ csrf_token('archived' ~ danseur.id) }}">
+    <button class="btn btn-sm btn-danger">{{ danseur.isArchived ? 'Désarchiver ' : 'Archiver'  }}</button>
+</form>

@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Danseur{% endblock %}
+
+{% block body %}
+<div class="container my-5">
+
+    <h3 class="my-5">Modifier le Danseur </h3>
+    
+    <a href="{{ path('app_admin_danseur_index') }}" class="btn btn-sm btn-secondary">Retour liste Danseurs</a>
+    
+    <div class="card my-3 p-3 shadow">
+
+        {{ include('admin/danseur/_form.html.twig', {'button_label': 'Update'}) }}
+
+    </div>
+</div>
+
+{% endblock %}

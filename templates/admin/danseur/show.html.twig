@@ -1,0 +1,51 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Danseur{% endblock %}
+
+{% block body %}
+<div class="container my-5">
+
+    <h3 class="my-5">Danseur </h3>
+    
+    <div class="d-inline-flex">
+        <div class="me-2"><a href="{{ path('app_admin_danseur_index') }}" class="btn btn-sm btn-secondary">Retour liste danseur</a></div>
+        <div class="me-2"><a href="{{ path('app_admin_danseur_edit', {'id': danseur.id}) }}" class="btn btn-sm btn-success">Modifier</a></div>
+        <div class="mx-5">{{ include('admin/danseur/_archived_form.html.twig') }}</div> 
+        {#         
+            <div class="mx-5">{{ include('admin/season/_delete_form.html.twig') }}</div> 
+        #}
+    </div>
+        
+    <div class="card my-3 p-3 shadow"> 
+        <div class="table-responsive">
+            <table class="table">
+                <tbody>
+                    <tr>
+                        <th>Id</th>
+                        <td>{{ danseur.id }}</td>
+                    </tr>
+                    <tr>
+                        <th>Prénom</th>
+                        <td>{{ danseur.firstname }}</td>
+                    </tr>
+                    <tr>
+                        <th>Nom</th>
+                        <td>{{ danseur.lastname }}</td>
+                    </tr>
+                    <tr>
+                        <th>Date de naissance</th>
+                        <td>{{ danseur.birthday ? danseur.birthday|date('d-m-Y') : '' }}</td>
+                    </tr>
+                    <tr>
+                        <th>Archivés</th>
+                        <td>{{ danseur.archived ? 'Oui' : 'Non' }}</td>
+                    </tr>
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}

@@ -6,9 +6,13 @@ use App\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_USERNAME', fields: ['username'])]
+#[UniqueEntity('username', 'Ce pseudo est déjà utilisé' )]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
@@ -16,7 +20,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 180)]
+    #[ORM\Column(length: 180, unique: true)]
     private ?string $username = null;
 
     /**
@@ -42,6 +46,19 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(length: 255)]
     private ?string $Lastname = null;
+
+    #[ORM\Column]
+    private ?\DateTimeImmutable $lastConnection = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    #[Assert\Email]
+    private ?string $email = null;
+
+    public function __construct()
+    {
+        $this->setLastConnection(new \DateTimeImmutable('00-00-0000'));
+    }
+
 
     public function getId(): ?int
     {
@@ -138,6 +155,30 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setLastname(?string $Lastname): static
     {
         $this->Lastname = $Lastname;
+
+        return $this;
+    }
+
+    public function getLastConnection(): ?\DateTimeImmutable
+    {
+        return $this->lastConnection;
+    }
+
+    public function setLastConnection(\DateTimeImmutable $lastConnection): static
+    {
+        $this->lastConnection = $lastConnection;
+
+        return $this;
+    }
+
+    public function getEmail(): ?string
+    {
+        return $this->email;
+    }
+
+    public function setEmail(?string $email): static
+    {
+        $this->email = $email;
 
         return $this;
     }

@@ -37,36 +37,40 @@
                                                 </div>
                                             </div>
                                             <p class="event-item_text"><i class="fa-solid fa-house text-danger"></i> 
-                                                {{ club.adress is defined and club.adress is not null ? club.adress : "-" }}
+                                                {{ club.adress is defined and club.adress != "" ? club.adress : "-" }}
                                             </p>
                                             <p class="event-item_text"><i class="fa-solid fa-phone text-danger"></i> 
-                                                {{ club.phonePrimary is defined and club.phonePrimary is not null ? club.phonePrimary : "-" }} 
+                                                {{ club.phonePrimary is defined and club.phonePrimary != "" ? club.phonePrimary : "-" }} 
                                             </p>
-                                            
-                                            {% if club.phoneSecondary is defined and club.phoneSecondary is not null %}
+
+                                            {% if club.phoneSecondary is defined and club.phoneSecondary != "" %}
                                                 <p class="event-item_text"><i class="fa-solid fa-phone text-danger"></i> 
                                                    {{club.phoneSecondary}}
                                                 </p>
                                             {% endif %}
 
                                             <p class="event-item_text"><i class="fa-solid fa-envelope text-danger"></i> 
-                                                {{ club.emailPrimary is defined and club.emailPrimary is not null ? club.emailPrimary : "-" }} 
+                                                {{ club.emailPrimary is defined and club.emailPrimary != "" ? club.emailPrimary : "-" }} 
                                             </p>
 
-                                            {% if club.emailSecondary is defined and club.emailSecondary is not null %}
+                                            {% if club.emailSecondary is defined and club.emailSecondary != "" %}
                                             <p class="event-item_text"><i class="fa-solid fa-envelope text-danger"></i> 
                                                 {{  club.emailSecondary }} 
                                             </p>
                                             {% endif %}
 
-                                            {% if club.fax is defined and club.fax is not null %}
+                                            {% if club.fax is defined and club.fax != "" %}
                                                 <p class="event-item_text"><i class="fa-solid fa-fax text-danger"></i> </i> 
                                                     {{  club.fax }} 
                                                 </p>
                                             {% endif %}
 
                                             <p class="event-item_text"><i class="fa-solid fa-globe text-danger"></i></i> 
-                                                {{ club.website is defined and club.website is not null ? club.website : "-" }} 
+                                                {% if club.website is defined and club.website != "" %}
+                                                    <a href="https://{{club.website}}" target="_blank">{{club.website}}</a>
+                                                {% else %}
+                                                -
+                                                {% endif %}                                          
                                             </p>
 
                                         </div>

@@ -5,10 +5,10 @@ namespace App\Form;
 use App\Entity\Club;
 use App\Entity\User;
 use App\Repository\UserRepository;
-use Doctrine\DBAL\Types\TextType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
@@ -28,47 +28,50 @@ class ClubType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
 
-        // le select "owner" ne contient que les propriétaires de club
-        $users = $this->userRepository->findBy([], ['username' => 'ASC']);
-        $owners = [];
-        foreach ($users as $user) {
-            if (in_array('ROLE_CLUB', $user->getRoles())) {
-                $owners[] = $user;
+        // préparation des données 
+            // le select "owner" ne contient que les propriétaires de club
+            $users = $this->userRepository->findBy([], ['username' => 'ASC']);
+            $owners = [];
+            foreach ($users as $user) {
+                if (in_array('ROLE_CLUB', $user->getRoles())) {
+                    $owners[] = $user;
+                }
             }
-        }
-
-        $builder
-            ->add('name', NULL, [
-                'label' => 'Nom',
-                'attr' => ['class' => 'mb-5']
-            ]);
-
+            // les personnes pouvant accéder à l'édition du gestionnaire du club
+            $tableauRolesAutorises = ['ROLE_HULK', 'ROLE_SUPERMAN'];
+            $autorisation = false;
             // si je suis un club alors je n'ai pas la possibilité de changer l'owner
             // HULK => le super ADMIN
             // SUPERMAN => l'ADMIN
             if ($this->tokenStorageInterface->getToken() != null) {
                 $user = $this->tokenStorageInterface->getToken()->getUser();
-               
-                $tableauRolesAutorises = ['ROLE_HULK', 'ROLE_SUPERMAN'];
-                $autorisation = false;
                 foreach ($tableauRolesAutorises as $role) {
-
-                    if (in_array($role, $user->getRoles())){ $autorisation = true;}
-                }
-
-                if ($autorisation) {
-
-                    $builder->add('owner', ChoiceType::class, [
-                        'label' => 'Gestionnaire',
-                        'attr' => ['class' => 'mb-5'],
-                        'choices'  => $owners,
-                        'choice_label' => function (?User $user): string {
-                            return $user ? ucfirst(strtolower($user->getFirstname())) .' '. ucfirst(strtolower($user->getLastname()))  : '';
-                        },
-                    ]);
+                    if (in_array($role, $user->getRoles())){ 
+                        $autorisation = true;
+                    }
                 }
             }
         
+        // Le formulaire
+        $builder
+            ->add('name', TextType::class, [
+                'label' => 'Nom',
+                'attr' => ['class' => 'mb-5']
+            ]);
+
+
+        if ($autorisation) {
+        $builder
+            ->add('owner', ChoiceType::class, [
+                    'label' => 'Gestionnaire',
+                    'attr' => ['class' => 'mb-5'],
+                    'choices'  => $owners,
+                    'choice_label' => function (?User $user): string {
+                        return $user ? ucfirst(strtolower($user->getFirstname())) .' '. ucfirst(strtolower($user->getLastname()))  : '';
+                    },
+                ]);
+        }
+            
         $builder
             ->add('correspondents', NULL, [
                 'label' => 'Correspondant(s)',
