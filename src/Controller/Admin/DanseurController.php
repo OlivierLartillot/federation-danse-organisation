@@ -26,18 +26,36 @@ class DanseurController extends AbstractController
         // ================= FIN AUTORISATIONS ==========================
         // ==============================================================
 
-        // si tu es un club il faut récup que tes denseurs
+        // si tu es un club il faut récup que tes danseurs
         if (in_array('ROLE_CLUB', $this->getUser()->getRoles())) {
             // chercher le club de ce gestionnaire
             $club = $clubRepository->findOneBy(['owner' => $this->getUser()]);
-            // récupérer ses danseurs
-            $danseurs = $club->getDanseurs();}
+            // récupérer ses danseurs non archives
+            $listeDesDanseursNonArchives = [];
+            foreach ($club->getDanseurs() as $danseur) {
+                if (!$danseur->isArchived()) {
+                    $listeDesDanseursNonArchives[] = $danseur;
+                }
+            }
+            $danseurs = $listeDesDanseursNonArchives;
+        }
         else {
-            $danseurs = $danseurRepository->findAll();
+            $danseurs = $danseurRepository->findBy(['archived' => true]);
         }
 
         return $this->render('admin/danseur/index.html.twig', [
             'danseurs' => $danseurs,
+            'identifiant_route' => 'index'
+        ]);
+    }
+
+    #[Route('/archives', name: 'app_admin_danseur_archived', methods: ['GET'])]
+    public function archiveDanseurs(DanseurRepository $danseurRepository): Response
+    {
+
+        return $this->render('admin/danseur/index.html.twig', [
+            'danseurs' => $danseurRepository->findBy(['archived' => true]),
+            'identifiant_route' => 'archives'
         ]);
     }
 
@@ -137,6 +155,20 @@ class DanseurController extends AbstractController
             'danseur' => $danseur,
             'form' => $form,
         ]);
+    }
+
+    #[Route('/archived/{id}', name: 'app_admin_danseur_archived_traitement', methods: ['POST'])]
+    public function archived(Request $request, Danseur $danseur, EntityManagerInterface $entityManager): Response
+    {
+
+
+        if ($this->isCsrfTokenValid('archived'.$danseur->getId(), $request->request->get('_token'))) {
+
+            $danseur->isArchived() ? $danseur->setArchived(false) : $danseur->setArchived(true);
+            $entityManager->flush();
+        }
+
+        return $this->redirectToRoute('app_admin_danseur_archived', [], Response::HTTP_SEE_OTHER);
     }
 
     /*     

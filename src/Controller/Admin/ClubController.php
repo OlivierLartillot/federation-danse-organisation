@@ -23,13 +23,24 @@ class ClubController extends AbstractController
         // ================== AUTORISATIONS =============================
         // ==============================================================
         // si tu es un club ou superieur tu peux accéder à la page
-        if (!$this->isGranted('ROLE_SUPERMAN')) { return throw $this->createAccessDeniedException();}
-
+        if (!$this->isGranted('ROLE_CLUB')) { return throw $this->createAccessDeniedException();}
         // ================= FIN AUTORISATIONS ==========================
         // ==============================================================
 
+        $droitACreerUnCLub = true; 
+        // si tu es un club il faut que ce soit le tiens pour le modifier
+        if (in_array('ROLE_CLUB', $this->getUser()->getRoles())) {
+            // cherche mon club
+            $clubs = $clubRepository->findBy(['owner' => $this->getUser()]);
+            $droitACreerUnCLub = false; 
+        } else {
+            $clubs = $clubRepository->findAll();
+        }
+
+
         return $this->render('admin/club/index.html.twig', [
-            'clubs' => $clubRepository->findAll(),
+            'clubs' => $clubs,
+            'droitACreerUnCLub' => $droitACreerUnCLub,
         ]);
     }
 

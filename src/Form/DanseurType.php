@@ -48,6 +48,7 @@ class DanseurType extends AbstractType
                 'attr' => ['class' => 'mb-5']
             ])
             ->add('birthday', null, [
+                'label' => 'Date de naissance',
                 'widget' => 'single_text',
                 'attr' => ['class' => 'mb-5']
             ]);

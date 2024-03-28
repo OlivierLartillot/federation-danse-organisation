@@ -1,18 +1,21 @@
 {{ form_start(form) }}
     {# {{ form_widget(form) }} #}
-
-
-
-
-    <div class="my-custom-class-for-errors">
+    <div class="my-custom-class-for-errors text-danger">
         {{ form_errors(form) }}
     </div>
+    <div class="row mb-5">
+        <div class="col-12">
+            {{ form_label(form.username) }}
+            {{ form_widget(form.username) }}
 
-    <div class="row">
-       <div class="col-12">
-            {{ form_row(form.username) }}
+            <small>{{ form_help(form.username) }}</small>
+
+            <div class="form-error text-danger">
+                {{ form_errors(form.username) }}
+            </div>
         </div>
     </div>
+
     <div class="row">
        <div class="col-12">
             {{ form_row(form.firstname) }}
@@ -23,6 +26,19 @@
             {{ form_row(form.lastname) }}
         </div>
     </div>
+    <div class="row mb-5">
+        <div class="col-12">
+            {{ form_label(form.email) }}
+            {{ form_widget(form.email) }}
+
+            <small>{{ form_help(form.email) }}</small>
+
+            <div class="form-error text-danger">
+                {{ form_errors(form.email) }}
+            </div>
+        </div>
+    </div>
+
     <div class="row">
 
     <!-- Un Bug du au CSS acheté m'a obligé a insérer des div avant et apres chaque bloc >>input / label<< -->

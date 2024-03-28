@@ -7,7 +7,12 @@
 
     <h3 class="my-5">Index des Danseurs </h3>
 
-    <a href="{{ path('app_admin_danseur_new') }}" class="btn btn-sm btn-success mb-3">Créer un nouveau danseur</a>
+    {% if identifiant_route == 'index' %}
+        <a href="{{ path('app_admin_danseur_new') }}" class="btn btn-sm btn-success mb-3">Créer un nouveau danseur</a>
+        <a href="{{ path('app_admin_danseur_archived') }}" class="btn btn-sm btn-secondary mb-3">Danseurs Archivés</a>
+    {% else %}
+        <a href="{{ path('app_admin_danseur_index') }}" class="btn btn-sm btn-secondary">Retour liste Danseurs</a>
+    {% endif %}
 
     <div class="card my-3 p-3 shadow">
         <div class="table-responsive">
@@ -18,7 +23,7 @@
                         <th>Id</th>
                         <th>Firstname</th>
                         <th>Lastname</th>
-                        <th>Birthday</th>
+                        <th>Anniversaire</th>
                         <th>Club</th>
                         <th>actions</th>
                     </tr>
@@ -29,7 +34,7 @@
                         <td>{{ danseur.id }}</td>
                         <td>{{ danseur.firstname }}</td>
                         <td>{{ danseur.lastname }}</td>
-                        <td>{{ danseur.birthday ? danseur.birthday|date('Y-m-d') : '' }}</td>
+                        <td>{{ danseur.birthday ? danseur.birthday|date('d-m-Y') : '' }}</td>
                         <td>{{ danseur.club}}</td>
                         <td>
                             <a href="{{ path('app_admin_danseur_edit', {'id': danseur.id}) }}" class="mx-2"><i class="fa-solid fa-pen-to-square"></i></a>
