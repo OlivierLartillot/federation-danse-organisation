@@ -1,0 +1,33 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}LicenceComment index{% endblock %}
+
+{% block body %}
+    <h1>LicenceComment index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for licence_comment in licence_comments %}
+            <tr>
+                <td>{{ licence_comment.id }}</td>
+                <td>
+                    <a href="{{ path('app_admin_licence_comment_show', {'id': licence_comment.id}) }}">show</a>
+                    <a href="{{ path('app_admin_licence_comment_edit', {'id': licence_comment.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="2">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_admin_licence_comment_new') }}">Create new</a>
+{% endblock %}

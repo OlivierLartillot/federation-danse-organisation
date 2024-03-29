@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New LicenceComment{% endblock %}
+
+{% block body %}
+    <h1>Create new LicenceComment</h1>
+
+    {{ include('admin/licence_comment/_form.html.twig') }}
+
+    <a href="{{ path('app_admin_licence_comment_index') }}">back to list</a>
+{% endblock %}

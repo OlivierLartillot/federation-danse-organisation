@@ -52,10 +52,15 @@ class Club
     #[ORM\OneToMany(targetEntity: Danseur::class, mappedBy: 'club')]
     private Collection $danseurs;
 
+    #[ORM\OneToMany(targetEntity: Licence::class, mappedBy: 'club')]
+    private Collection $licences;
+
+
     public function __construct()
     {
         $this->championships = new ArrayCollection();
         $this->danseurs = new ArrayCollection();
+        $this->licences = new ArrayCollection();
     }
     
     public function __toString()
@@ -247,4 +252,36 @@ class Club
 
         return $this;
     }
+
+    /**
+     * @return Collection<int, Licence>
+     */
+    public function getLicences(): Collection
+    {
+        return $this->licences;
+    }
+
+    public function addLicence(Licence $licence): static
+    {
+        if (!$this->licences->contains($licence)) {
+            $this->licences->add($licence);
+            $licence->setClub($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLicence(Licence $licence): static
+    {
+        if ($this->licences->removeElement($licence)) {
+            // set the owning side to null (unless already changed)
+            if ($licence->getClub() === $this) {
+                $licence->setClub(null);
+            }
+        }
+
+        return $this;
+    }
+
+
 }

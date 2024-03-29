@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Licence{% endblock %}
+
+{% block body %}
+    <div class="container my-5">
+
+        <h3 class="my-5">Créer une nouvelle Licence</h3>
+
+        <a href="{{ path('app_admin_licence_index') }}" class="btn btn-sm btn-secondary">Retour liste Licences</a>
+        
+        <div class="card my-3 p-3 shadow">  
+
+            {{ include('admin/licence/_form.html.twig') }}
+        </div>
+    </div>
+{% endblock %}
