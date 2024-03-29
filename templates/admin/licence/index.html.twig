@@ -1,0 +1,88 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Licence index{% endblock %}
+
+{% block body %}
+<div class="container my-5">
+
+    <h3 class="my-5">Index des Licences </h3>
+    
+    <div class="d-flex ">
+        <div class="me-3">
+            <a href="{{ path('app_admin_licence_new') }}" class="btn btn-sm btn-success mb-3">Créer une nouvelle licence</a>
+        </div>
+        <div >
+            <a href="" class="btn btn-sm btn-secondary mb-3">Licences Archivées</a>
+        </div>
+    </div>
+    <form action=" {{ path('app_admin_licence_index') }}" method="GET" >
+
+        <label for="saison" class="form-label">Saison</label>
+        <select class="form-select" id="saison" name="saison" >
+            {# <option selected disabled value="1">Choose...</option> #}
+            <option value="1" {{ 1 == app.request.get('saison') ? 'selected' }}>2023-2024</option>
+            <option value="2" {{ 2 == app.request.get('saison') ? 'selected' }}>2024-2025</option>
+        </select>
+
+        <input type="submit" class="btn btn-success">
+    
+    </form>
+    
+    
+    <div class="card my-3 p-3 shadow">
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Club</th>
+                        <th>Dossard</th>
+                        <th>Status</th>
+                        
+                        <th>actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% set status = [
+                        {
+                            'status' : 'En cours', 
+                            'bgColor': 'bg-warning',
+                            'textColor': ''
+                        }, 
+                        {
+                            'status' :'Validée', 
+                            'bgColor':'bg-success',
+                            'textColor': 'text-white'
+                        }, 
+                        {
+                            'status' :'Rejetée', 
+                            'bgColor':'bg-danger',
+                            'textColor': 'text-white'
+                        }
+                    ] 
+                        %}
+                    {% for licence in licences %}
+                    <tr>
+                        <td>{{ licence.id }}</td>
+                        <td>{{ licence.club }}</td>
+                        <td>{{ licence.dossard }}</td>
+                        <td class="{{ status[licence.status].bgColor }} {{ status[licence.status].textColor }} text-center">
+                            {{ status[licence.status].status }}
+                        </td>
+                        <td>
+                            <a href="{{ path('app_admin_licence_show', {'id': licence.id}) }}">show</a>
+                            <a href="{{ path('app_admin_licence_edit', {'id': licence.id}) }}">edit</a>
+                        </td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="5">no records found</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

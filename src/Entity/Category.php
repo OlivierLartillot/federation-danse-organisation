@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\CategoryRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -29,6 +31,19 @@ class Category
     #[ORM\Column(type: Types::SMALLINT)]
     private ?int $nbMax = null;
 
+    #[ORM\OneToMany(targetEntity: Licence::class, mappedBy: 'category')]
+    private Collection $licences;
+
+    public function __construct()
+    {
+        $this->licences = new ArrayCollection();
+    }
+
+    public function __toString()
+    {
+        return $this->getName();
+    }
+
     public function getId(): ?int
     {
         return $this->id;
@@ -36,7 +51,7 @@ class Category
 
     public function getName(): ?string
     {
-        return $this->name;
+        return ucwords(strtolower($this->name));
     }
 
     public function setName(string $name): static
@@ -93,4 +108,35 @@ class Category
 
         return $this;
     }
+
+    /**
+     * @return Collection<int, Licence>
+     */
+    public function getLicences(): Collection
+    {
+        return $this->licences;
+    }
+
+    public function addLicence(Licence $licence): static
+    {
+        if (!$this->licences->contains($licence)) {
+            $this->licences->add($licence);
+            $licence->setCategory($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLicence(Licence $licence): static
+    {
+        if ($this->licences->removeElement($licence)) {
+            // set the owning side to null (unless already changed)
+            if ($licence->getCategory() === $this) {
+                $licence->setCategory(null);
+            }
+        }
+
+        return $this;
+    }
+
 }

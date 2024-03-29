@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\DanseurRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -30,6 +32,28 @@ class Danseur
     #[ORM\Column(nullable: true)]
     private ?bool $archived = null;
 
+    #[ORM\ManyToMany(targetEntity: Licence::class, mappedBy: 'danseurs')]
+    private Collection $licences;
+
+    private Collection $fullName;
+
+
+    public function __construct()
+    {
+        $this->licences = new ArrayCollection();
+    }
+
+    public function __toString()
+    {
+        return $this->getFirstname() .' '. $this->getLastname() ;
+    }
+
+    public function getFullName(): ?string
+    {
+        return $this->getLastname() .' '.  $this->getFirstname();
+    }
+
+
     public function getId(): ?int
     {
         return $this->id;
@@ -37,7 +61,7 @@ class Danseur
 
     public function getFirstname(): ?string
     {
-        return $this->firstname;
+        return ucwords(strtolower($this->firstname));
     }
 
     public function setFirstname(string $firstname): static
@@ -49,7 +73,7 @@ class Danseur
 
     public function getLastname(): ?string
     {
-        return $this->lastname;
+        return ucwords(strtolower($this->lastname));
     }
 
     public function setLastname(string $lastname): static
@@ -94,4 +118,32 @@ class Danseur
 
         return $this;
     }
+
+    /**
+     * @return Collection<int, Licence>
+     */
+    public function getLicences(): Collection
+    {
+        return $this->licences;
+    }
+
+    public function addLicence(Licence $licence): static
+    {
+        if (!$this->licences->contains($licence)) {
+            $this->licences->add($licence);
+            $licence->addDanseur($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLicence(Licence $licence): static
+    {
+        if ($this->licences->removeElement($licence)) {
+            $licence->removeDanseur($this);
+        }
+
+        return $this;
+    }
+
 }
