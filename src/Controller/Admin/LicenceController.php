@@ -8,6 +8,7 @@ use App\Form\LicenceType;
 use App\Repository\ClubRepository;
 use App\Repository\LicenceRepository;
 use App\Repository\SeasonRepository;
+use App\Service\LicenceChecker;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormError;
@@ -47,7 +48,7 @@ class LicenceController extends AbstractController
     }
 
     #[Route('/new', name: 'app_admin_licence_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager, LicenceRepository $licenceRepository, ClubRepository $clubRepository): Response
+    public function new(Request $request, EntityManagerInterface $entityManager, LicenceRepository $licenceRepository, ClubRepository $clubRepository, LicenceChecker $licenceChecker): Response
     {
         $licence = new Licence();
         $form = $this->createForm(LicenceType::class, $licence);
@@ -55,13 +56,14 @@ class LicenceController extends AbstractController
         //dd($licenceRepository->findByExampleField());
         
         if ( $form->isSubmitted()) {
-            $nbMinCategorie = $form->getData()->getCategory()->getNbMin();
+            $licenceChecker->checkDanseurNumber($form);
+/*             $nbMinCategorie = $form->getData()->getCategory()->getNbMin();
             $nbMaxCategorie = $form->getData()->getCategory()->getNbMax();
             $nombreDanseursRensignes = count($form->getData()->getDanseurs());
 
             if ($nombreDanseursRensignes < $nbMinCategorie or $nombreDanseursRensignes > $nbMaxCategorie) {
                 $form->get('danseurs')->addError(new FormError("Le nombre de danseurs ne respecte pas la catégorire => Min: $nbMinCategorie Max: $nbMaxCategorie"));
-            }
+            } */
         }
        
         if ($form->isSubmitted() && $form->isValid()) {
@@ -99,7 +101,7 @@ class LicenceController extends AbstractController
     #[Route('/{id}', name: 'app_admin_licence_show', methods: ['GET'])]
     public function show(Licence $licence): Response
     {
-        return $this->render('licence/show.html.twig', [
+        return $this->render('admin/licence/show.html.twig', [
             'licence' => $licence,
         ]);
     }
@@ -116,7 +118,7 @@ class LicenceController extends AbstractController
             return $this->redirectToRoute('app_admin_licence_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->render('licence/edit.html.twig', [
+        return $this->render('admin/licence/edit.html.twig', [
             'licence' => $licence,
             'form' => $form,
         ]);
