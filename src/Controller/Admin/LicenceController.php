@@ -55,15 +55,10 @@ class LicenceController extends AbstractController
         $form->handleRequest($request);
         //dd($licenceRepository->findByExampleField());
         
-        if ( $form->isSubmitted()) {
+        if ($form->isSubmitted()) {
+            // service qui se renseigne sur le nombre min et max de danseur
+            // renvoie une erreur si ce n'est pas conforme
             $licenceChecker->checkDanseurNumber($form);
-/*             $nbMinCategorie = $form->getData()->getCategory()->getNbMin();
-            $nbMaxCategorie = $form->getData()->getCategory()->getNbMax();
-            $nombreDanseursRensignes = count($form->getData()->getDanseurs());
-
-            if ($nombreDanseursRensignes < $nbMinCategorie or $nombreDanseursRensignes > $nbMaxCategorie) {
-                $form->get('danseurs')->addError(new FormError("Le nombre de danseurs ne respecte pas la catégorire => Min: $nbMinCategorie Max: $nbMaxCategorie"));
-            } */
         }
        
         if ($form->isSubmitted() && $form->isValid()) {
@@ -107,10 +102,17 @@ class LicenceController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'app_admin_licence_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Licence $licence, EntityManagerInterface $entityManager): Response
+    public function edit(Request $request, Licence $licence, EntityManagerInterface $entityManager, LicenceChecker $licenceChecker): Response
     {
         $form = $this->createForm(LicenceType::class, $licence);
         $form->handleRequest($request);
+
+
+        if ($form->isSubmitted()) {
+            // service qui se renseigne sur le nombre min et max de danseur
+            // renvoie une erreur si ce n'est pas conforme
+            $licenceChecker->checkDanseurNumber($form);
+        }
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();

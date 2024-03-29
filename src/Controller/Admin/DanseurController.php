@@ -40,7 +40,7 @@ class DanseurController extends AbstractController
             $danseurs = $listeDesDanseursNonArchives;
         }
         else {
-            $danseurs = $danseurRepository->findBy(['archived' => true]);
+            $danseurs = $danseurRepository->findBy(['archived' => false]);
         }
 
         return $this->render('admin/danseur/index.html.twig', [
