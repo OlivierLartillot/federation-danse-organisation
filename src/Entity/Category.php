@@ -34,6 +34,8 @@ class Category
     #[ORM\OneToMany(targetEntity: Licence::class, mappedBy: 'category')]
     private Collection $licences;
 
+    private ?string $categorieDescriptionText;
+
     public function __construct()
     {
         $this->licences = new ArrayCollection();
@@ -42,6 +44,11 @@ class Category
     public function __toString()
     {
         return $this->getName();
+    }
+
+    public function getCategorieDescriptionText()
+    {
+        return $this->categorieDescriptionText = "{$this->getName()} - {$this->getMinAge()} ans à {$this->getMaxAge()} ans - Min:{$this->getNbMin()} Max:{$this->getNbmax()}"  ;
     }
 
     public function getId(): ?int

@@ -2,15 +2,17 @@
 
 namespace App\Form;
 
+use App\Entity\Category;
 use App\Entity\Danseur;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Validator\Constraints\Count;
 use Symfony\UX\Autocomplete\Form\AsEntityAutocompleteField;
 use Symfony\UX\Autocomplete\Form\BaseEntityAutocompleteType;
 
 #[AsEntityAutocompleteField]
-class DanseurAutocompleteFieldType extends AbstractType
+class CategoriesAutocompleteFieldType extends AbstractType
 {
 
 
@@ -19,11 +21,12 @@ class DanseurAutocompleteFieldType extends AbstractType
 
 
         $resolver->setDefaults([
-            'class' => Danseur::class,
-            'searchable_fields' => ['firstname', 'Lastname'],
+            'class' => Category::class,
+            'searchable_fields' => ['name'],
+            'label' => 'Choisi la catégorie',
             'multiple' => false,
             'constraints' => [
-                new Count(min: 1, minMessage: 'Veuillez entrer des danseurs'),
+                new Count(max: 1, minMessage: 'Tu dois choisir une catégorie maximum !'),
             ],
             
         ]);

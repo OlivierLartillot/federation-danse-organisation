@@ -2,12 +2,15 @@
 
 namespace App\Controller\Admin;
 
+use App\Entity\Club;
 use App\Entity\Licence;
 use App\Form\LicenceType;
+use App\Repository\ClubRepository;
 use App\Repository\LicenceRepository;
 use App\Repository\SeasonRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -19,6 +22,8 @@ class LicenceController extends AbstractController
     public function index(LicenceRepository $licenceRepository, SeasonRepository $seasonRepository, Request $request): Response
     {
         
+        $seasons = $seasonRepository->findBy([], ['name' => 'ASC']);
+
         $currentSeason = $seasonRepository->findOneBy(['isCurrentSeason' => true]);
         // si la saison a été transmise dans la barre
         if ($request->query->get('saison') != null) {
@@ -28,7 +33,7 @@ class LicenceController extends AbstractController
             $selectedSeason = $currentSeason;
         }
 
-        // si la current season est bien définie, on va afficher les licences de cette saison
+        // si la current season est bien définie, on va afficher les licences de cette saison : sinon on afiche tout
         $licences = $currentSeason ? $licenceRepository->findBy(['season' => $selectedSeason]) : $licenceRepository->findAll();
         // sinon on affiche tour
 
@@ -36,20 +41,36 @@ class LicenceController extends AbstractController
         
         return $this->render('admin/licence/index.html.twig', [
             'licences' => $licences,
-            'selectedSeason' => $selectedSeason
+            'selectedSeason' => $selectedSeason,
+            'seasons' => $seasons
         ]);
     }
 
     #[Route('/new', name: 'app_admin_licence_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager, LicenceRepository $licenceRepository): Response
+    public function new(Request $request, EntityManagerInterface $entityManager, LicenceRepository $licenceRepository, ClubRepository $clubRepository): Response
     {
         $licence = new Licence();
         $form = $this->createForm(LicenceType::class, $licence);
         $form->handleRequest($request);
         //dd($licenceRepository->findByExampleField());
         
-        
+        if ( $form->isSubmitted()) {
+            $nbMinCategorie = $form->getData()->getCategory()->getNbMin();
+            $nbMaxCategorie = $form->getData()->getCategory()->getNbMax();
+            $nombreDanseursRensignes = count($form->getData()->getDanseurs());
+
+            if ($nombreDanseursRensignes < $nbMinCategorie or $nombreDanseursRensignes > $nbMaxCategorie) {
+                $form->get('danseurs')->addError(new FormError("Le nombre de danseurs ne respecte pas la catégorire => Min: $nbMinCategorie Max: $nbMaxCategorie"));
+            }
+        }
+       
         if ($form->isSubmitted() && $form->isValid()) {
+            // tester si je suis un club 
+            // alors je dois enregistrer mon club dans la licence
+            if (in_array('ROLE_CLUB', $this->getUser()->getRoles())) {
+                $myClub = $clubRepository->findOneBy(['owner' => $this->getUser()]);
+                $licence->setClub($myClub);
+            }
             
             $season = $form->getData()->getSeason();
             // Dernier numéro de dossard de la saison !!
@@ -60,7 +81,7 @@ class LicenceController extends AbstractController
             } else {
                 $newDossard = 1; 
             }
-            dump($newDossard);
+           
             $licence->setDossard($newDossard);
 
             $entityManager->persist($licence);
