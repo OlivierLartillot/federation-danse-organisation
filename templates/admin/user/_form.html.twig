@@ -42,25 +42,39 @@
     <div class="row">
 
     <!-- Un Bug du au CSS acheté m'a obligé a insérer des div avant et apres chaque bloc >>input / label<< -->
-    <!-- En Symfony cela oblige d'utiliser le helper name="{{ field_name(form.roles) }}" -->
-    <div name="{{ field_name(form.roles) }}">
-        {{ field_label(form.roles )}}
-        {% set i = 0 %}
-        {% for label, value in field_choices(form.roles) %}
-        <div class="mt-3">
-            <input type="checkbox" id="user_roles_{{i }}" name="user[roles][]" value="{{ value }}" {{ value in user.roles ? 'checked' : ''}}>
-            <label for="user_roles_{{i }}">{{ label }}</label>
+    <!-- En Symfony cela oblige d'utiliser le helper name=" field_name(form roles) " -->
+    {% if form.roles is defined %}
+        <div name="{{ field_name(form.roles) }}">
+            {{ field_label(form.roles )}}
+            {% set i = 0 %}
+            {% for label, value in field_choices(form.roles) %}
+            <div class="mt-3">
+                <input type="checkbox" id="user_roles_{{i }}" name="user[roles][]" value="{{ value }}" {{ value in user.roles ? 'checked' : ''}}>
+                <label for="user_roles_{{i }}">{{ label }}</label>
+            </div>
+            {% set i = i + 1 %}
+            {% endfor %}
         </div>
-        {% set i = i + 1 %}
-        {% endfor %}
-    </div>
+    {% endif %}
+
 </div>
 
-    <div class="row mt-5">
-       <div class="col-12">
-            {{ form_row(form.password) }}
+   <div class="row mt-5">
+       <div class="col-12" name="{{ field_name(form.password) }}">
+            <div>
+                <label for="user_password_first">Mot de passe*</label>
+                <input type="password" id="user_password_first" name="user[password][first]" class="password-field" value="{{user.password}}">
+            </div>
+            <div>
+                <label for="user_password_second">Confirmez le mot de passe*</label>
+                <input type="password" id="user_password_second" name="user[password][second]" class="password-field" value="{{user.password}}">
+            </div>
+            <div class="form-error text-danger">
+                {{ form_errors(form.password) }}
+            </div>
         </div>
     </div>
+
 
 
     <button class="btn btn-success mt-5 mb-3">{{ button_label|default('Enregistrer') }}</button>

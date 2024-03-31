@@ -3,7 +3,9 @@
 namespace App\EventSubscriber;
 
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\RedirectController;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\Security\Http\Event\LoginSuccessEvent;
 
 class OnConnectSubscriber implements EventSubscriberInterface
@@ -17,7 +19,6 @@ class OnConnectSubscriber implements EventSubscriberInterface
         $this->entityManagerInterface = $entityManagerInterface;
 
     }
-
 
     public function onLoginSuccessEvent(LoginSuccessEvent $event): void
     {

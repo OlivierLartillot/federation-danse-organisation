@@ -24,10 +24,10 @@
 
 
             {% for club in clubs %}
-                <div class="col-xl-6 mb-3">
+                <div class="col-xl-6 mb-4">
                     <div class="card bg-light">
                         <div class="card-body shadow">
-                            <h5 class="card-title mb-3">{{ club.name }}</h5>
+                            <h5 class="card-title mb-4">{{ club.name }}</h5>
                             <h6 class="card-subtitle mb-2 text-muted">
                                 <i class="fa-solid fa-user text-danger pe-2"></i>{{ club.correspondents is defined ? club.correspondents : "-" }}
                             </h6>
@@ -71,8 +71,8 @@
                                     {% endif %}                                          
                                 </p>
                             {# 
-                            <a href="#" class="card-link">Another link</a>
-                            <a href="#" class="card-link">Card link</a>
+                                <a href="#" class="card-link">Another link</a>
+                                <a href="#" class="card-link">Card link</a>
                              #}
                         </div>
                         </div>

@@ -7,14 +7,17 @@
 
     <h3 class="my-5">Index des Utilisateurs </h3>
     
-    <div class="d-flex ">
-        <div class="me-3">
-            <a href="{{ path('app_admin_user_new') }}" class="btn btn-sm btn-success mb-3">Créer un nouvel utilisateur</a>
+
+    {% if manageUsersAuthorisation %}
+        <div class="d-flex ">
+            <div class="me-3">
+                <a href="{{ path('app_admin_user_new') }}" class="btn btn-sm btn-success mb-3">Créer un nouvel utilisateur</a>
+            </div>
+            <div >
+                <a href="#" class="btn btn-sm btn-secondary mb-3">Utilisateurs Archivées</a>
+            </div>
         </div>
-        <div >
-            <a href="#" class="btn btn-sm btn-secondary mb-3">Utilisateurs Archivées</a>
-        </div>
-    </div>
+    {% endif %}
     <div class="card my-3 p-3 shadow">
         <div class="table-responsive">
             <table class="table">
