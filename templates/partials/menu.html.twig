@@ -154,7 +154,7 @@
             </div>
             <div class="th-mobile-menu">
                 <ul>
-                    <li><a href="{{path('app_main')}}">Accueil</a></li>
+                    <li><a href="{{path('app_main')}}">Accueilsss</a></li>
                     <li><a href="{{path('app_clubs')}}">Clubs</a></li>
                     <li class="menu-item-has-children">
                         <a href="#">Compétition</a>
@@ -168,6 +168,46 @@
                             <li>
                                 <a href="#">Dossards</a>
                             </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="contact.html">Contact</a>
+                    </li>
+
+           
+                    <li class="menu-item-has-children">
+                        <a href="#">Gestion</a>
+                        <ul class="sub-menu">
+                            <li class="menu-item-has-children">
+                                <a href="#">Réglages du site</a>
+                                <ul class="sub-menu">
+                                    <li><a href="{{path('app_admin_user_index')}}">Utilisateurs</a></li>
+                                    <li>
+                                        <a href="{{path('app_settings_edit', {id:1})}}">Paramètres du site</a>
+                                    </li>       
+                                    <li><a href="{{path('app_admin_organization_team_index')}}">Dirigeants FDO</a></li>                                
+                                </ul>
+                            </li>
+                            <li class="menu-item-has-children">
+                                <a href="#">Réglages de base</a>
+                                <ul class="sub-menu">
+                                    <li><a href="{{path('app_admin_championship_index')}}">Championnats</a></li>                                                    
+                                    <li><a href="{{path('app_admin_season_index')}}">Saisons</a></li>
+                                    <li><a href="{{path('app_admin_category_index')}}">Catégories</a></li>
+                                </ul>
+                            </li>
+                            <li class="menu-item-has-children">
+                                <a href="#">Clubs</a>
+                                <ul class="sub-menu">
+                                    <li>
+                                        <a href="{{path('app_admin_club_index')}}">Clubs</a>
+                                    </li>
+                                    <li><a href="{{path('app_admin_danseur_index')}}">Danseurs</a></li>
+                                    <li><a href="{{path('app_admin_licence_index')}}">Licences</a></li>
+                                    <li><a href="#">Dossards</a></li>
+                                </ul>
+                            </li>
+
                         </ul>
                     </li>
 
