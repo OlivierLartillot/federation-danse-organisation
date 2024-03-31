@@ -29,41 +29,41 @@
                         <div class="card-body shadow">
                             <h5 class="card-title mb-3">{{ club.name }}</h5>
                             <h6 class="card-subtitle mb-2 text-muted">
-                                <i class="fa-solid fa-user text-danger"></i> {{ club.correspondents is defined ? club.correspondents : "-" }}
+                                <i class="fa-solid fa-user text-danger pe-2"></i>{{ club.correspondents is defined ? club.correspondents : "-" }}
                             </h6>
                             <hr>
                             <div class="card-text">
                                 <p class="event-item_text">
-                                    <i class="fa-solid fa-house text-danger"></i> {{ club.adress is defined and club.adress != "" ? club.adress : "-" }}
+                                    <i class="fa-solid fa-house text-danger pe-2"></i> {{ club.adress is defined and club.adress != "" ? club.adress : "-" }}
                                 </p>
                                 <p class="event-item_text"> 
-                                    <i class="fa-solid fa-phone text-danger"></i> 
+                                    <i class="fa-solid fa-phone text-danger pe-2"></i> 
                                     {{ club.phonePrimary is defined and club.phonePrimary != "" ? club.phonePrimary : "-" }} 
                                 </p>
 
                                 {% if club.phoneSecondary is defined and club.phoneSecondary != "" %}
-                                    <p class="event-item_text"><i class="fa-solid fa-phone text-danger"></i>  
+                                    <p class="event-item_text"><i class="fa-solid fa-phone text-danger pe-2"></i>  
                                         {{club.phoneSecondary}}
                                     </p>
                                 {% endif %}
 
-                                <p class="event-item_text text-wrap"><i class="fa-solid fa-envelope text-danger"></i>  
+                                <p class="event-item_text text-wrap"><i class="fa-solid fa-envelope text-danger pe-2"></i>  
                                     {{ club.emailPrimary is defined and club.emailPrimary != "" ? club.emailPrimary : "-" }} 
                                 </p>
 
                                 {% if club.emailSecondary is defined and club.emailSecondary != "" %}
-                                <p class="event-item_text text-wrap"><i class="fa-solid fa-envelope text-danger"></i> 
+                                <p class="event-item_text text-wrap"><i class="fa-solid fa-envelope text-danger pe-2"></i> 
                                     {{  club.emailSecondary }} 
                                 </p>
                                 {% endif %}
 
                                 {% if club.fax is defined and club.fax != "" %}
-                                    <p class="event-item_text"><i class="fa-solid fa-fax text-danger"></i>   
+                                    <p class="event-item_text"><i class="fa-solid fa-fax text-danger pe-2"></i>   
                                         {{  club.fax }} 
                                     </p>
                                 {% endif %}
 
-                                <p class="event-item_text text-wrap"><i class="fa-solid fa-globe text-danger"></i>  
+                                <p class="event-item_text text-wrap"><i class="fa-solid fa-globe text-danger pe-2"></i>  
                                     {% if club.website is defined and club.website != "" %}
                                         <a class="text-wrap" href="https://{{club.website}}" target="_blank">{{club.website}}</a>
                                     {% else %}
