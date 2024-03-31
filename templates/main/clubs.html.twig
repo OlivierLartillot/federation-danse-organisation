@@ -49,12 +49,12 @@
                                                 </p>
                                             {% endif %}
 
-                                            <p class="event-item_text"><i class="fa-solid fa-envelope text-danger"></i> 
+                                            <p class="event-item_text text-wrap"><i class="fa-solid fa-envelope text-danger"></i> 
                                                 {{ club.emailPrimary is defined and club.emailPrimary != "" ? club.emailPrimary : "-" }} 
                                             </p>
 
                                             {% if club.emailSecondary is defined and club.emailSecondary != "" %}
-                                            <p class="event-item_text"><i class="fa-solid fa-envelope text-danger"></i> 
+                                            <p class="event-item_text text-wrap"><i class="fa-solid fa-envelope text-danger"></i> 
                                                 {{  club.emailSecondary }} 
                                             </p>
                                             {% endif %}
@@ -67,7 +67,7 @@
 
                                             <p class="event-item_text"><i class="fa-solid fa-globe text-danger"></i></i> 
                                                 {% if club.website is defined and club.website != "" %}
-                                                    <a href="https://{{club.website}}" target="_blank">{{club.website}}</a>
+                                                    <a class="text-wrap" href="https://{{club.website}}" target="_blank">{{club.website}}</a>
                                                 {% else %}
                                                 -
                                                 {% endif %}                                          
