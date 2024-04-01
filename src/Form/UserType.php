@@ -15,8 +15,6 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Validator\Constraints\Email;
 use Symfony\Component\Validator\Constraints\Length;
-use Symfony\Component\Validator\Constraints\NotBlank;
-
 
 class UserType extends AbstractType
 {
@@ -36,7 +34,6 @@ class UserType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
 
-
         $currentUser = $this->tokenStorageInterface->getToken()->getUser();
 
         // si je suis dans la liste autorisée, je pourrai changer le role par exemple
@@ -47,6 +44,7 @@ class UserType extends AbstractType
                 $manageUsersAuthorisation = true;
             }
         }
+       
 
         $builder
             ->add('username', null, [
@@ -92,10 +90,10 @@ class UserType extends AbstractType
                         ]);
             }
         $builder
-            ->add('password', RepeatedType::class, [
+            ->add('plainPassword', RepeatedType::class, [
                 'type' => PasswordType::class,
                 'invalid_message' => 'Les mots de passe doivent être identiques.',
-                'options' => ['attr' => ['class' => 'password-field']],
+                'options' => ['attr' => ['class' => 'password-field'], 'required' => false],
                 'required' => false,
                 'first_options'  => ['label' => 'Mot de passe*'],
                 'second_options' => ['label' => 'Confirmez le mot de passe*'],

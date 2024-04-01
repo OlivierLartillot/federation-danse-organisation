@@ -54,10 +54,12 @@ class UserController extends AbstractController
         $user = new User();
         $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
-        
+        if ($form->isSubmitted()) {
+            dd($form->getData());
+        }
         
         if ($form->isSubmitted() && $form->isValid()) {
-
+            dd('ok create');
             $hashedPassword = $hasher->hashPassword(
                 $user, 
                 $user->getPassword()
@@ -106,7 +108,11 @@ class UserController extends AbstractController
     public function edit(Request $request, User $user, EntityManagerInterface $entityManager, UserPasswordHasherInterface $hasher, UserRepository $userRepository): Response
     {
 
-        $initialPassword = $user->getPassword();
+        $initialPassword = $userRepository->find($user)->getPassword();
+
+
+
+
         // si je ne suis pas dans la liste autorisée, je ne peux voir que moi !
         $autorisationRolesList = self::AUTORISATION_LIST;
         $manageUsersAuthorisation = false;
@@ -122,21 +128,23 @@ class UserController extends AbstractController
                 return throw $this->createAccessDeniedException();
             }
         }
-
         
         $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
-        
+      
         if ($form->isSubmitted() && $form->isValid()) {
-            if ($form->getData()->getPassword() != $initialPassword) {
-                $hashedPassword = $hasher->hashPassword(
-                    $user, 
-                    $user->getPassword()
-                );      
-                $user->setPassword($hashedPassword);
-            } 
 
+            
+            if ($form->getData()->getPlainPassword() != null) {
+                $newHashedPassword = $hasher->hashPassword(
+                    $user, 
+                    $form->getData()->getPlainPassword()
+                ); 
+                $userRepository->upgradePassword($user,  $newHashedPassword); 
+            }
+    
             $entityManager->flush();
+
             
             return $this->redirectToRoute('app_admin_user_index', [], Response::HTTP_SEE_OTHER);
         }

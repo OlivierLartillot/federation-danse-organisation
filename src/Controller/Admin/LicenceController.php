@@ -11,7 +11,6 @@ use App\Repository\SeasonRepository;
 use App\Service\LicenceChecker;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -36,10 +35,19 @@ class LicenceController extends AbstractController
 
         // si la current season est bien définie, on va afficher les licences de cette saison : sinon on afiche tout
         $licences = $currentSeason ? $licenceRepository->findBy(['season' => $selectedSeason]) : $licenceRepository->findAll();
-        // sinon on affiche tour
 
+        // si tu es un club tu ne peux avoir acces qu'à la liste de tes licences
+        if (in_array('ROLE_CLUB', $this->getUser()->getRoles())) {
+            $myLicences = [];
+            // cherche mon club
+            foreach ($licences as $licence) {
+                if ($licence->getClub()->getOwner() == $this->getUser()) {
+                    $myLicences[] = $licence;
+                }
+            }
+            $licences = $myLicences;
+        }
 
-        
         return $this->render('admin/licence/index.html.twig', [
             'licences' => $licences,
             'selectedSeason' => $selectedSeason,

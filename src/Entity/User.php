@@ -39,7 +39,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @var string The hashed password
      */
     #[ORM\Column]
+    #[Assert\NotBlank()]
     private ?string $password = null;
+    private ?string $plainPassword = null;
 
     #[ORM\Column(length: 255)]
     private ?string $Firstname = null;
@@ -122,12 +124,25 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->password;
     }
 
-    public function setPassword(string $password): static
+    public function setPassword(string $password = null): static
     {
         $this->password = $password;
 
         return $this;
     }
+
+    public function getPlainPassword(): ?string
+    {
+        return $this->plainPassword;
+    }
+
+    public function setPlainPassword(?string $plainPassword = 'null'): self
+    {
+        $this->plainPassword = $plainPassword;
+
+        return $this;
+    }
+
 
     /**
      * @see UserInterface
