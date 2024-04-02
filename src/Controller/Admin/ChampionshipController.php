@@ -13,7 +13,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
-#[Route('/admin/championship')]
+#[Route('/admin/championnats')]
 class ChampionshipController extends AbstractController
 {
     #[Route('/', name: 'app_admin_championship_index', methods: ['GET'])]
