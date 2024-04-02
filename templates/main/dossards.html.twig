@@ -23,15 +23,17 @@
         <div class="card bg-light">
         
         
-        
+            <!-- Permet au premier tour de boucle d'avoir un nouveau club et une nouvelle catégorie --> 
             {% set currentClub = 'null' %}
             {% set currentCategory = 'null' %}
+            <!-- Identifiant de l'accordion courant -->
             {% set iAccordion = 0 %}
             <div class="accordion accordion-flush" id="accordionFlushExample">
-
                 {% for licence in licences %}
+                        <!-- on ajoute la mention club que si c est un nouvea club -->
                         {% if licence.club != currentClub %}
                             {% if iAccordion != 0 %}
+                            <!--1. Si c est un nouveau club et qu c est pas le premier tour il faut fermer -->
                                         </div>
                                     </div>
                                 </div>
@@ -82,65 +84,17 @@
                                 </div>
                         
                 {% endfor %}
+                        <!-- Point 1. Si c est un nouveau club et qu c est pas le premier tour il faut fermer -->
+                        <!-- mais ce n'est pas possible pour le dernier tour donc on ferme ici apres la boucle -->
+                        </div>
+                    </div>
                 </div>
-                </div>
-                </div>
+                <!--********************-->
+
+            <!-- ici on ferme l'accordion-->
             </div>
         </div>
     </div>
 </div>
 
-
-
-
-
-
-
-
-
-
-                       {#  {% for licence in licences %}
-                            {% if licence.club != currentClub %}
-                                {% set currentClub = licence.club %}
-                                <thead>
-                                    <tr> 
-                                        <td colspan="3" class="bg-warning text-black"> {{ licence.club}}</td> 
-                                    </tr>
-                                </thead>
-                                {% set currentCategory = 'null' %}
-                            {% endif %} 
-                            {% if licence.category != currentCategory %}
-                                <thead>
-                                    <tr> 
-                                        <td colspan="3" class="bg-light text-black">{{ licence.category }}</td>
-                                    </tr>
-                                </thead>
-                                {% set currentCategory = licence.category %}
-                            {% endif %}
-                            <tr>
-                                <td>Dossard: {{ licence.dossard }}</td>
-                                <td>
-                                    {% set iDanseurs = 1 %} <!-- pour la virgule entre les danseurs -->
-                                    {% set separateur = ',' %}
-                                    {% for danseur in licence.danseurs %}
-        
-                                        {{ danseur.firstName }} {{ danseur.lastName }}{{licence.danseurs|length > iDanseurs ? separateur : null}}
-                                        {% set iDanseurs = iDanseurs + 1 %}
-                                        
-                                    {% endfor %}
-                                </td>
-                                <td>{{ licence.club}} - {{ licence.category }}</td>
-                            </tr>
-                        {% endfor %} #}
-
-
-
-
-
-
-<script type="text/javascript">
-			function imprimer_page(){
-				window.print();
-			}
-</script>
 {% endblock %}
