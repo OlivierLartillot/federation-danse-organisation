@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Licence;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\Common\Collections\Criteria;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -37,7 +38,7 @@ class LicenceRepository extends ServiceEntityRepository
 //    }
 
 
-public function findByExampleField(): array
+    public function findByExampleField(): array
     {
         return $this->createQueryBuilder('l')
         ->select(max('l.dossard'))
@@ -45,6 +46,24 @@ public function findByExampleField(): array
             ->getResult()
         ;
     }
+
+
+
+    public function findDossardGroupByCategories($currentSeason): array
+    {
+        return $this->createQueryBuilder('l')
+            ->innerJoin('App\Entity\club', 'club', 'WITH', 'l.club = club.id')
+            ->innerJoin('App\Entity\category', 'category', 'WITH', 'l.category = category.id')
+            ->andWhere('l.season = :season')
+            ->setParameter('season', $currentSeason)
+            ->addOrderBy('club.name', 'ASC')
+            ->addOrderBy('category.name', 'ASC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+
 //    public function findOneBySomeField($value): ?Licence
 //    {
 //        return $this->createQueryBuilder('l')

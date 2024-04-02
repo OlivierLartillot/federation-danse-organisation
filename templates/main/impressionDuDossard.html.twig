@@ -1,0 +1,55 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello MainController!{% endblock %}
+
+{% block body %}
+
+    <div class="container my-5">
+        <div class="mb-3">
+            <a href="{{path('app_competition_dossards')}}" class="btn btn-secondary btn-sm">Revenir aux dossards</a>
+        </div>
+        <div class="row">
+            <h2>Voici la licence à imprimer</h2>
+            
+            <div class="row toImpressed">
+                <div class="toImpressed"> 
+                    <div class="d-flex align-items-start border border-dark flex-column mb-3 justify-content-center toImpressed impressedArea" style="width:740px; height:400px">
+                        <div class="p-2 mx-auto toImpressed danseurs-zone">
+                            {{licence.club}} - 
+                                {% set iDanseurs = 1 %} <!-- pour la virgule entre les danseurs -->
+                                {% set separateur = ',' %}
+                                {% for danseur in licence.danseurs %}
+                                    {{ danseur.lastName }}{{licence.danseurs|length > iDanseurs ? separateur : null}}
+                                    {% set iDanseurs = iDanseurs + 1 %}
+                                {% endfor %}
+
+                        </div>
+                        <div class="m-auto font-size-dossard toImpressed dossard-number">
+                            {{licence.dossard}}
+                        </div>
+                        <div class="p-2 mx-auto toImpressed">
+                            {{licence.category}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div>
+            <button onclick="printContent()" class="btn btn-success btn-sm">Imprimer</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function printContent() {
+            var printContents = document.querySelector('.toImpressed').innerHTML;
+            var originalContents = document.body.innerHTML;
+            document.body.innerHTML = printContents;
+            window.print();
+            document.body.innerHTML = originalContents;
+        }
+    </script>
+
+
+
+
+{% endblock %}

@@ -1,0 +1,146 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello MainController!{% endblock %}
+
+{% block body %}
+    <!--==============================
+    Breadcumb
+============================== -->
+    <div class="breadcumb-wrapper " data-bg-src="{{asset('assets/img/breadcumb/breadcumb-danse-unsplash-bg.jpg')}}" >
+        <div class="container">
+            <div class="breadcumb-content">
+                <h1 class="breadcumb-title">Liste des Dossards</h1>
+                <ul class="breadcumb-menu">
+                    <li><a href="{{path('app_main')}}">Accueil</a></li>
+                    <li>Dossards</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+<div class="container my-5">
+    <div class="row">
+        <div class="card bg-light">
+        
+        
+        
+            {% set currentClub = 'null' %}
+            {% set currentCategory = 'null' %}
+            {% set iAccordion = 0 %}
+            <div class="accordion accordion-flush" id="accordionFlushExample">
+
+                {% for licence in licences %}
+                        {% if licence.club != currentClub %}
+                            {% if iAccordion != 0 %}
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr>
+                            {% endif %}
+
+                            {% set currentClub = licence.club %}
+                            <div class="accordion-item my-3">
+                                {% set iAccordion = iAccordion + 1 %}
+                                <h2 class="accordion-header" id="flush-heading{{iAccordion}}">
+                                    <button class="btn btn-secondary collapsed fs-4" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse{{iAccordion}}" aria-expanded="false" aria-controls="flush-collapse{{iAccordion}}">
+                                        {{ licence.club}}
+                                    </button>
+                                </h2>
+                                <div id="flush-collapse{{iAccordion}}" class="accordion-collapse collapse" aria-labelledby="flush-heading{{iAccordion}}" data-bs-parent="#accordionFlushExample">
+                                    <div class="accordion-body">
+
+                            {% set currentCategory = 'null' %}
+                        {% endif %} 
+
+
+                                {% if licence.category != currentCategory %}
+                                    <h6 class=" text-black mt-5">{{ licence.category }}</h6>
+                                    {% set currentCategory = licence.category %}
+                                
+                                {% endif %}
+                                <div class="card p-3 shadow mb-3">
+                                    <div class="card-title ">
+                                        <span>Dossard: {{ licence.dossard }}</span>
+                                    
+                                    </div>   
+                                    <div class="card-body">
+                                        <p class="card-text">
+                                        
+                                            <span>
+                                                {% set iDanseurs = 1 %} <!-- pour la virgule entre les danseurs -->
+                                                {% set separateur = ',' %}
+                                                {% for danseur in licence.danseurs %}
+                                                    {{ danseur.firstName }} {{ danseur.lastName }}{{licence.danseurs|length > iDanseurs ? separateur : null}}
+                                                    {% set iDanseurs = iDanseurs + 1 %}
+                                                {% endfor %}
+                                            </span>
+                                            <!--<span>{{ licence.club}} - {{ licence.category }}</span>-->
+                                        </p>
+										
+                                        <a href="{{path('app_competition_imprimer_dossard', {'id': licence.id})}}" class="btn btn-sm bg-light border">Imprimer</a>
+                                    </div>
+                                </div>
+                        
+                {% endfor %}
+                </div>
+                </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+                       {#  {% for licence in licences %}
+                            {% if licence.club != currentClub %}
+                                {% set currentClub = licence.club %}
+                                <thead>
+                                    <tr> 
+                                        <td colspan="3" class="bg-warning text-black"> {{ licence.club}}</td> 
+                                    </tr>
+                                </thead>
+                                {% set currentCategory = 'null' %}
+                            {% endif %} 
+                            {% if licence.category != currentCategory %}
+                                <thead>
+                                    <tr> 
+                                        <td colspan="3" class="bg-light text-black">{{ licence.category }}</td>
+                                    </tr>
+                                </thead>
+                                {% set currentCategory = licence.category %}
+                            {% endif %}
+                            <tr>
+                                <td>Dossard: {{ licence.dossard }}</td>
+                                <td>
+                                    {% set iDanseurs = 1 %} <!-- pour la virgule entre les danseurs -->
+                                    {% set separateur = ',' %}
+                                    {% for danseur in licence.danseurs %}
+        
+                                        {{ danseur.firstName }} {{ danseur.lastName }}{{licence.danseurs|length > iDanseurs ? separateur : null}}
+                                        {% set iDanseurs = iDanseurs + 1 %}
+                                        
+                                    {% endfor %}
+                                </td>
+                                <td>{{ licence.club}} - {{ licence.category }}</td>
+                            </tr>
+                        {% endfor %} #}
+
+
+
+
+
+
+<script type="text/javascript">
+			function imprimer_page(){
+				window.print();
+			}
+</script>
+{% endblock %}

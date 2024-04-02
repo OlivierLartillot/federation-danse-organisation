@@ -3,11 +3,14 @@
 namespace App\Controller;
 
 use App\Entity\Championship;
+use App\Entity\Licence;
 use App\Entity\OrganizationTeam;
 use App\Repository\CategoryRepository;
 use App\Repository\ChampionshipRepository;
 use App\Repository\ClubRepository;
+use App\Repository\LicenceRepository;
 use App\Repository\OrganizationTeamRepository;
+use App\Repository\SeasonRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -36,6 +39,7 @@ class MainController extends AbstractController
             'nombreCategories' => $nombreCategories
         ]);
     }
+
     #[Route('/clubs', name: 'app_clubs')]
     public function clubs(ClubRepository $clubRepository): Response
     {
@@ -46,4 +50,33 @@ class MainController extends AbstractController
             'clubs' => $clubs,
         ]);
     }
+
+    #[Route('/competition/dossards', name: 'app_competition_dossards')]
+    public function competitionDossards(LicenceRepository $licenceRepository, SeasonRepository $seasonRepository): Response
+    {
+
+        // rechercher la saison en cours
+        $currentSeason = $seasonRepository->findOneBy(['isCurrentSeason' => true]);
+
+        // récupérer les licences de la saison en cours et faire un group by categories
+
+    
+        /* $licences = $licenceRepository->findBy(['season' => $currentSeason], ['dossard' => 'ASC']); */
+        $licences = $licenceRepository->findDossardGroupByCategories($currentSeason);
+
+        return $this->render('main/dossards.html.twig', [
+            'licences' => $licences,
+        ]);
+    }
+
+    #[Route('/competition/imprimer/{id}', name: 'app_competition_imprimer_dossard')]
+    public function imprimerDossards(Licence $licence): Response
+    {
+
+        return $this->render('main/impressionDuDossard.html.twig', [
+            'licence' => $licence,
+        ]);
+    }
+
+
 }
