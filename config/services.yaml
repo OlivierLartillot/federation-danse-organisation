@@ -6,6 +6,7 @@
 # config/services.yaml
 
 parameters:
+    documents: '%kernel.project_dir%/public/assets/uploads/documents'
 
 services:
     # default configuration for services in *this* file

@@ -3,39 +3,49 @@
 {% block title %}Document index{% endblock %}
 
 {% block body %}
-    <h1>Document index</h1>
+<div class="container my-5">
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Name</th>
-                <th>DocumentPath</th>
-                <th>ApparitionOrder</th>
-                <th>Published</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for document in documents %}
-            <tr>
-                <td>{{ document.id }}</td>
-                <td>{{ document.name }}</td>
-                <td>{{ document.documentPath }}</td>
-                <td>{{ document.apparitionOrder }}</td>
-                <td>{{ document.published ? 'Yes' : 'No' }}</td>
-                <td>
-                    <a href="{{ path('app_admin_document_show', {'id': document.id}) }}">show</a>
-                    <a href="{{ path('app_admin_document_edit', {'id': document.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="6">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+    <h3 class="my-5">Documents et règlements</h3>
+    
+        <div class="d-flex ">
+            <div class="me-3">
+                <a href="{{ path('app_admin_document_new') }}" class="btn btn-success btn-sm">Envoyer un nouveau document</a>
+            </div>
+        </div>
 
-    <a href="{{ path('app_admin_document_new') }}">Create new</a>
+        <div class="card my-3 p-3 shadow">
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Name</th>
+                            <th>ApparitionOrder</th>
+                            <th>Published</th>
+                            <th>actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for document in documents %}
+                            <tr>
+                                <td>{{ document.id }}</td>
+                                <td>{{ document.name }}</td>
+                                <td>{{ document.apparitionOrder }}</td>
+                                <td>{{ document.published ? 'Yes' : 'No' }}</td>
+                                <td>             
+                                    <a href="{{ path('app_admin_document_edit', {'id': document.id}) }}" class="mx-2"><i class="fa-solid fa-pen-to-square"></i></a>
+                                    {# <a href="{{ path('app_admin_document_show', {'id': document.id}) }}" class="mx-2"><i class="fa-solid fa-eye"></i></a> #}
+                                </td>
+                            </tr>
+                        {% else %}
+                            <tr>
+                                <td colspan="6">no records found</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+</div>
+
 {% endblock %}

@@ -17,7 +17,6 @@ class DanseurAutocompleteFieldType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
 
-
         $resolver->setDefaults([
             'class' => Danseur::class,
             'searchable_fields' => ['firstname', 'Lastname'],
