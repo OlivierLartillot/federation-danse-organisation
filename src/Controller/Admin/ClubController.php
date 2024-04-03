@@ -34,7 +34,7 @@ class ClubController extends AbstractController
             $clubs = $clubRepository->findBy(['owner' => $this->getUser()]);
             $droitACreerUnCLub = false; 
         } else {
-            $clubs = $clubRepository->findAll();
+            $clubs = $clubRepository->findBy([], ['name' => 'ASC']);
         }
 
 

@@ -2,17 +2,17 @@
 
 namespace App\Form;
 
+use Doctrine\ORM\QueryBuilder;
 use App\Entity\Category;
 use App\Entity\Club;
 use App\Entity\Danseur;
 use App\Entity\Licence;
-use App\Entity\LicenceComment;
 use App\Entity\Season;
 use App\Repository\ClubRepository;
 use App\Repository\DanseurRepository;
+use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
@@ -43,7 +43,11 @@ class LicenceType extends AbstractType
                 'class' => Club::class,
                 'label' => 'Club',
                 'choice_label' => 'name',
-                'row_attr' => ['class' => 'mb-5']
+                'row_attr' => ['class' => 'mb-5'],
+                'query_builder' => function (EntityRepository $er): QueryBuilder {
+                    return $er->createQueryBuilder('club')
+                        ->orderBy('club.name', 'ASC');
+                },
                 ]);
         }
 

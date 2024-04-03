@@ -9,12 +9,12 @@
     {% if form.club is defined %}
         {{ form_row(form.club) }}
     {% endif %}
-
+    {# 
     <div name="{{ field_name(form.archived) }}">
         <input type="checkbox" id="danseur_archived" name="danseur[archived]" class="mb-5" value="1" {{danseur.isArchived ? 'checked'}}>
         <label for="danseur_archived" class="required">Archiver ce danseur ?</label>
     </div>
-
+     #}
 
     <button class="btn btn-success mt-5">{{ button_label|default('Enregistrer') }}</button>
 {{ form_end(form) }}

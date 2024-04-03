@@ -7,17 +7,31 @@
 
     <h3 class="my-5">Demandes de Licences </h3>
 
-    <p>
-        <i class="fa-solid fa-pen-to-square text-danger"></i> Modifier la licence <br/>
-        {% if 'ROLE_CLUB' in app.user.roles %}
-            <i class="fa-solid fa-eye text-danger"></i> Refaire une demande de licence qui a été rejetée <br/>
-        {% else %}
-            <i class="fa-solid fa-eye text-danger"></i> Valider / Rejeter la licence <br/>  
-        {% endif %}
-        Les Licences <bouton class="btn btn-warning btn-sm">En cours</bouton> apparaissent en premier<br/>
-        Une fois modifiée, le club peut repasser une licence <bouton class="btn btn-danger btn-sm">Rejetée</bouton> en une licence <bouton class="btn btn-warning btn-sm">En cours</bouton> dans l'action <i class="fa-solid fa-eye text-danger"></i>
-    </p>
-       <hr>
+    <div class="accordion accordion-flush mb-3" id="accordionFlushExample">
+        <div class="accordion-item">
+            <h2 class="accordion-header border border-black">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
+                    Aide
+                </button>
+            </h2>
+            <div id="flush-collapseOne" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
+                <div class="accordion-body">
+                    <p>
+                        <i class="fa-solid fa-pen-to-square text-danger"></i> Modifier la licence <br/>
+                        {% if 'ROLE_CLUB' in app.user.roles %}
+                            <i class="fa-solid fa-eye text-danger"></i> Refaire une demande de licence qui a été rejetée <br/>
+                        {% else %}
+                            <i class="fa-solid fa-eye text-danger"></i> Valider / Rejeter la licence <br/>  
+                        {% endif %}
+                        Les Licences <bouton class="btn btn-warning btn-sm">En cours</bouton> apparaissent en premier<br/>
+                        Le club recoit une licence comme <bouton class="btn btn-danger btn-sm">Rejetée</bouton>. Cela siginfie qu'il faut changer quelque chose avant de resoumettre la licence.<br/>
+                        Une fois modifiée, le club peut repasser une licence <bouton class="btn btn-danger btn-sm">Rejetée</bouton> en une licence <bouton class="btn btn-warning btn-sm">En cours</bouton> dans l'action <i class="fa-solid fa-eye text-danger"></i>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="d-flex ">
         <div class="me-3">
             <a href="{{ path('app_admin_licence_new') }}" class="btn btn-sm btn-success mb-3">Créer une nouvelle licence</a>

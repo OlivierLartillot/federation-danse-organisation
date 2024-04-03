@@ -24,9 +24,10 @@
                     </tr>
                 </thead>
                 <tbody>
+                {% set iNbreClubs = 1 %}
                 {% for club in clubs %}
                     <tr>
-                        <td>{{ club.id }}</td>
+                        <td>{{ iNbreClubs }}</td>
                         <td>{{ club.name|title }}</td>
                         <td>{{ club.correspondents }}</td>
                         <td>
@@ -36,6 +37,7 @@
                             {% endif %}
                         </td>
                     </tr>
+                    {% set iNbreClubs = iNbreClubs + 1 %}
                 {% else %}
                     <tr>
                         <td colspan="11">no records found</td>
