@@ -11,10 +11,13 @@
         {{ licence.category }} - {{ licence.category.minAge}} ans à {{ licence.category.maxAge}} ans - Min: {{ licence.category.nbMin}} Max: {{ licence.category.nbMax}}
     
     </p>
+ 
     
     <div class="d-inline-flex">
         <div class="me-2"><a href="{{ path('app_admin_licence_index') }}" class="btn btn-sm btn-secondary">Retour liste Licences</a></div>
-        <div class="me-2"><a href="{{ path('app_admin_licence_edit', {'id': licence.id}) }}" class="btn btn-sm btn-success">Modifier</a></div>
+        {% if licence.status != 1 %}
+            <div class="me-2"><a href="{{ path('app_admin_licence_edit', {'id': licence.id}) }}" class="btn btn-sm btn-success">Modifier</a></div>
+        {% endif %}
         {# Archive
             <div class="mx-5">{{ include('admin/licence/_archived_form.html.twig') }}</div>  
         #}
@@ -27,10 +30,6 @@
         <div class="table-responsive">
             <table class="table">
                 <tbody>
-                    <tr>
-                        <th>Id</th>
-                        <td>{{ licence.id }}</td>
-                    </tr>
                     <tr>
                         <th>Dossard</th>
                         <td>{{ licence.dossard }}</td>

@@ -14,12 +14,10 @@
         {% else %}
             <i class="fa-solid fa-eye text-danger"></i> Valider / Rejeter la licence <br/>  
         {% endif %}
-        Les Licences <bouton class="btn btn-warning">En cours</bouton> apparaissent en premier<br/>
-        Une fois modifiée,le club peut repasser une licence <bouton class="btn btn-danger">Rejetée</bouton> en une licence <bouton class="btn btn-warning">En cours</bouton>
-    
-    
+        Les Licences <bouton class="btn btn-warning btn-sm">En cours</bouton> apparaissent en premier<br/>
+        Une fois modifiée, le club peut repasser une licence <bouton class="btn btn-danger btn-sm">Rejetée</bouton> en une licence <bouton class="btn btn-warning btn-sm">En cours</bouton> dans l'action <i class="fa-solid fa-eye text-danger"></i>
     </p>
-    
+       <hr>
     <div class="d-flex ">
         <div class="me-3">
             <a href="{{ path('app_admin_licence_new') }}" class="btn btn-sm btn-success mb-3">Créer une nouvelle licence</a>

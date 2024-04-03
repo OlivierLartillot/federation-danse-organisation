@@ -22,10 +22,17 @@
                                     {{ danseur.lastName }}{{licence.danseurs|length > iDanseurs ? separateur : null}}
                                     {% set iDanseurs = iDanseurs + 1 %}
                                 {% endfor %}
-
                         </div>
                         <div class="m-auto font-size-dossard toImpressed dossard-number">
-                            {{licence.dossard}}
+
+                            {% if licence.dossard < 10 %}
+                                00{{licence.dossard}}
+                            {% elseif licence.dossard < 100 %}
+                                0{{licence.dossard}}
+                            {% else %}
+                                {{licence.dossard}}
+                            {% endif %}
+                            
                         </div>
                         <div class="p-2 mx-auto toImpressed">
                             {{licence.category}}
