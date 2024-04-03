@@ -5,7 +5,12 @@
 {% block body %}
 <div class="container my-5">
 
-    <h3 class="my-5">Licence </h3>
+    <h3 class="my-5">Demande de Licence </h3>
+
+    <p class="fs-4">
+        {{ licence.category }} - {{ licence.category.minAge}} ans à {{ licence.category.maxAge}} ans - Min: {{ licence.category.nbMin}} Max: {{ licence.category.nbMax}}
+    
+    </p>
     
     <div class="d-inline-flex">
         <div class="me-2"><a href="{{ path('app_admin_licence_index') }}" class="btn btn-sm btn-secondary">Retour liste Licences</a></div>
@@ -55,6 +60,12 @@
                         </td>
                     </tr>
                     <tr>
+                        <th>Obligations de la catégorie</th>
+                        <td>
+                            {{ licence.category }} - {{ licence.category.minAge}} ans à {{ licence.category.maxAge}} ans - Min: {{ licence.category.nbMin}} Max: {{ licence.category.nbMax}}
+                        </td>
+                    </tr>
+                    <tr>
                         <th>Danseurs</th>
                         <td>
                         {% set i = 1 %}
@@ -66,8 +77,21 @@
                         </td>
                     </tr>
                     <tr>
-                        <th>Archived</th>
-                        <td>{{ licence.archived ? 'Oui' : 'Non' }}</td>
+                        <th>Modifier l'état de la licence</th>
+                        {% if 'ROLE_CLUB' not in app.user.roles %}
+                            <td><a href="{{ path('app_admin_licence_validation', {'id': licence.id, 'validation' : 1 } )}}" class="btn btn-success mx-5">Valider la licence</a><a href="{{ path('app_admin_licence_validation', {'id': licence.id, 'validation' : 2 } )}}" class="btn btn-danger">Rejeter la licence</a></td>
+                        {% endif %} 
+                        {% if 'ROLE_CLUB' in app.user.roles %}
+                            <td>
+                                {# // soit le status est rejeté #}
+                                {% if licence.status == 2 %}
+                                    <a href="{{ path('app_admin_licence_validation', {'id': licence.id, 'validation' : 0 } )}}" class="btn btn-success">Renvoyer demande</a>
+                                {% else %}
+                                    {# // soit il est validé #}
+                                    <i>Si le status est rejeté, un bouton renvoyer demande apparaîtra ! Vous pourrez alors modifier votre demande et la renvoyer.<i>
+                                {% endif %}
+                            </td>
+                        {% endif %}
                     </tr>
                 </tbody>
             </table>

@@ -6,7 +6,15 @@
 
 <div class="container my-5">
 
-    <h3 class="my-5">Modifier les inscriptions </h3>
+    <h3 class="my-5">Inscriptions pour {{ championship.place }} </h3>
+
+    <p>
+        <p>
+        <b>Date:</b> {{ championship.championshipDate|date('d-m-Y') }}<br>
+        <b>Date Limite:</b> {{ championship.championshipInscriptionsLimitDate|date('d-m-Y') }}<br>
+        <b>Club Organisateur:</b> {{ championship.organizingClub }}
+    
+    </p>
     
     <a href="{{ path('app_admin_championship_index_inscriptions') }}" class="btn btn-sm btn-secondary">Retour liste championnats</a>
     

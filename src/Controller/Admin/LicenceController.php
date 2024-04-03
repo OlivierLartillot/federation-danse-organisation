@@ -34,7 +34,7 @@ class LicenceController extends AbstractController
         }
 
         // si la current season est bien définie, on va afficher les licences de cette saison : sinon on afiche tout
-        $licences = $currentSeason ? $licenceRepository->findBy(['season' => $selectedSeason]) : $licenceRepository->findAll();
+        $licences = $currentSeason ? $licenceRepository->findBy(['season' => $selectedSeason], ['status' => 'ASC', 'category' => 'ASC']) : $licenceRepository->findAll();
 
         // si tu es un club tu ne peux avoir acces qu'à la liste de tes licences
         if (in_array('ROLE_CLUB', $this->getUser()->getRoles())) {
@@ -116,6 +116,11 @@ class LicenceController extends AbstractController
         $form->handleRequest($request);
 
 
+        // si tu es un club et que la licence a le status validé tu ne peux pas la changer !!!
+        if((in_array('ROLE_CLUB', $this->getUser()->getRoles())) && $licence->getStatus() == 1) {
+            return $this->redirectToRoute('app_admin_licence_index', [], Response::HTTP_SEE_OTHER);
+        }
+
         if ($form->isSubmitted()) {
             // service qui se renseigne sur le nombre min et max de danseur
             // renvoie une erreur si ce n'est pas conforme
@@ -144,4 +149,25 @@ class LicenceController extends AbstractController
 
         return $this->redirectToRoute('app_admin_licence_index', [], Response::HTTP_SEE_OTHER);
     }
+
+    #[Route('/validation/{id}', name: 'app_admin_licence_validation', methods: ['GET'])] 
+    public function validationLicence(Request $request, Licence $licence, EntityManagerInterface $entityManager): Response
+    {
+
+        // je dois avoir les droits pour faire ca, sinon je rejette !!!
+        //dd($request->get('validation'));
+        if (in_array('ROLE_CLUB', $this->getUser()->getRoles())) {
+           if ($request->get('validation') != 0) {
+                return $this->redirectToRoute('app_admin_licence_index', [], Response::HTTP_SEE_OTHER);
+           }
+        }
+
+        $licence->setStatus($request->get('validation'));
+        $entityManager->flush();
+
+        return $this->redirectToRoute('app_admin_licence_show', ['id' => $licence->getId()], Response::HTTP_SEE_OTHER);
+        
+
+    }
+
 }

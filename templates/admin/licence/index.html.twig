@@ -6,6 +6,19 @@
 <div class="container my-5">
 
     <h3 class="my-5">Demandes de Licences </h3>
+
+    <p>
+        <i class="fa-solid fa-pen-to-square text-danger"></i> Modifier la licence <br/>
+        {% if 'ROLE_CLUB' in app.user.roles %}
+            <i class="fa-solid fa-eye text-danger"></i> Refaire une demande de licence qui a été rejetée <br/>
+        {% else %}
+            <i class="fa-solid fa-eye text-danger"></i> Valider / Rejeter la licence <br/>  
+        {% endif %}
+        Les Licences <bouton class="btn btn-warning">En cours</bouton> apparaissent en premier<br/>
+        Une fois modifiée,le club peut repasser une licence <bouton class="btn btn-danger">Rejetée</bouton> en une licence <bouton class="btn btn-warning">En cours</bouton>
+    
+    
+    </p>
     
     <div class="d-flex ">
         <div class="me-3">
@@ -38,11 +51,11 @@
                 <thead>
                     {% set displayTd = 'ROLE_CLUB' in app.user.roles ? 'd-none' %}
                     <tr>
-                        <th>Id</th>
                         <th class="{{displayTd}}">Club</th>
                         <th>Dossard</th>
+                        <th>Danseurs</th>
+                        <th>Catégorie</th>
                         <th>Status</th>
-                        
                         <th>actions</th>
                     </tr>
                 </thead>
@@ -67,14 +80,29 @@
                     %}
                     {% for licence in licences %}
                         <tr>
-                            <td>{{ licence.id }}</td>
                             <td class="{{displayTd}}">{{ licence.club }}</td>
                             <td>{{ licence.dossard }}</td>
+                            <td>
+                                {% set retourLigne = [4,8,12,16,20,24,28] %}
+                                {% set iDanseurs = 1 %} <!-- pour la virgule entre les danseurs -->
+                                {% set separateur = ',' %}
+                                {% for danseur in licence.danseurs %}
+                                    {{ danseur.firstName }} {{ danseur.lastName }}{{licence.danseurs|length > iDanseurs ? separateur : null}}
+                                    {{ iDanseurs in retourLigne ? '<br/>' : ''}}
+                                    {% set iDanseurs = iDanseurs + 1 %}
+                                {% endfor %}
+                            </td>
+                            <td>
+                                {{ licence.category }}
+                            </td>
                             <td class="{{ status[licence.status].bgColor }} {{ status[licence.status].textColor }} text-center">
                                 {{ status[licence.status].status }}
                             </td>
                             <td>
-                                <a href="{{ path('app_admin_licence_edit', {'id': licence.id}) }}" class="mx-2"><i class="fa-solid fa-pen-to-square"></i></a>
+                                {% if licence.status != 1 %}
+                                    <a href="{{ path('app_admin_licence_edit', {'id': licence.id}) }}" class="mx-2"><i class="fa-solid fa-pen-to-square"></i></a>
+                                {% endif %}
+
                                 <a href="{{ path('app_admin_licence_show', {'id': licence.id}) }}" class="mx-2"><i class="fa-solid fa-eye"></i></a>
                             </td>
                         </tr>

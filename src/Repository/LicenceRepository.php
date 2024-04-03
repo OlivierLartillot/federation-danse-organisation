@@ -63,6 +63,24 @@ class LicenceRepository extends ServiceEntityRepository
         ;
     }
 
+    public function findLicencesByCurrentSeasonAndClubOrderByCategories($currentSeason, $club = null): array
+    {
+        $request =  $this->createQueryBuilder('l')
+            ->innerJoin('App\Entity\category', 'category', 'WITH', 'l.category = category.id')
+            ->andWhere('l.season = :season')
+            ->setParameter('season', $currentSeason);
+            if ($club != null) {
+                $request = $request
+                ->andWhere('l.club = :club')
+                ->setParameter('club', $club);
+            }
+
+        $request = $request
+            ->getQuery()
+            ->getResult()
+        ;
+        return $request;
+    }
 
 //    public function findOneBySomeField($value): ?Licence
 //    {
