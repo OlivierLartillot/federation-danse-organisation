@@ -70,6 +70,11 @@ class DanseurType extends AbstractType
             ]);
         }
 
+        $builder->add('archived', CheckboxType::class, [
+                'label' => 'Archiver ce danseur ?',
+                'attr' => ['class' => 'mb-5'],
+                'required' => false,
+        ]);
         
         
     }
