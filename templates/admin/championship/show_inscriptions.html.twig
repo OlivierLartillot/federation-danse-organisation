@@ -1,0 +1,82 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Championship{% endblock %}
+
+{% block body %}
+<div class="container my-5">
+
+    <h3 class="my-5">Championnat à  {{ championship.place }} </h3>
+ 
+    <p>
+        <b>Date:</b> {{ championship.championshipDate|date('d-m-Y') }}<br>
+        <b>Date Limite:</b> {{ championship.championshipInscriptionsLimitDate|date('d-m-Y') }}<br>
+        <b>Club Organisateur:</b> {{ championship.organizingClub }}
+    
+    </p>
+
+
+    <div class="d-inline-flex">
+        <div class="me-2"><a href="{{ path('app_admin_championship_index_inscriptions') }}" class="btn btn-sm btn-secondary">Retour inscriptions Championnats</a></div>
+    </div>
+
+    <div class="card my-3 p-3 shadow">
+
+
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                    <tr>
+                        {% if 'ROLE_CLUB' not in app.user.roles %}
+                            <th>Club</th>
+                        {% endif %}
+                        <th>Dossard</th>
+                        <th>Categories</th>
+                        <th>Danseurs</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {# {% set dateLimiteExpireCssClass = '' %}
+                        {% for championship in championships %}
+                        {# MISE EN FORME DE LA CASE LA LIMITE D'INSCRIPTION A EXPIRE
+                        {% set now =  "now"|date("Y-m-d") %}
+                        {% set dateLimite = championship.championshipInscriptionsLimitDate|date("Y-m-d") %}
+                        {# si la date limite n'est pas dépassée on va regarder si il reste plus de 7 jours 
+                        {% if dateLimite >= now %}
+                            {% set difference = date( now | date() ).diff(date(dateLimite)) %}
+                            {% set dateLimiteExpireCssClass = difference.days < 7 ? 'bg-warning text-dark' : '' %}   
+                        {% else %}
+                        {# si la date limite est dépassée on va mettre la case en rouge 
+                            {% set dateLimiteExpireCssClass = 'bg-danger text-white' %}   
+                        {% endif %}
+                     #}
+                     {% for myChampionshipLicence in myChampionshipLicences %}
+                        
+                        <tr>
+                            {% if 'ROLE_CLUB' not in app.user.roles %}
+                                <td>{{ myChampionshipLicence.club }}</td>
+                            {% endif %}
+                            <td>{{ myChampionshipLicence.dossard }}</td>
+                            <td>{{ myChampionshipLicence.category }}</td>
+                            <td> 
+                                {% set nbreLicences = myChampionshipLicence.danseurs|length %}
+                                {% set iDanseurs = 1 %} <!-- pour la virgule entre les danseurs -->
+                                {% set separateur = ',' %}
+                                {% for danseur in myChampionshipLicence.danseurs %}
+                                    {{ danseur.firstName }} {{ danseur.lastName }}{{nbreLicences > iDanseurs ? separateur : null}}
+                                    {% set iDanseurs = iDanseurs + 1 %}
+                                {% endfor %} 
+                            </td>
+                        </tr>
+                    
+                    {% else %}
+                    <tr>
+                        <td colspan="6">no records found</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

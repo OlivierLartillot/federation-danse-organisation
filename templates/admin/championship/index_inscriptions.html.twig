@@ -50,6 +50,7 @@
                             {% if dateLimite >= now %}
                                 <a href="{{ path('app_admin_championship_edit_inscriptions', {'id': championship.id}) }}" class="mx-2"><i class="fa-solid fa-pen-to-square"></i></a>
                             {% endif %} 
+                                <a href="{{ path('app_admin_championship_show_inscriptions', {'id': championship.id}) }}" class="mx-2"><i class="fa-solid fa-eye"></i></a>
                         </td>
                     </tr>
                 {% else %}

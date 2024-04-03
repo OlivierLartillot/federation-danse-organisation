@@ -8,6 +8,7 @@ use App\Form\ChampionshipType;
 use App\Repository\ChampionshipRepository;
 use App\Repository\ClubRepository;
 use App\Repository\LicenceRepository;
+use App\Repository\SeasonRepository;
 use App\Service\SwitchCurrent;
 use App\Service\SwitchCurrentChampionship;
 use DateTime;
@@ -105,10 +106,43 @@ class ChampionshipController extends AbstractController
         ]);
     }
 
-    #[Route('/inscriptions/{id}/edit', name: 'app_admin_championship_edit_inscriptions', methods: ['GET', 'POST'])]
-    public function inscriptions(Request $request, Championship $championship, EntityManagerInterface $entityManager, ClubRepository $clubRepository, LicenceRepository $licenceRepository): Response
+    #[Route('/inscriptions/clubs/{id}', name: 'app_admin_championship_show_inscriptions', methods: ['GET'])]
+    public function showInscriptions(Championship $championship, ClubRepository $clubRepository, LicenceRepository $licenceRepository, SeasonRepository $seasonRepository): Response
     {
 
+        $currentSeason = $seasonRepository->findOneBy(['isCurrentSeason' => true]);
+
+
+        if (in_array('ROLE_SUPERMAN', $this->getUser()->getRoles())) {
+            $licences =  $licenceRepository->findBy(['season' => $currentSeason]) ? $licenceRepository->findBy(['season' => $currentSeason])  : [] ;
+        }
+        else {
+            // si je suis un club je vois mes inscrits
+            $myClub = $clubRepository->findOneBy(['owner' => $this->getUser()]);
+            $licences =  $licenceRepository->findBy(['club' => $myClub, 'season' => $currentSeason]) ? $licenceRepository->findBy(['club' => $myClub, 'season' => $currentSeason]) : [] ;
+        }
+        
+
+        $myChampionshipLicences = [];
+        foreach ($championship->getLicences() as $licence) {
+            // si cette licence est dans mon tableau de mon club, je la conserve
+            if (in_array($licence, $licences)){
+                $myChampionshipLicences[] = $licence;
+            }
+        }
+
+        //dd($myChampionshipLicences);
+        return $this->render('admin/championship/show_inscriptions.html.twig', [
+            'championship' => $championship,
+            'myChampionshipLicences' => $myChampionshipLicences
+        ]);
+    }
+
+    #[Route('/inscriptions/{id}/edit', name: 'app_admin_championship_edit_inscriptions', methods: ['GET', 'POST'])]
+    public function inscriptions(Request $request, Championship $championship, EntityManagerInterface $entityManager, SeasonRepository $seasonRepository, ClubRepository $clubRepository, LicenceRepository $licenceRepository): Response
+    {
+
+        $currentSeason = $seasonRepository->findOneBy(['isCurrentSeason' => true]);
         // si tu n est pas l admin et que la date limite est dépassée tu te fais virer
         $dateTime = new DateTime('now');
        
@@ -121,7 +155,7 @@ class ChampionshipController extends AbstractController
 
         $user= $this->getUser();
         $myClub = $clubRepository->findOneBy(['owner' => $user]);
-        $licences = $licenceRepository->findAll() ? $licenceRepository->findAll(): [] ;
+        $licences = $licenceRepository->findBy(['season' => $currentSeason]) ? $licenceRepository->findBy(['season' => $currentSeason]): [] ;
 
         $form = $this->createForm(ChampionshipInscriptionsType::class, $championship);
         $form->handleRequest($request);

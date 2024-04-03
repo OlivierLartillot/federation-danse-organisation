@@ -8,15 +8,10 @@ use App\Entity\Licence;
 use App\Entity\Season;
 use App\Repository\ClubRepository;
 use App\Repository\LicenceRepository;
+use App\Repository\SeasonRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\ChoiceList\ChoiceList;
-use Symfony\Component\Form\Event\PostSetDataEvent;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\Extension\Core\Type\CollectionType;
-use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
@@ -24,15 +19,16 @@ class ChampionshipInscriptionsType extends AbstractType
 {
 
     private $licencesRepository;
-    private $danseurRepository;
+    private $seasonRepository;
     private $tokenStorageInterface;
     private $clubRepository;
 
-    public function __construct(LicenceRepository $licenceRepository, TokenStorageInterface $tokenStorageInterface, ClubRepository $clubRepository) 
+    public function __construct(LicenceRepository $licenceRepository, TokenStorageInterface $tokenStorageInterface, ClubRepository $clubRepository, SeasonRepository $seasonRepository) 
     {
         $this->licencesRepository = $licenceRepository;
         $this->tokenStorageInterface = $tokenStorageInterface;
         $this->clubRepository = $clubRepository;
+        $this->seasonRepository = $seasonRepository;
     } 
 
     public function buildForm(FormBuilderInterface $builder, array $options): void
@@ -40,13 +36,14 @@ class ChampionshipInscriptionsType extends AbstractType
         
         $iHaveRoleClub = $this->iHaveRoleClub();
         $currentUser =  $this->tokenStorageInterface->getToken()->getUser();
+        $currentSeason = $this->seasonRepository->findOneBy(['isCurrentSeason' => true]);
          
         if ($iHaveRoleClub) {
             $myClub = $this->clubRepository->findOneBy(['owner' => $currentUser]);
             
-            $licences = $this->licencesRepository->findBy(['club' => $myClub]);
+            $licences = $this->licencesRepository->findBy(['club' => $myClub, 'season' => $currentSeason]);
         } else {
-            $licences = $this->licencesRepository->findAll();
+            $licences = $this->licencesRepository->findBy(['season' => $currentSeason]);
         } 
        
         
