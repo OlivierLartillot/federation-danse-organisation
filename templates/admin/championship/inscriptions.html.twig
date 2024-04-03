@@ -12,13 +12,15 @@
         <b>Date:</b> {{ championship.championshipDate|date('d-m-Y') }}<br>
         <b>Date Limite:</b> {{ championship.championshipInscriptionsLimitDate|date('d-m-Y') }}<br>
         <b>Club Organisateur:</b> {{ championship.organizingClub }}
-    
     </p>
     
     <a href="{{ path('app_admin_championship_index_inscriptions') }}" class="btn btn-sm btn-secondary">Retour liste championnats</a>
     
     <div class="card my-3 p-3 shadow">
 
+        {% if 'ROLE_CLUB' in app.user.roles %}
+            <div class="text-danger fst-italic mb-3">*La liste ne contient que vos licences validées. Seul L'administrateur FDO peut valider une inscription pour une licence non validée.</div>
+        {% endif %}
 
         {% for message in app.flashes('success') %}
             <div class="alert alert-success">

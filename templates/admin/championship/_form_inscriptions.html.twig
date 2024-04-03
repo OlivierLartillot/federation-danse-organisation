@@ -3,7 +3,7 @@
 
     {% if form.licences is defined %}
         <div name="{{ field_name(form.licences) }}">
-            {{ field_label(form.licences )}}
+            <div class="fs-4 mb-5">Licences{# {{ field_label(form.licences )}} #}</div>
             {% set i = 0 %}
             {% for label, value in field_choices(form.licences) %}
                 {% set checked = false %}
