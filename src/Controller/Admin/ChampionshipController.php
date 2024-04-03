@@ -198,6 +198,11 @@ class ChampionshipController extends AbstractController
              
             $entityManager->flush();
 
+            $this->addFlash(
+                'success',
+                'Vos changements ont été enregistrés.'
+            );
+
             return $this->redirectToRoute('app_admin_championship_edit_inscriptions', ['id' => $championship->getId()], Response::HTTP_SEE_OTHER);
         }
 

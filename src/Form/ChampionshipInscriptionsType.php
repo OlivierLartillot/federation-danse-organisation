@@ -40,12 +40,10 @@ class ChampionshipInscriptionsType extends AbstractType
          
         if ($iHaveRoleClub) {
             $myClub = $this->clubRepository->findOneBy(['owner' => $currentUser]);
-            
-            $licences = $this->licencesRepository->findLicencesByCurrentSeasonAndClubOrderByCategories($currentSeason, $myClub);
+            $licences = $this->licencesRepository->findValidateLicencesByCurrentSeasonAndClubOrderByCategories($currentSeason, $myClub, true);
            
-            
         } else {
-            $licences = $this->licencesRepository->findLicencesByCurrentSeasonAndClubOrderByCategories($currentSeason);
+            $licences = $this->licencesRepository->findValidateLicencesByCurrentSeasonAndClubOrderByCategories($currentSeason, null, false);
         } 
        
         

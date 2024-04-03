@@ -63,16 +63,24 @@ class LicenceRepository extends ServiceEntityRepository
         ;
     }
 
-    public function findLicencesByCurrentSeasonAndClubOrderByCategories($currentSeason, $club = null): array
+    public function findValidateLicencesByCurrentSeasonAndClubOrderByCategories($currentSeason, $club = null, $validate = false): array
     {
         $request =  $this->createQueryBuilder('l')
             ->innerJoin('App\Entity\category', 'category', 'WITH', 'l.category = category.id')
             ->andWhere('l.season = :season')
             ->setParameter('season', $currentSeason);
+
+            // si c est un club on ne lui renvoi que ce qui es dans son club
             if ($club != null) {
                 $request = $request
                 ->andWhere('l.club = :club')
                 ->setParameter('club', $club);
+            }
+            // si tu veux que les licence validée alors il faut true
+            if ($validate) {
+                $request = $request
+                ->andWhere('l.status = :status')
+                ->setParameter('status', 1);
             }
 
         $request = $request

@@ -7,7 +7,6 @@
 <div class="container my-5">
 
     <h3 class="my-5">Inscriptions pour {{ championship.place }} </h3>
-
     <p>
         <p>
         <b>Date:</b> {{ championship.championshipDate|date('d-m-Y') }}<br>
@@ -19,6 +18,14 @@
     <a href="{{ path('app_admin_championship_index_inscriptions') }}" class="btn btn-sm btn-secondary">Retour liste championnats</a>
     
     <div class="card my-3 p-3 shadow">
+
+
+        {% for message in app.flashes('success') %}
+            <div class="alert alert-success">
+                {{ message }}
+            </div>
+        {% endfor %}
+
 
         {{ include('admin/championship/_form_inscriptions.html.twig', {'button_label': 'Enregistrer'}) }}
 
