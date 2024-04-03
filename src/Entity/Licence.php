@@ -46,8 +46,6 @@ class Licence
     #[ORM\ManyToMany(targetEntity: Championship::class, mappedBy: 'licences')]
     private Collection $championships;
 
-    #[ORM\OneToMany(targetEntity: InscriptionChampionnat::class, mappedBy: 'licence')]
-    private Collection $inscriptionChampionnats;
 
 
     public function __construct()
@@ -56,7 +54,6 @@ class Licence
         $this->licenceComments = new ArrayCollection();
         $this->status = 0;
         $this->championships = new ArrayCollection();
-        $this->inscriptionChampionnats = new ArrayCollection();
     }
 
     public function fullPresentation() {
@@ -230,36 +227,6 @@ class Licence
     {
         if ($this->championships->removeElement($championship)) {
             $championship->removeLicence($this);
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, InscriptionChampionnat>
-     */
-    public function getInscriptionChampionnats(): Collection
-    {
-        return $this->inscriptionChampionnats;
-    }
-
-    public function addInscriptionChampionnat(InscriptionChampionnat $inscriptionChampionnat): static
-    {
-        if (!$this->inscriptionChampionnats->contains($inscriptionChampionnat)) {
-            $this->inscriptionChampionnats->add($inscriptionChampionnat);
-            $inscriptionChampionnat->setLicence($this);
-        }
-
-        return $this;
-    }
-
-    public function removeInscriptionChampionnat(InscriptionChampionnat $inscriptionChampionnat): static
-    {
-        if ($this->inscriptionChampionnats->removeElement($inscriptionChampionnat)) {
-            // set the owning side to null (unless already changed)
-            if ($inscriptionChampionnat->getLicence() === $this) {
-                $inscriptionChampionnat->setLicence(null);
-            }
         }
 
         return $this;

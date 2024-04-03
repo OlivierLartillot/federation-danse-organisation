@@ -42,13 +42,10 @@ class Championship
     #[ORM\ManyToMany(targetEntity: Licence::class, inversedBy: 'championships')]
     private Collection $licences;
 
-    #[ORM\OneToMany(targetEntity: InscriptionChampionnat::class, mappedBy: 'championnat')]
-    private Collection $inscriptionChampionnats;
 
     public function __construct()
     {
         $this->licences = new ArrayCollection();
-        $this->inscriptionChampionnats = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -164,34 +161,5 @@ class Championship
         return $this;
     }
 
-    /**
-     * @return Collection<int, InscriptionChampionnat>
-     */
-    public function getInscriptionChampionnats(): Collection
-    {
-        return $this->inscriptionChampionnats;
-    }
-
-    public function addInscriptionChampionnat(InscriptionChampionnat $inscriptionChampionnat): static
-    {
-        if (!$this->inscriptionChampionnats->contains($inscriptionChampionnat)) {
-            $this->inscriptionChampionnats->add($inscriptionChampionnat);
-            $inscriptionChampionnat->setChampionnat($this);
-        }
-
-        return $this;
-    }
-
-    public function removeInscriptionChampionnat(InscriptionChampionnat $inscriptionChampionnat): static
-    {
-        if ($this->inscriptionChampionnats->removeElement($inscriptionChampionnat)) {
-            // set the owning side to null (unless already changed)
-            if ($inscriptionChampionnat->getChampionnat() === $this) {
-                $inscriptionChampionnat->setChampionnat(null);
-            }
-        }
-
-        return $this;
-    }
 
 }
