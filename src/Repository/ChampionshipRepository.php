@@ -21,20 +21,21 @@ class ChampionshipRepository extends ServiceEntityRepository
         parent::__construct($registry, Championship::class);
     }
 
-    //    /**
-    //     * @return Championship[] Returns an array of Championship objects
-    //     */
-    //    public function findByExampleField($value): array
-    //    {
-    //        return $this->createQueryBuilder('c')
-    //            ->andWhere('c.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->orderBy('c.id', 'ASC')
-    //            ->setMaxResults(10)
-    //            ->getQuery()
-    //            ->getResult()
-    //        ;
-    //    }
+    /**
+     * @return Championship[] Returns an array of Championship objects
+     */
+    public function allChampionshipsByCurrentSeason(): array
+    {
+        return $this->createQueryBuilder('c')
+            ->innerJoin('App\Entity\Season', 'season', 'WITH', 'c.season = season.id')
+            ->andWhere('season.isCurrentSeason = :currentSeason')
+            ->setParameter('currentSeason', true)
+            ->orderBy('c.championshipDate', 'ASC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
 
     //    public function findOneBySomeField($value): ?Championship
     //    {

@@ -43,13 +43,39 @@ class Licence
     #[ORM\OneToMany(targetEntity: LicenceComment::class, mappedBy: 'licence')]
     private Collection $licenceComments;
 
+    #[ORM\ManyToMany(targetEntity: Championship::class, mappedBy: 'licences')]
+    private Collection $championships;
+
+    #[ORM\OneToMany(targetEntity: InscriptionChampionnat::class, mappedBy: 'licence')]
+    private Collection $inscriptionChampionnats;
+
 
     public function __construct()
     {
         $this->danseurs = new ArrayCollection();
         $this->licenceComments = new ArrayCollection();
         $this->status = 0;
+        $this->championships = new ArrayCollection();
+        $this->inscriptionChampionnats = new ArrayCollection();
     }
+
+    public function fullPresentation() {
+
+        $danseursText = '';
+        $i = 1;
+       
+        foreach ($this->getDanseurs() as $danseur) {
+            if ($i < count($this->getDanseurs())) {
+                $danseursText .= $danseur . ', ';
+            } else {
+                $danseursText .= $danseur ;
+            }
+            $i++;
+        }
+
+        return $this->getCategory() . ': '. $danseursText;
+    }
+
 
     public function getId(): ?int
     {
@@ -181,4 +207,62 @@ class Licence
 
         return $this;
     }
+
+    /**
+     * @return Collection<int, Championship>
+     */
+    public function getChampionships(): Collection
+    {
+        return $this->championships;
+    }
+
+    public function addChampionship(Championship $championship): static
+    {
+        if (!$this->championships->contains($championship)) {
+            $this->championships->add($championship);
+            $championship->addLicence($this);
+        }
+
+        return $this;
+    }
+
+    public function removeChampionship(Championship $championship): static
+    {
+        if ($this->championships->removeElement($championship)) {
+            $championship->removeLicence($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, InscriptionChampionnat>
+     */
+    public function getInscriptionChampionnats(): Collection
+    {
+        return $this->inscriptionChampionnats;
+    }
+
+    public function addInscriptionChampionnat(InscriptionChampionnat $inscriptionChampionnat): static
+    {
+        if (!$this->inscriptionChampionnats->contains($inscriptionChampionnat)) {
+            $this->inscriptionChampionnats->add($inscriptionChampionnat);
+            $inscriptionChampionnat->setLicence($this);
+        }
+
+        return $this;
+    }
+
+    public function removeInscriptionChampionnat(InscriptionChampionnat $inscriptionChampionnat): static
+    {
+        if ($this->inscriptionChampionnats->removeElement($inscriptionChampionnat)) {
+            // set the owning side to null (unless already changed)
+            if ($inscriptionChampionnat->getLicence() === $this) {
+                $inscriptionChampionnat->setLicence(null);
+            }
+        }
+
+        return $this;
+    }
+
 }

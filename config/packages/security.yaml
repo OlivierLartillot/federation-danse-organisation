@@ -51,8 +51,9 @@ security:
     access_control:
         - { path: ^/admin/settings/, roles: ROLE_SUPERMAN }
         - { path: ^/admin/organization/, roles: ROLE_SUPERMAN }
+        - { path: ^/admin/championnats/inscriptions, roles: ROLE_CLUB }
 
-        - { path: ^/admin/championnats/, roles: ROLE_SUPERMAN }
+        - { path: ^/admin/championnats/, roles: ROLE_SUPERMAN } 
         - { path: ^/admin/saisons/, roles: ROLE_SUPERMAN }
         - { path: ^/admin/categories/, roles: ROLE_SUPERMAN }
         - { path: ^/admin, roles: ROLE_CLUB }

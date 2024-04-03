@@ -3,10 +3,14 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Championship;
+use App\Form\ChampionshipInscriptionsType;
 use App\Form\ChampionshipType;
 use App\Repository\ChampionshipRepository;
+use App\Repository\ClubRepository;
+use App\Repository\LicenceRepository;
 use App\Service\SwitchCurrent;
 use App\Service\SwitchCurrentChampionship;
+use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -20,7 +24,7 @@ class ChampionshipController extends AbstractController
     public function index(ChampionshipRepository $championshipRepository): Response
     {
         return $this->render('admin/championship/index.html.twig', [
-            'championships' => $championshipRepository->findAll(),
+            'championships' => $championshipRepository->allChampionshipsByCurrentSeason(),
         ]);
     }
 
@@ -91,4 +95,86 @@ class ChampionshipController extends AbstractController
 
         return $this->redirectToRoute('app_admin_championship_index', [], Response::HTTP_SEE_OTHER);
     }
+
+    #[Route('/inscriptions/clubs', name: 'app_admin_championship_index_inscriptions', methods: ['GET'])]
+    public function indexInscriptions(ChampionshipRepository $championshipRepository): Response
+    {
+
+        return $this->render('admin/championship/index_inscriptions.html.twig', [
+            'championships' => $championshipRepository->allChampionshipsByCurrentSeason(),
+        ]);
+    }
+
+    #[Route('/inscriptions/{id}/edit', name: 'app_admin_championship_edit_inscriptions', methods: ['GET', 'POST'])]
+    public function inscriptions(Request $request, Championship $championship, EntityManagerInterface $entityManager, ClubRepository $clubRepository, LicenceRepository $licenceRepository): Response
+    {
+
+        // si tu n est pas l admin et que la date limite est dépassée tu te fais virer
+        $dateTime = new DateTime('now');
+       
+        $dateLimite = $championship->getChampionshipInscriptionsLimitDate();
+
+        if($dateTime->diff($dateLimite)->d > 0 && $dateTime->diff($dateLimite)->invert > 0 ) 
+        {
+            if (!$this->isGranted('ROLE_SUPERMAN')) { return throw $this->createAccessDeniedException();}
+        }
+
+        $user= $this->getUser();
+        $myClub = $clubRepository->findOneBy(['owner' => $user]);
+        $licences = $licenceRepository->findAll() ? $licenceRepository->findAll(): [] ;
+
+        $form = $this->createForm(ChampionshipInscriptionsType::class, $championship);
+        $form->handleRequest($request);
+       
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            //est ce que je suis un club ? 
+            
+            // si je suis un club, récupérer toutes les licences qui m'appartiennent NON PARCEQUE C EST FILTRE PAR LE FORM
+            // DONC ON GARDE FIND ALL
+            //$licences = $licenceRepository->findBy(['club' => $myClub]) ? $licenceRepository->findBy(['club' => $myClub]) : [];
+            // tableau des licences du de ce championnat
+            $championshipLicences = [];
+            foreach ($championship->getLicences() as $licence) {
+                $championshipLicences[] = $licence;
+            }
+
+            // comparer si ces licences sont dans le tableau des inscriptions
+            $checkboxPostArray = (isset($_POST['championship_inscriptions']['licences'])) ? $_POST['championship_inscriptions']['licences'] : [];
+
+            // pour chaque licence on va voir si elle est dans le tableau des inscriptions
+            // puis si elle est dans les checkbox soit on ajoute soit on retire soit on fait rien
+            foreach ($licences as $licence) {
+                if (in_array($licence, $championshipLicences)) {
+                    // si cette licence est dans le tableau
+                    if (!in_array($licence->getId(), $checkboxPostArray)) {
+                       //dd('la licence est dans le championshiplicence mais pas  dans le tableau checkbox');
+                       // du coup si c est pas coché il faut l'enlever !!
+                       $championship->removeLicence($licence);
+                    }
+                } 
+                else {
+                    if (in_array($licence->getId(), $checkboxPostArray)) {
+                            //dd('la licence ne st pas dans le championshiplicence mais a été coché dans le tableau checkbox');
+                            // il faut l'ajouter
+                           $championship->addLicence($licence);
+                        }
+                }
+            }
+             
+            $entityManager->flush();
+
+            return $this->redirectToRoute('app_admin_championship_edit_inscriptions', ['id' => $championship->getId()], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->render('admin/championship/inscriptions.html.twig', [
+            'championship' => $championship,
+            'form' => $form,
+            'user' => $user,
+            'myClub' => $myClub,
+            /* 'licences' => $licences */
+        ]);
+    }
+
+
 }

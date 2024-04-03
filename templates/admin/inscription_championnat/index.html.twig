@@ -1,0 +1,33 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}InscriptionChampionnat index{% endblock %}
+
+{% block body %}
+    <h1>InscriptionChampionnat index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for inscription_championnat in inscription_championnats %}
+            <tr>
+                <td>{{ inscription_championnat.id }}</td>
+                <td>
+                    <a href="{{ path('app_admin_inscription_championnat_show', {'id': inscription_championnat.id}) }}">show</a>
+                    <a href="{{ path('app_admin_inscription_championnat_edit', {'id': inscription_championnat.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="2">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_admin_inscription_championnat_new') }}">Create new</a>
+{% endblock %}

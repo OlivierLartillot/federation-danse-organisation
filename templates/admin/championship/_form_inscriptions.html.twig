@@ -1,0 +1,28 @@
+{{ form_start(form) }}
+    {#  {{ form_widget(form) }}  #}
+
+    {% if form.licences is defined %}
+        <div name="{{ field_name(form.licences) }}">
+            {{ field_label(form.licences )}}
+            {% set i = 0 %}
+            {% for label, value in field_choices(form.licences) %}
+                {% set checked = false %}
+                {# les licences enregistrées #}
+                {% for licence in championship.licences %}
+                    {% if licence.id == value   %} 
+                        {% set checked = true %}  
+                    {% endif %}
+                {% endfor %}
+
+                
+                <div class="mt-3 mb-4">
+                    <input type="checkbox" id="championship_inscriptions_licences_{{value}}" name="championship_inscriptions[licences][]" value="{{ value }}" {{ checked ? 'checked' : ''}}>
+                    <label for="championship_inscriptions_licences_{{value}}">{{ label }}</label>
+                </div>
+                {% set i = i + 1 %}
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    <button class="btn btn-success btn btn-success my-5">{{ button_label|default('Enregistrer') }}</button>
+{{ form_end(form) }}

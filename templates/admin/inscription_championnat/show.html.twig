@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}InscriptionChampionnat{% endblock %}
+
+{% block body %}
+    <h1>InscriptionChampionnat</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ inscription_championnat.id }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_admin_inscription_championnat_index') }}">back to list</a>
+
+    <a href="{{ path('app_admin_inscription_championnat_edit', {'id': inscription_championnat.id}) }}">edit</a>
+
+    {{ include('admin/inscription_championnat/_delete_form.html.twig') }}
+{% endblock %}

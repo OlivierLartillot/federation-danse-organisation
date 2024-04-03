@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New InscriptionChampionnat{% endblock %}
+
+{% block body %}
+    <h1>Create new InscriptionChampionnat</h1>
+
+    {{ include('admin/inscription_championnat/_form.html.twig') }}
+
+    <a href="{{ path('app_admin_inscription_championnat_index') }}">back to list</a>
+{% endblock %}

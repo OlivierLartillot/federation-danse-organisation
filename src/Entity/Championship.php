@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\ChampionshipRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -36,6 +38,18 @@ class Championship
 
     #[ORM\Column]
     private ?bool $isCurrentChampionship = null;
+
+    #[ORM\ManyToMany(targetEntity: Licence::class, inversedBy: 'championships')]
+    private Collection $licences;
+
+    #[ORM\OneToMany(targetEntity: InscriptionChampionnat::class, mappedBy: 'championnat')]
+    private Collection $inscriptionChampionnats;
+
+    public function __construct()
+    {
+        $this->licences = new ArrayCollection();
+        $this->inscriptionChampionnats = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -125,4 +139,59 @@ class Championship
 
         return $this;
     }
+
+    /**
+     * @return Collection<int, Licence>
+     */
+    public function getLicences(): Collection
+    {
+        return $this->licences;
+    }
+
+    public function addLicence(Licence $licence): static
+    {
+        if (!$this->licences->contains($licence)) {
+            $this->licences->add($licence);
+        }
+
+        return $this;
+    }
+
+    public function removeLicence(Licence $licence): static
+    {
+        $this->licences->removeElement($licence);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, InscriptionChampionnat>
+     */
+    public function getInscriptionChampionnats(): Collection
+    {
+        return $this->inscriptionChampionnats;
+    }
+
+    public function addInscriptionChampionnat(InscriptionChampionnat $inscriptionChampionnat): static
+    {
+        if (!$this->inscriptionChampionnats->contains($inscriptionChampionnat)) {
+            $this->inscriptionChampionnats->add($inscriptionChampionnat);
+            $inscriptionChampionnat->setChampionnat($this);
+        }
+
+        return $this;
+    }
+
+    public function removeInscriptionChampionnat(InscriptionChampionnat $inscriptionChampionnat): static
+    {
+        if ($this->inscriptionChampionnats->removeElement($inscriptionChampionnat)) {
+            // set the owning side to null (unless already changed)
+            if ($inscriptionChampionnat->getChampionnat() === $this) {
+                $inscriptionChampionnat->setChampionnat(null);
+            }
+        }
+
+        return $this;
+    }
+
 }

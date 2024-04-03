@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit InscriptionChampionnat{% endblock %}
+
+{% block body %}
+    <h1>Edit InscriptionChampionnat</h1>
+
+    {{ include('admin/inscription_championnat/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('app_admin_inscription_championnat_index') }}">back to list</a>
+
+    {{ include('admin/inscription_championnat/_delete_form.html.twig') }}
+{% endblock %}

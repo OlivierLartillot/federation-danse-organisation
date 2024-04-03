@@ -35,8 +35,6 @@ class Danseur
     #[ORM\ManyToMany(targetEntity: Licence::class, mappedBy: 'danseurs')]
     private Collection $licences;
 
-    private Collection $fullName;
-
 
     public function __construct()
     {

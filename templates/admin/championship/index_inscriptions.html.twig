@@ -1,0 +1,67 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Championship index{% endblock %}
+
+{% block body %}
+
+
+<div class="container my-5">
+
+    <h3 class="my-5">Inscriptions Championnats</h3>
+    
+    
+    <div class="card my-3 p-3 shadow">
+
+
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Club</th>
+                        <th>Date</th>
+                        <th>Limite</th>
+                        <th>Lieu</th>
+                        <th>actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% set dateLimiteExpireCssClass = '' %}
+                {% for championship in championships %}
+                    {# MISE EN FORME DE LA CASE LA LIMITE D'INSCRIPTION A EXPIRE #}
+                    {% set now =  "now"|date("Y-m-d") %}
+                    {% set dateLimite = championship.championshipInscriptionsLimitDate|date("Y-m-d") %}
+                    {# si la date limite n'est pas dépassée on va regarder si il reste plus de 7 jours #}
+                    {% if dateLimite >= now %}
+                        {% set difference = date( now | date() ).diff(date(dateLimite)) %}
+                        {% set dateLimiteExpireCssClass = difference.days < 7 ? 'bg-warning text-dark' : '' %}   
+                    {% else %}
+                    {# si la date limite est dépassée on va mettre la case en rouge #}
+                        {% set dateLimiteExpireCssClass = 'bg-danger text-white' %}   
+                    {% endif %}
+
+                    <tr>
+                        <td>{{ championship.id }}</td>
+                        <td>{{ championship.organizingClub.name }}</td>
+                        <td>{{ championship.championshipDate ? championship.championshipDate|date('d M Y') : '' }}</td>
+                        <td class="{{dateLimiteExpireCssClass}}">{{ championship.championshipInscriptionsLimitDate ? championship.championshipInscriptionsLimitDate|date('d M Y') : '' }}</td>
+                        <td >{{ championship.place }}</td>
+                        <td>
+                            {% if dateLimite >= now %}
+                                <a href="{{ path('app_admin_championship_edit_inscriptions', {'id': championship.id}) }}" class="mx-2"><i class="fa-solid fa-pen-to-square"></i></a>
+                            {% endif %} 
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="6">no records found</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}
