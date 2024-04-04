@@ -4,6 +4,8 @@ namespace App\Controller\Admin;
 
 use App\Entity\Club;
 use App\Entity\Licence;
+use App\Entity\LicenceComment;
+use App\Form\LicenceCommentType;
 use App\Form\LicenceType;
 use App\Repository\ClubRepository;
 use App\Repository\LicenceRepository;
@@ -101,11 +103,32 @@ class LicenceController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_admin_licence_show', methods: ['GET'])]
-    public function show(Licence $licence): Response
+    #[Route('/{id}', name: 'app_admin_licence_show', methods: ['GET', 'POST'])]
+    public function show(Licence $licence, Request $request, EntityManagerInterface $entityManager): Response
     {
+
+        $licenceComment = new LicenceComment();
+        $form = $this->createForm(LicenceCommentType::class, $licenceComment);
+        $form->handleRequest($request);
+
+        $comments = $licence->getLicenceComments();
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $licenceComment->setLicence($licence);
+            $licenceComment->setUser($this->getUser());
+
+            $entityManager->persist($licenceComment);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('app_admin_licence_show', ['id' => $licence->getId()], Response::HTTP_SEE_OTHER);
+        }
+
         return $this->render('admin/licence/show.html.twig', [
             'licence' => $licence,
+            'licence_comment' => $licenceComment,
+            'form' => $form,
+            'comments' => $comments,
         ]);
     }
 

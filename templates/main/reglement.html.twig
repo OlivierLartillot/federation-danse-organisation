@@ -1,0 +1,53 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Documents et Règlements{% endblock %}
+
+{% block body %}
+    <!--==============================
+    Breadcumb
+============================== -->
+    <div class="breadcumb-wrapper " data-bg-src="{{asset('assets/img/breadcumb/breadcumb-danse-unsplash-bg.jpg')}}">
+        <div class="container">
+            <div class="breadcumb-content">
+                <h1 class="breadcumb-title">Documents et règlements</h1>
+                <ul class="breadcumb-menu">
+                    <li><a href="{{path('app_main')}}">Accueil</a></li>
+                    <li>Clubs</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="container my-5">
+        <div class="row">
+            {% for document in documentsToDsiplay %}
+                <div class="col-xl-6 mb-4">
+                    <div class="card bg-light">
+                        <div class="card-body shadow">
+                            <h5 class="card-title mb-4">{{ document.name }}</h5>
+                            <hr>
+                            <div class="card-text">
+                                {% if document.description is not null %}                                    
+                                    <p class="event-item_text mb-3">
+                                        {{ document.description }}
+                                    </p>         
+                                {% endif %}
+                                <a href="{{ asset('assets/uploads/documents/'~document.documentPath)}}" target="_blank" class="btn btn-outline-secondary btn-sm">Télécharger</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% else %}
+                Aucun document à afficher.
+            {% endfor %}
+        </div>
+    </div>
+
+
+
+
+
+
+
+
+{% endblock %}

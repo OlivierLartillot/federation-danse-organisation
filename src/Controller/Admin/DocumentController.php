@@ -26,13 +26,24 @@ class DocumentController extends AbstractController
     }
 
     #[Route('/new', name: 'app_admin_document_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager, SluggerInterface $slugger): Response
+    public function new(Request $request, EntityManagerInterface $entityManager, SluggerInterface $slugger, DocumentRepository $documentRepository): Response
     {
         $document = new Document();
         $form = $this->createForm(DocumentType::class, $document);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            if ($form->get('apparitionOrder')->getData() == null) {
+                //recup le dernier order et lui ajouter 10
+                $lastOrder = $documentRepository->maxApparitionOrder();
+                if($lastOrder == null) {
+                    $order = 1;
+                } else {
+                    $order = $lastOrder + 10;
+                }
+                $document->setApparitionOrder($order);
+            }  
 
             $documentFile = $form->get('documentPath')->getData();
             if ($documentFile) {
@@ -80,12 +91,23 @@ class DocumentController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'app_admin_document_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Document $document, EntityManagerInterface $entityManager,  SluggerInterface $slugger): Response
+    public function edit(Request $request, Document $document, EntityManagerInterface $entityManager,  SluggerInterface $slugger, DocumentRepository $documentRepository): Response
     {
         $form = $this->createForm(DocumentType::class, $document);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            if ($form->get('apparitionOrder')->getData() == null) {
+                //recup le dernier order et lui ajouter 10
+                $lastOrder = $documentRepository->maxApparitionOrder();
+                if($lastOrder == null) {
+                    $order = 1;
+                } else {
+                    $order = $lastOrder + 10;
+                }
+                $document->setApparitionOrder($order);
+            }  
 
             $documentFile = $form->get('documentPath')->getData();
 

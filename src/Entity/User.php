@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -59,9 +61,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(nullable: true)]
     private ?bool $archived = null;
 
+    #[ORM\OneToMany(targetEntity: LicenceComment::class, mappedBy: 'user')]
+    private Collection $licenceComments;
+
     public function __construct()
     {
         $this->setLastConnection(new \DateTimeImmutable('00-00-0000'));
+        $this->licenceComments = new ArrayCollection();
     }
 
 
@@ -209,6 +215,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setArchived(?bool $archived): static
     {
         $this->archived = $archived;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, LicenceComment>
+     */
+    public function getLicenceComments(): Collection
+    {
+        return $this->licenceComments;
+    }
+
+    public function addLicenceComment(LicenceComment $licenceComment): static
+    {
+        if (!$this->licenceComments->contains($licenceComment)) {
+            $this->licenceComments->add($licenceComment);
+            $licenceComment->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLicenceComment(LicenceComment $licenceComment): static
+    {
+        if ($this->licenceComments->removeElement($licenceComment)) {
+            // set the owning side to null (unless already changed)
+            if ($licenceComment->getUser() === $this) {
+                $licenceComment->setUser(null);
+            }
+        }
 
         return $this;
     }

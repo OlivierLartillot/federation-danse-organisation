@@ -21,6 +21,16 @@ class DocumentRepository extends ServiceEntityRepository
         parent::__construct($registry, Document::class);
     }
 
+    // cherche le order max
+    public function maxApparitionOrder(): ?int
+    {
+        return $this->createQueryBuilder('d')
+            ->select('max(d.apparitionOrder)')
+            ->getQuery()
+            ->getSingleScalarResult()
+        ;
+    }
+
     //    /**
     //     * @return Document[] Returns an array of Document objects
     //     */
@@ -36,13 +46,5 @@ class DocumentRepository extends ServiceEntityRepository
     //        ;
     //    }
 
-    //    public function findOneBySomeField($value): ?Document
-    //    {
-    //        return $this->createQueryBuilder('d')
-    //            ->andWhere('d.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->getQuery()
-    //            ->getOneOrNullResult()
-    //        ;
-    //    }
+
 }

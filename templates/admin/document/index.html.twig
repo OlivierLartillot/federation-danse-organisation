@@ -7,6 +7,78 @@
 
     <h3 class="my-5">Documents et règlements</h3>
     
+
+
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-outline-secondary mb-3" data-bs-toggle="modal" data-bs-target="#exampleModal">
+  Aide
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" style="z-index:9999;" >
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Aide</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <h6>Ordre d'affichage</h6>
+           <p>
+                L'ordre d'affichage représente l'ordre de présentation des documents au public sur la page: <br><span class="text-danger">Compétition->Règlements</span>
+           </p> 
+            <ul>
+                <li>Le chiffre <b>le plus petit sera présenté en premier</b> sur la page</li>
+                <li>Les chiffres ne se suivent pas obligatoirement  !</li>
+                <li>Si vous laissez vide l'ordre pendant la création ou la modification, le système ajoutera 10 au dernier ordre trouvé. Le document apparaîtra donc en dernier</li>
+                <li>Augmenter de 10 vous laisse une plus grande souplesse pour réorganiser l'affichage de vos documents</li>
+            </ul>
+        <h6>Publication</h6>
+            <p>
+                Un document non publié n'apparaitra pas sur la page d'affichage des documents.
+            </p>
+        <h6>Supprimer un document</h6>
+            <p>
+                Pour supprimer un document, il vous suffit d'appuyer dans Action <i class="fa-solid fa-pen-to-square text-danger"></i> puis dans cette page appuyer sur supprimer.
+            </p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+{#     <div class="accordion accordion-flush mb-3" id="accordionHelpDocuments">
+        <div class="accordion-item">
+            <h2 class="accordion-header border border-black">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
+                    Aide
+                </button>
+            </h2>
+            <div id="flush-collapseOne" class="accordion-collapse collapse" data-bs-parent="#accordionHelpDocuments">
+                <div >
+                    <ul>
+                        <li>L'ordre d'affichage sur la page de présentation des documents se fait du plus petit au plus grand.</li>
+                        <li>Les chiffres ne sont pas obligé de se suivre !</li>
+                        <li>Si vous laissez vide l'ordre pendant la création ou la modification, le système ajoutera 10 au dernier ordre trouvé.</li>
+                        <li>Cela vous laisse une plus grande souplesse pour réorganiser l'affichage de vos documents</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div> #}
+
+
+
+
+         
+        
+        
+       
+
         <div class="d-flex ">
             <div class="me-3">
                 <a href="{{ path('app_admin_document_new') }}" class="btn btn-success btn-sm">Envoyer un nouveau document</a>
@@ -18,25 +90,29 @@
                 <table class="table">
                     <thead>
                         <tr>
-                            <th>Id</th>
-                            <th>Name</th>
-                            <th>ApparitionOrder</th>
-                            <th>Published</th>
-                            <th>actions</th>
+                            <th>#</th>
+                            <th>Nom</th>
+                            <th>Ordre d'affichage</th>
+                            <th>Publié</th>
+                            <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {% for document in documents %}
+                        {% set iNbre = 1 %}
+                        {% for document in documents|sort((a, b) => a.apparitionOrder <=> b.apparitionOrder) %}
+
                             <tr>
-                                <td>{{ document.id }}</td>
+                                <td>{{ iNbre }}</td>
                                 <td>{{ document.name }}</td>
                                 <td>{{ document.apparitionOrder }}</td>
-                                <td>{{ document.published ? 'Yes' : 'No' }}</td>
+                                <td class="{{ document.published ? 'text-success' : 'text-danger' }}">{{ document.published ? 'Oui' : 'Non' }}</td>
                                 <td>             
                                     <a href="{{ path('app_admin_document_edit', {'id': document.id}) }}" class="mx-2"><i class="fa-solid fa-pen-to-square"></i></a>
                                     {# <a href="{{ path('app_admin_document_show', {'id': document.id}) }}" class="mx-2"><i class="fa-solid fa-eye"></i></a> #}
                                 </td>
                             </tr>
+                        {% set iNbre = iNbre + 1 %}
+
                         {% else %}
                             <tr>
                                 <td colspan="6">no records found</td>

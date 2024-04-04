@@ -94,7 +94,33 @@
                 </tbody>
             </table>
         </div>
+        <div class="mb-5">
+            {{ include('admin/licence_comment/_form.html.twig') }}
+        </div>
+        <div>
+            {% for comment in comments %}
+            <div class="card shadow p-3 mb-3">
+                <span class="fs-5"><b>{{ comment.user.firstname }} {{ comment.user.Lastname }}</b> 
+                    {% if comment.user == app.user %}
+                        <a href="{{ path('app_admin_licence_comment_edit', {'id': comment.id}) }}" class="mx-2"><i class="fa-solid fa-pen-to-square"></i></a>
+                    {% endif %}
+                </span>
+                <span class="fst-italic">créé le {{ comment.createdAt|date('d-m-Y') }} à {{ comment.createdAt|date('H:i') }}</span>
+                {% if comment.updatedAt %}
+                    <span class="fst-italic">modifié le {{ comment.updatedAt|date('d-m-Y') }} à {{ comment.updatedAt|date('H:i') }}</span>
+                {% endif %}
+                <p class="mt-3 fs-5">
+                    {{ comment.comment }}
+                </p>
+
+            </div>
+            {% else %}
+                Il n'y a pas de commentaire associé à cette licence
+            {% endfor %}
+
+        </div>
     </div>
+
 </div>
 
 {% endblock %}

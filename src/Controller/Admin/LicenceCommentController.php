@@ -22,7 +22,7 @@ class LicenceCommentController extends AbstractController
         ]);
     }
 
-    #[Route('/new', name: 'app_admin_licence_comment_new', methods: ['GET', 'POST'])]
+/*     #[Route('/new', name: 'app_admin_licence_comment_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
         $licenceComment = new LicenceComment();
@@ -30,6 +30,7 @@ class LicenceCommentController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
             $entityManager->persist($licenceComment);
             $entityManager->flush();
 
@@ -40,15 +41,15 @@ class LicenceCommentController extends AbstractController
             'licence_comment' => $licenceComment,
             'form' => $form,
         ]);
-    }
+    } */
 
-    #[Route('/{id}', name: 'app_admin_licence_comment_show', methods: ['GET'])]
+/*     #[Route('/{id}', name: 'app_admin_licence_comment_show', methods: ['GET'])]
     public function show(LicenceComment $licenceComment): Response
     {
         return $this->render('admin/licence_comment/show.html.twig', [
             'licence_comment' => $licenceComment,
         ]);
-    }
+    } */
 
     #[Route('/{id}/edit', name: 'app_admin_licence_comment_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, LicenceComment $licenceComment, EntityManagerInterface $entityManager): Response
@@ -57,9 +58,11 @@ class LicenceCommentController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            $licenceComment->setUpdatedAt(new \DateTimeImmutable('now'));
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_admin_licence_comment_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_admin_licence_show', ['id' => $licenceComment->getLicence()->getId()], Response::HTTP_SEE_OTHER);
         }
 
         return $this->render('admin/licence_comment/edit.html.twig', [
@@ -68,7 +71,7 @@ class LicenceCommentController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_admin_licence_comment_delete', methods: ['POST'])]
+/*     #[Route('/{id}', name: 'app_admin_licence_comment_delete', methods: ['POST'])]
     public function delete(Request $request, LicenceComment $licenceComment, EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid('delete'.$licenceComment->getId(), $request->getPayload()->get('_token'))) {
@@ -77,5 +80,5 @@ class LicenceCommentController extends AbstractController
         }
 
         return $this->redirectToRoute('app_admin_licence_comment_index', [], Response::HTTP_SEE_OTHER);
-    }
+    } */
 }

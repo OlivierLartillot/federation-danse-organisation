@@ -7,30 +7,57 @@
 
     <h3 class="my-5">Demandes de Licences </h3>
 
-    <div class="accordion accordion-flush mb-3" id="accordionFlushExample">
-        <div class="accordion-item">
-            <h2 class="accordion-header border border-black">
-                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
-                    Aide
-                </button>
-            </h2>
-            <div id="flush-collapseOne" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
-                <div class="accordion-body">
-                    <p>
-                        <i class="fa-solid fa-pen-to-square text-danger"></i> Modifier la licence <br/>
-                        {% if 'ROLE_CLUB' in app.user.roles %}
-                            <i class="fa-solid fa-eye text-danger"></i> Refaire une demande de licence qui a été rejetée <br/>
-                        {% else %}
-                            <i class="fa-solid fa-eye text-danger"></i> Valider / Rejeter la licence <br/>  
-                        {% endif %}
-                        Les Licences <bouton class="btn btn-warning btn-sm">En cours</bouton> apparaissent en premier<br/>
-                        Le club recoit une licence comme <bouton class="btn btn-danger btn-sm">Rejetée</bouton>. Cela siginfie qu'il faut changer quelque chose avant de resoumettre la licence.<br/>
-                        Une fois modifiée, le club peut repasser une licence <bouton class="btn btn-danger btn-sm">Rejetée</bouton> en une licence <bouton class="btn btn-warning btn-sm">En cours</bouton> dans l'action <i class="fa-solid fa-eye text-danger"></i>
-                    </p>
-                </div>
+    <!-- Button trigger modal -->
+    <button type="button" class="btn btn-outline-secondary mb-3" data-bs-toggle="modal" data-bs-target="#exampleModal">
+    Aide
+    </button>
+
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" style="z-index:9999;" >
+        <div class="modal-dialog">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Aide</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <h6>Menu</h6>
+                <p>
+                    <i class="fa-solid fa-pen-to-square text-danger"></i> Modifier la licence <br/>
+                    {% if 'ROLE_CLUB' in app.user.roles %}
+                        <i class="fa-solid fa-eye text-danger"></i> Refaire une demande de licence qui a été rejetée <br/>
+                    {% else %}
+                        <i class="fa-solid fa-eye text-danger"></i> Valider / Rejeter la licence <br/>  
+                    {% endif %}
+                </p>
+                <h6>Lecture du tableau</h6>
+                <p>
+                    Les Licences <bouton class="btn btn-warning btn-sm">En cours</bouton> apparaissent en premier<br/>
+                </p>
+                <h6>Fonctionnement</h6>
+                <ul>
+                    <li>Le club créé sa licence</li>
+                    <li>La fédération étudie la licence et la valide ou la rejette</li>
+                </ul>
+
+                <h6>Licence Validée</h6>
+                    <p>Une licence Validée n'est plus modifiable par le club</p>
+
+                <h6>Licence Rejetée</h6>
+                <ul>
+                    <li>Le club reçoit une licence comme <bouton class="btn btn-danger btn-sm">Rejetée</bouton>. Cela siginfie qu'il faut changer quelque chose avant de resoumettre la licence</li>
+                    <li>Une fois la licence modifiée, le club peut passer la licence  <bouton class="btn btn-danger btn-sm">Rejetée</bouton> en une licence <bouton class="btn btn-warning btn-sm">En cours</bouton> dans l'action <i class="fa-solid fa-eye text-danger"></i></li>
+                    <li>La fédération peut maintenant réétudier la demande car elle ré-apparait comme <bouton class="btn btn-warning btn-sm">En cours</bouton> dans sa liste.</li>
+                </ul>    
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+            </div>
             </div>
         </div>
     </div>
+
+
 
     <div class="d-flex ">
         <div class="me-3">

@@ -4,19 +4,19 @@
     <div class="counter-sec-space" data-bg-src="assets/img/bg/counter_bg_1.png">
         <div class="container z-index-common">
             <div class="counter-card_wrapper">
-                <div class="counter-card">
+                <div class="counter-card text-center">
                     <h2 class="counter-card_number"><span class="counter-number">{{ nombreClubs is defined ? nombreClubs : "-" }}</span>+</h2>
                     <p class="counter-card_text">Clubs</p>
                 </div>
-                <div class="counter-card">
-                    <h2 class="counter-card_number"><span class="counter-number">50</span>+</h2>
-                    <p class="counter-card_text">Licenciés</p>
+                <div class="counter-card text-center">
+                    <h2 class="counter-card_number"><span class="counter-number">{{ nombreLicencies is defined ? nombreLicencies : "-"}} </span>+</h2>
+                    <p class="counter-card_text">Licenciés <br>cette saison</p>
                 </div>
-                <div class="counter-card">
+                <div class="counter-card text-center">
                     <h2 class="counter-card_number"><span class="counter-number">{{ nombreChampionnats is defined ? nombreChampionnats : "-"}} </span>+</h2>
-                    <p class="counter-card_text">Championnats</p>
+                    <p class="counter-card_text">Championnats <br>cette saison</p>
                 </div>
-                <div class="counter-card">
+                <div class="counter-card text-center">
                     <h2 class="counter-card_number"><span class="counter-number">{{ nombreCategories is defined ? nombreCategories : "-"}} </span>+</h2>
                     <p class="counter-card_text">Catégories</p>
                 </div>

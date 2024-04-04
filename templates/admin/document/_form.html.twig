@@ -1,4 +1,16 @@
 {{ form_start(form) }}
-    {{ form_widget(form) }}
+    {# {{ form_widget(form) }} #}
+
+
+    {{ form_row(form.name) }}
+    {{ form_row(form.description) }}
+    {{ form_row(form.documentPath) }}
+    {{ form_row(form.apparitionOrder) }}
+
+    <div name="{{ field_name(form.published) }}" class="mb-5">
+        <input type="checkbox" id="document_published" name="document[published]" class="mb-5" value="1" {{document.ispublished ? 'checked'}}>
+        <label for="document_published" class="required">Publier ce document ?</label>
+    </div>
+
     <button class="btn btn-success">{{ button_label|default('Save') }}</button>
 {{ form_end(form) }}
