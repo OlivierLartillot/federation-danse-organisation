@@ -80,9 +80,10 @@ class UserType extends AbstractType
                             'label' => 'Role(s) de l\'utilisateur ?',
                             'choices' => [
                                 'Club' => 'ROLE_CLUB',
-                                'Admin' => 'ROLE_SUPERMAN',
                                 'Secrétaire' => 'ROLE_SECRETAIRE',
                                 'Licences' => 'ROLE_LICENCE',
+                                'Directeur Technique' => 'ROLE_DIRECTEUR_TECHNIQUE',
+                                'Admin' => 'ROLE_SUPERMAN',
                                 'Juge' => 'ROLE_JUGE',
                             ],
                             'multiple' => true,

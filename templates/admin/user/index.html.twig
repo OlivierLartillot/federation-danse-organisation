@@ -23,7 +23,7 @@
             <table class="table">
                 <thead>
                     <tr>
-                        <th>Id</th>
+                        <th>#</th>
                         <th>Username</th>
                         <th>Nom</th>
                         <th>Roles</th>
@@ -35,19 +35,26 @@
                     {% if 'ROLE_HULK' in user.roles %}  
                     {# On n'affiche pas le super admin !!! si on trouve ce role on laisse vide (ca passe à l'utilisateur suivant #}
                     {% else %}
-                        <tr>
-                            <td>{{ user.id }}</td>
+                        <tr  {% if 'ROLE_CLUB' not in user.roles %} class="text-danger" {% endif %}>
+                            <td>{% if 'ROLE_CLUB' not in user.roles %} <i class="fa-solid fa-star"></i> {% else %} <i class="fa-solid fa-person"></i> {% endif %}</td>
                             <td>{{ user.username }}</td>
                             <td>{{ user.firstname }} {{ user.lastname }}</td>
                             <td>
+
                                 {% if 'ROLE_SUPERMAN' in user.roles %}  
                                     Président
                                 {% endif %}
-                                {% if 'ROLE_CLUB' in user.roles %}  
-                                    Club
+                                {% if 'ROLE_DIRECTEUR_TECHNIQUE' in user.roles %}  
+                                    Directeur Technique
                                 {% endif %}
                                 {% if 'ROLE_SECRETAIRE' in user.roles %}  
                                     Secrétaire
+                                {% endif %}
+                                {% if 'ROLE_LICENCE' in user.roles %}  
+                                    Licence
+                                {% endif %}
+                                {% if 'ROLE_CLUB' in user.roles %}  
+                                    Club
                                 {% endif %}
                             </td>
                             <td>

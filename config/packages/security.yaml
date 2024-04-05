@@ -53,14 +53,18 @@ security:
         - { path: ^/admin/organization/, roles: ROLE_SUPERMAN }
         - { path: ^/admin/championnats/inscriptions, roles: ROLE_CLUB }
 
-        - { path: ^/admin/championnats/, roles: ROLE_SUPERMAN } 
+        - { path: ^/admin/championnats/, roles: ROLE_DIRECTEUR_TECHNIQUE } 
         - { path: ^/admin/saisons/, roles: ROLE_SUPERMAN }
         - { path: ^/admin/categories/, roles: ROLE_SUPERMAN }
         - { path: ^/admin, roles: ROLE_CLUB }
 
     role_hierarchy:
             ROLE_HULK: [ROLE_SUPERMAN]
-            ROLE_SUPERMAN: [ROLE_USER, ROLE_CLUB]
+            ROLE_SUPERMAN: [ROLE_DIRECTEUR_TECHNIQUE]
+            ROLE_DIRECTEUR_TECHNIQUE: [ROLE_LICENCE]
+            ROLE_LICENCE: [ROLE_CLUB]
+            ROLE_SECRETAIRE: [ROLE_CLUB]
+            ROLE_CLUB: [ROLE_USER]
 
 when@test:
     security:
