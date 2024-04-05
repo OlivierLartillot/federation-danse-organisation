@@ -2,6 +2,7 @@
 
 namespace App\EventSubscriber;
 
+use App\Repository\LicenceRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\RedirectController;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -15,14 +16,12 @@ class OnConnectSubscriber implements EventSubscriberInterface
 
     public function __construct(EntityManagerInterface $entityManagerInterface) 
     {
-
         $this->entityManagerInterface = $entityManagerInterface;
-
     }
 
     public function onLoginSuccessEvent(LoginSuccessEvent $event): void
     {
-        // ...
+        // Enregistrement de la derniere connexion
         $now = new \DateTimeImmutable('now');
         $connectedUser = $event->getUser();
         $lastConnection = $connectedUser->setLastConnection($now);

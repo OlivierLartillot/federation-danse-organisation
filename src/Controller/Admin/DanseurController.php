@@ -15,10 +15,11 @@ use Symfony\Component\Routing\Attribute\Route;
 #[Route('/admin/danseur')]
 class DanseurController extends AbstractController
 {
-    #[Route('/', name: 'app_admin_danseur_index', methods: ['GET'])]
-    public function index(DanseurRepository $danseurRepository, ClubRepository $clubRepository): Response
+    #[Route('', name: 'app_admin_danseur_index', methods: ['GET'])]
+    public function index(DanseurRepository $danseurRepository, Request $request, ClubRepository $clubRepository): Response
     {
-
+        $clubs = $clubRepository->findBy([], ['name' => 'ASC']);
+        $selectedClub = 'all';
         // ================== AUTORISATIONS =============================
         // ==============================================================
         // si tu es un club ou superieur tu peux accéder à la page
@@ -40,12 +41,26 @@ class DanseurController extends AbstractController
             $danseurs = $listeDesDanseursNonArchives;
         }
         else {
-            $danseurs = $danseurRepository->findBy(['archived' => false]);
+            
+            // si la request club et renvoyé par l admin 
+            if (($request->query->get('club') != null)  && ($request->query->get('club') != 'all')) {
+                $selectedClub = intval($request->query->get('club'));
+                $club = $clubRepository->findOneBy(['id' => $selectedClub], ['name' => 'ASC']);
+                $danseurs = $danseurRepository->findBy(['archived' => false, 'club' => $club]);
+
+            } else {
+                $danseurs = $danseurRepository->findBy(['archived' => false]);
+            }
+            
+
+            
         }
 
         return $this->render('admin/danseur/index.html.twig', [
             'danseurs' => $danseurs,
-            'identifiant_route' => 'index'
+            'identifiant_route' => 'index',
+            'clubs' =>  $clubs,
+            'selectedClub' => $selectedClub,
         ]);
     }
 

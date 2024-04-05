@@ -6,7 +6,7 @@
 <div class="container my-5">
 
     <h3 class="my-5">Modifier la licence </h3>
-        <a href="{{ path('app_admin_licence_index') }}" class="btn btn-sm btn-secondary">Retour liste Licences</a>
+        <a href="{{ path('app_admin_licence_index',{}|merge(app.request.query.all)) }}" class="btn btn-sm btn-secondary">Retour liste Licences</a>
         <div class="card my-3 px-3 py-5 shadow">
             
             {{ include('admin/licence/_form.html.twig', {'button_label': 'Modifier'}) }}

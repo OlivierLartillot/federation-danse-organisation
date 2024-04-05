@@ -112,7 +112,7 @@ class LicenceType extends AbstractType
     private function getDanseursList()
     {
         // les personnes pouvant accéder à l'édition du gestionnaire du club
-        $tableauRolesAutorises = ['ROLE_HULK', 'ROLE_SUPERMAN'];
+        $tableauRolesAutorises = ['ROLE_HULK', 'ROLE_SUPERMAN', 'ROLE_SECRETAIRE', 'ROLE_LICENCE'];
         $allDanseurs = false;
         $currentUser = $this->tokenStorageInterface->getToken()->getUser();
         foreach ($tableauRolesAutorises as $role) { 

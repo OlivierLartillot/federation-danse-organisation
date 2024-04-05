@@ -16,7 +16,7 @@
             <table class="table">
                 <thead>
                     <tr>
-                        <th>Id</th>
+                        <th>#</th>
                         <th>Nom</th>
                         <th>MinAge</th>
                         <th>MaxAge</th>
@@ -26,9 +26,10 @@
                     </tr>
                 </thead>
                 <tbody>
+                {% set iNbre = 1 %}
                 {% for category in categories %}
                     <tr>
-                        <td>{{ category.id }}</td>
+                        <td>{{ iNbre }}</td>
                         <td>{{ category.name }}</td>
                         <td>{{ category.minAge }}</td>
                         <td>{{ category.maxAge }}</td>
@@ -39,6 +40,7 @@
                             <a href="{{ path('app_admin_category_show', {'id': category.id}) }}" class="mx-2"><i class="fa-solid fa-eye"></i></a>
                         </td>
                     </tr>
+                    {% set iNbre = iNbre + 1 %}
                 {% else %}
                     <tr>
                         <td colspan="7">no records found</td>

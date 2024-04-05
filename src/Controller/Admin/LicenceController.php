@@ -2,7 +2,6 @@
 
 namespace App\Controller\Admin;
 
-use App\Entity\Club;
 use App\Entity\Licence;
 use App\Entity\LicenceComment;
 use App\Form\LicenceCommentType;
@@ -21,12 +20,13 @@ use Symfony\Component\Routing\Attribute\Route;
 class LicenceController extends AbstractController
 {
     #[Route('', name: 'app_admin_licence_index', methods: ['GET'])]
-    public function index(LicenceRepository $licenceRepository, SeasonRepository $seasonRepository, Request $request): Response
+    public function index(LicenceRepository $licenceRepository, SeasonRepository $seasonRepository, Request $request, ClubRepository $clubRepository): Response
     {
         
         $seasons = $seasonRepository->findBy([], ['name' => 'ASC']);
 
         $currentSeason = $seasonRepository->findOneBy(['isCurrentSeason' => true]);
+        
         // si la saison a été transmise dans la barre
         if ($request->query->get('saison') != null) {
             $selectedSeason = intval($request->query->get('saison'));
@@ -34,26 +34,33 @@ class LicenceController extends AbstractController
         } else {
             $selectedSeason = $currentSeason;
         }
-
         // si la current season est bien définie, on va afficher les licences de cette saison : sinon on afiche tout
         $licences = $currentSeason ? $licenceRepository->findBy(['season' => $selectedSeason], ['status' => 'ASC', 'category' => 'ASC']) : $licenceRepository->findAll();
 
+        // si le club a été transmis dans la barre 
+        if (($request->query->get('club') != null) && ($request->query->get('club') != 'all')) {
+            $selectedClub = intval($request->query->get('club'));
+            $licences = $currentSeason ? $licenceRepository->findBy([
+                'season' => $selectedSeason, 'club' => $selectedClub,
+                ], 
+                ['status' => 'ASC', 'category' => 'ASC']) : $licenceRepository->findAll();
+        } else {
+            $licences = $currentSeason ? $licenceRepository->findBy(['season' => $selectedSeason], ['status' => 'ASC', 'category' => 'ASC']) : $licenceRepository->findAll();
+        }
+
         // si tu es un club tu ne peux avoir acces qu'à la liste de tes licences
         if (in_array('ROLE_CLUB', $this->getUser()->getRoles())) {
-            $myLicences = [];
             // cherche mon club
-            foreach ($licences as $licence) {
-                if ($licence->getClub()->getOwner() == $this->getUser()) {
-                    $myLicences[] = $licence;
-                }
-            }
-            $licences = $myLicences;
+            $myClub = $clubRepository->findBy(['owner' => $this->getUser()]);
+            // et mes licences en affichant en premier les rejetées
+            $licences = $currentSeason ? $licenceRepository->findBy(['season' => $selectedSeason, 'club' => $myClub], ['status' => 'DESC', 'category' => 'ASC']) : []; 
         }
 
         return $this->render('admin/licence/index.html.twig', [
             'licences' => $licences,
             'selectedSeason' => $selectedSeason,
-            'seasons' => $seasons
+            'seasons' => $seasons,
+            'clubs' => $clubRepository->findBy([] , ['name' => 'ASC'])
         ]);
     }
 
@@ -176,7 +183,7 @@ class LicenceController extends AbstractController
     #[Route('/validation/{id}', name: 'app_admin_licence_validation', methods: ['GET'])] 
     public function validationLicence(Request $request, Licence $licence, EntityManagerInterface $entityManager): Response
     {
-
+        
         // je dois avoir les droits pour faire ca, sinon je rejette !!!
         //dd($request->get('validation'));
         if (in_array('ROLE_CLUB', $this->getUser()->getRoles())) {
@@ -188,7 +195,11 @@ class LicenceController extends AbstractController
         $licence->setStatus($request->get('validation'));
         $entityManager->flush();
 
-        return $this->redirectToRoute('app_admin_licence_show', ['id' => $licence->getId()], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('app_admin_licence_show', [
+            'id' => $licence->getId(), 
+            'saison' => $request->query->get('saison'), 
+            'club' => $request->query->get('club')
+        ], Response::HTTP_SEE_OTHER);
         
 
     }

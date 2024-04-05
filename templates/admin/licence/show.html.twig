@@ -13,9 +13,9 @@
  
     
     <div class="d-inline-flex">
-        <div class="me-2"><a href="{{ path('app_admin_licence_index') }}" class="btn btn-sm btn-secondary">Retour liste Licences</a></div>
+        <div class="me-2"><a href="{{ path('app_admin_licence_index',{}|merge(app.request.query.all) ) }}" class="btn btn-sm btn-secondary">Retour liste Licences</a></div>
         {% if licence.status != 1 %}
-            <div class="me-2"><a href="{{ path('app_admin_licence_edit', {'id': licence.id}) }}" class="btn btn-sm btn-success">Modifier</a></div>
+            <div class="me-2"><a href="{{ path('app_admin_licence_edit', {'id': licence.id}|merge(app.request.query.all) ) }}" class="btn btn-sm btn-success">Modifier</a></div>
         {% endif %}
         {# Archive
             <div class="mx-5">{{ include('admin/licence/_archived_form.html.twig') }}</div>  
@@ -77,7 +77,10 @@
                     <tr>
                         <th>Modifier l'état de la licence</th>
                         {% if 'ROLE_CLUB' not in app.user.roles %}
-                            <td><a href="{{ path('app_admin_licence_validation', {'id': licence.id, 'validation' : 1 } )}}" class="btn btn-success mx-5">Valider la licence</a><a href="{{ path('app_admin_licence_validation', {'id': licence.id, 'validation' : 2 } )}}" class="btn btn-danger">Rejeter la licence</a></td>
+                            <td>
+                                <a href="{{ path('app_admin_licence_validation', {'id': licence.id, 'validation' : 1 }|merge(app.request.query.all) )}}" class="btn btn-success mx-5">Valider la licence</a>
+                                <a href="{{ path('app_admin_licence_validation', {'id': licence.id, 'validation' : 2 }|merge(app.request.query.all) )}}" class="btn btn-danger">Rejeter la licence</a>
+                            </td>
                         {% endif %} 
                         {% if 'ROLE_CLUB' in app.user.roles %}
                             <td>

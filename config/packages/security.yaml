@@ -51,19 +51,25 @@ security:
     access_control:
         - { path: ^/admin/settings/, roles: ROLE_SUPERMAN }
         - { path: ^/admin/organization/, roles: ROLE_SUPERMAN }
+        # /championnats
         - { path: ^/admin/championnats/inscriptions, roles: ROLE_CLUB }
-
         - { path: ^/admin/championnats/, roles: ROLE_DIRECTEUR_TECHNIQUE } 
-        - { path: ^/admin/saisons/, roles: ROLE_SUPERMAN }
-        - { path: ^/admin/categories/, roles: ROLE_SUPERMAN }
+        - { path: ^/admin/document/, roles: ROLE_DIRECTEUR_TECHNIQUE } 
+
+        # liens catégoriques !
+        - { path: ^/admin/saisons/, roles: ROLE_DIRECTEUR_TECHNIQUE }
+        - { path: ^/admin/categories/, roles: ROLE_DIRECTEUR_TECHNIQUE }
+
+
+        # Lien général, accès connectés
         - { path: ^/admin, roles: ROLE_CLUB }
 
     role_hierarchy:
             ROLE_HULK: [ROLE_SUPERMAN]
             ROLE_SUPERMAN: [ROLE_DIRECTEUR_TECHNIQUE]
-            ROLE_DIRECTEUR_TECHNIQUE: [ROLE_LICENCE]
-            ROLE_LICENCE: [ROLE_CLUB]
-            ROLE_SECRETAIRE: [ROLE_CLUB]
+            ROLE_DIRECTEUR_TECHNIQUE: [ROLE_LICENCE, ROLE_SECRETAIRE]
+            ROLE_LICENCE: [ROLE_CLUB, ROLE_SECRETAIRE]
+            ROLE_SECRETAIRE: [ROLE_CLUB, ROLE_LICENCE]
             ROLE_CLUB: [ROLE_USER]
 
 when@test:

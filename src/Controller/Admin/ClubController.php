@@ -10,6 +10,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 use function PHPUnit\Framework\throwException;
 
@@ -20,13 +21,21 @@ class ClubController extends AbstractController
     public function index(ClubRepository $clubRepository): Response
     {
 
+
         // ================== AUTORISATIONS =============================
         // ==============================================================
-        // si tu es un club ou superieur tu peux accéder à la page
-        if (!$this->isGranted('ROLE_CLUB')) { return throw $this->createAccessDeniedException();}
+        // si tu es un club ou DT et >
+        // !!! tu ne peux pas dire !in_array('ROLE_CLUB'....) d'ou le passage par $rights
+        $rights = false;
+        $rights = in_array('ROLE_CLUB', $this->getUser()->getRoles()) || $rights;
+        $rights = $this->isGranted('ROLE_DIRECTEUR_TECHNIQUE') || $rights;
+        if (!$rights) {
+            return throw $this->createAccessDeniedException();
+        }
         // ================= FIN AUTORISATIONS ==========================
         // ==============================================================
 
+        // droit modif et création
         $droitACreerUnCLub = true; 
         // si tu es un club il faut que ce soit le tiens pour le modifier
         if (in_array('ROLE_CLUB', $this->getUser()->getRoles())) {
@@ -37,26 +46,16 @@ class ClubController extends AbstractController
             $clubs = $clubRepository->findBy([], ['name' => 'ASC']);
         }
 
-
         return $this->render('admin/club/index.html.twig', [
             'clubs' => $clubs,
             'droitACreerUnCLub' => $droitACreerUnCLub,
         ]);
     }
 
+    #[IsGranted('ROLE_DIRECTEUR_TECHNIQUE')]
     #[Route('/new', name: 'app_admin_club_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
-
-
-        // ================== AUTORISATIONS =============================
-        // ==============================================================
-        // si tu es un club ou superieur tu peux accéder à la page
-        if (!$this->isGranted('ROLE_SUPERMAN')) { return throw $this->createAccessDeniedException();}
-
-        // ================= FIN AUTORISATIONS ==========================
-        // ==============================================================
-
 
         $club = new Club();
         $form = $this->createForm(ClubType::class, $club);
@@ -75,17 +74,10 @@ class ClubController extends AbstractController
         ]);
     }
 
+    #[IsGranted('ROLE_DIRECTEUR_TECHNIQUE')]
     #[Route('/{id}', name: 'app_admin_club_show', methods: ['GET'])]
     public function show(Club $club): Response
     {
-
-        // ================== AUTORISATIONS =============================
-        // ==============================================================
-        // si tu es un club ou superieur tu peux accéder à la page
-        if (!$this->isGranted('ROLE_SUPERMAN')) { return throw $this->createAccessDeniedException();}
-
-        // ================= FIN AUTORISATIONS ==========================
-        // ==============================================================
 
         return $this->render('admin/club/show.html.twig', [
             'club' => $club,
@@ -97,8 +89,14 @@ class ClubController extends AbstractController
     {
         // ================== AUTORISATIONS =============================
         // ==============================================================
-        // si tu es un club ou superieur tu peux accéder à la page
-        if (!$this->isGranted('ROLE_CLUB')) { return throw $this->createAccessDeniedException();}
+        // si tu es un club ou DT et >
+        // !!! tu ne peux pas dire !in_array('ROLE_CLUB'....) d'ou le passage par $rights
+        $rights = false;
+        $rights = in_array('ROLE_CLUB', $this->getUser()->getRoles()) || $rights;
+        $rights = $this->isGranted('ROLE_DIRECTEUR_TECHNIQUE') || $rights;
+        if (!$rights) {
+            return throw $this->createAccessDeniedException();
+        }
 
         // si tu es un club il faut que ce soit le tiens pour le modifier
         if (in_array('ROLE_CLUB', $this->getUser()->getRoles())) {
@@ -124,6 +122,8 @@ class ClubController extends AbstractController
         ]);
     }
 
+
+    /* Supprimer un club implique les relations user, danseurs, licence etc     
     #[Route('/{id}', name: 'app_admin_club_delete', methods: ['POST'])]
     public function delete(Request $request, Club $club, EntityManagerInterface $entityManager): Response
     {
@@ -133,5 +133,5 @@ class ClubController extends AbstractController
         }
 
         return $this->redirectToRoute('app_admin_club_index', [], Response::HTTP_SEE_OTHER);
-    }
+    } */
 }

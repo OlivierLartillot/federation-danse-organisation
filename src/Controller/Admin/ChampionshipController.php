@@ -10,7 +10,6 @@ use App\Repository\ClubRepository;
 use App\Repository\LicenceRepository;
 use App\Repository\SeasonRepository;
 use App\Service\SwitchCurrent;
-use App\Service\SwitchCurrentChampionship;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -113,7 +112,8 @@ class ChampionshipController extends AbstractController
         $currentSeason = $seasonRepository->findOneBy(['isCurrentSeason' => true]);
 
 
-        if (in_array('ROLE_SUPERMAN', $this->getUser()->getRoles())) {
+
+        if ($this->isGranted('ROLE_SECRETAIRE')) {
             $licences =  $licenceRepository->findBy(['season' => $currentSeason]) ? $licenceRepository->findBy(['season' => $currentSeason])  : [] ;
         }
         else {
@@ -122,7 +122,6 @@ class ChampionshipController extends AbstractController
             $licences =  $licenceRepository->findBy(['club' => $myClub, 'season' => $currentSeason]) ? $licenceRepository->findBy(['club' => $myClub, 'season' => $currentSeason]) : [] ;
         }
         
-
         $myChampionshipLicences = [];
         foreach ($championship->getLicences() as $licence) {
             // si cette licence est dans mon tableau de mon club, je la conserve

@@ -58,9 +58,36 @@
                                     <li>
                                         <a href="contact.html">Contact</a>
                                     </li>
-                                        <li class="menu-item-has-children">
-                                        <a href="#">Gestion</a>
+
+                                    <!-- MENU CONNECTE-->
+                                    {% if is_granted('ROLE_CLUB') %}
+                                    <li class="menu-item-has-children">
+                                        <a href="#">
+                                            {% set displayErrors = false %} 
+
+                                            {% if (('ROLE_CLUB' in app.user.roles) and (app.session.get('licencesRejetees'))) > 0 %}
+                                                {% set displayErrors = true %} 
+                                            {% endif %}
+                                            {% if ((is_granted('ROLE_SECRETAIRE')) and (app.session.get('licencesEnCours') > 0)) %}
+                                                {% set displayErrors = true %} 
+                                            {% endif %}                                            
+
+                                            {% if displayErrors %}     
+                                                <div class="position-relative d-inline p-1">
+                                                    Gestion
+                                                    <span class="position-absolute top-0 start-0 translate-middle p-2 bg-danger border border-light rounded-circle">
+                                                        {# <span class="visually-hidden">unread messages</span> #}
+                                                    </span>
+                                                </div>
+                                            {% else %}
+                                                Gestion
+                                            {% endif %}
+
+
+
+                                        </a>
                                         <ul class="sub-menu">
+                                            {% if is_granted('ROLE_SUPERMAN') %}
                                             <li class="menu-item-has-children">
                                                 <a href="#">Réglages du site</a>
                                                 <ul class="sub-menu">
@@ -68,35 +95,61 @@
                                                     <li>
                                                         <a href="{{path('app_settings_edit', {id:1})}}">Paramètres du site</a>
                                                     </li>       
-                                                    <li><a href="{{path('app_admin_organization_team_index')}}">Dirigeants FDO</a></li>                                
-                                                    <li><a href="{{path('app_admin_document_index')}}">Documents et règlements</a></li>                                
+                                                    <li><a href="{{path('app_admin_organization_team_index')}}">Dirigeants FDO</a></li>                                                                
                                                 </ul>
                                             </li>
+                                            {% endif %}
+                                            {% if is_granted('ROLE_DIRECTEUR_TECHNIQUE') %}
                                             <li class="menu-item-has-children">
-                                                <a href="#">Réglages de base</a>
+                                                <a href="#">Réglages Compet</a>
                                                 <ul class="sub-menu">
-                                                    <li><a href="{{path('app_admin_championship_index')}}">Championnats</a></li>                                                    
                                                     <li><a href="{{path('app_admin_season_index')}}">Saisons</a></li>
+                                                    <li><a href="{{path('app_admin_championship_index')}}">Championnats</a></li>                                                    
                                                     <li><a href="{{path('app_admin_category_index')}}">Catégories</a></li>
+                                                    <li><a href="{{path('app_admin_document_index')}}">Documents et règlements</a></li>
                                                 </ul>
                                             </li>
+                                            {% endif %}
                                             <li class="menu-item-has-children">
                                                 <a href="#">Clubs</a>
                                                 <ul class="sub-menu">
+                                                <!-- Modifier la liste des clubs ou mon club n'appartient qu'au club ou au directeur et président-->
+                                                    {% if is_granted('ROLE_DIRECTEUR_TECHNIQUE') or ('ROLE_CLUB' in app.user.roles) %}
                                                     <li>
                                                         <a href="{{path('app_admin_club_index')}}">Clubs</a>
                                                     </li>
+                                                    {% endif %}
                                                     <li><a href="{{path('app_admin_danseur_index')}}">Danseurs</a></li>
-                                                    <li><a href="{{path('app_admin_licence_index')}}">Licences</a></li>
+                                                    <li>
+                                                        <a href="{{path('app_admin_licence_index')}}">
+                                                            <div class="position-relative">
+                                                                Licences
+                                                                <!-- Si tu es un role club affiche les licences rejetées --> 
+                                                                {% if (('ROLE_CLUB' in app.user.roles) and (app.session.get('licencesRejetees'))) > 0 %}
+                                                                    <span class="position-absolute top-50 start-10 translate-middle badge rounded-pill bg-danger">
+                                                                        {{ app.session.get('licencesRejetees') }}      
+                                                                        {# <span class="visually-hidden">unread messages</span> #}
+                                                                    </span>
+                                                                {% endif %}
+
+                                                                <!-- Si tu es un au moins un secrétaire les licences en cours --> 
+                                                                {% if ((is_granted('ROLE_SECRETAIRE')) and (app.session.get('licencesEnCours') > 0)) %}
+                                                                    <span class="position-absolute top-50 start-10 translate-middle badge rounded-pill bg-danger">
+                                                                        {{ app.session.get('licencesEnCours') }}      
+                                                                        {# <span class="visually-hidden">unread messages</span> #}
+                                                                    </span>
+                                                                {% endif %}
+                                                            </div> 
+                                                        </a>
+                                                    </li>
                                                     <li><a href="{{path('app_competition_dossards')}}">Dossards</a></li>
                                                     <li><a href="{{path('app_admin_championship_index_inscriptions')}}">Inscription Championnats</a></li>
                                                 </ul>
                                             </li>
-
+                                            <li><a href="{{path('app_admin_user_index')}}">Mon Compte</a></li>
                                         </ul>
                                     </li>
-
-
+                                    {% endif %}
 
 
 

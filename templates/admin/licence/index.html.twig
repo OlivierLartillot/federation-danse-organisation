@@ -70,14 +70,26 @@
 
     <div class="card my-3 p-3 shadow">
         <form action="{{ path('app_admin_licence_index') }}" method="GET" >
-            <label for="saison" class="form-label">Saison</label>
-            <select class="form-select" id="saison" name="saison" >
-                {# <option selected disabled value="1">Choose...</option> #}
-
-                {% for season in seasons %}
-                    <option value="{{season.id}}" {{ season.id == app.request.get('saison') or season.id == selectedSeason.id  ? 'selected' }}>{{season.name}}</option>
-                {% endfor %}
-            </select>
+            <div>
+                <label for="saison" class="form-label">Saison</label>
+                <select class="form-select" id="saison" name="saison" >
+                    {# <option selected disabled value="1">Choose...</option> #}
+                    {% for season in seasons %}
+                        <option value="{{season.id}}" {{ season.id == app.request.query.get('saison') or season.id == selectedSeason.id  ? 'selected' }}>{{season.name}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            {% if 'ROLE_CLUB' not in app.user.roles %}
+            <div class="mt-3">
+                <label for="club" class="form-label">Club</label>
+                <select class="form-select" id="club" name="club" >
+                    <option value="all">Tous les clubs</option>
+                    {% for club in clubs %}
+                        <option value="{{club.id}}" {{ club.id == app.request.query.get('club') ? 'selected' }}>{{club.name}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            {% endif %}
             <div class="text-center">
                 <button type="submit" class="btn btn-success btn-sm mt-3">Envoyer</button>
             </div>
@@ -139,10 +151,10 @@
                             </td>
                             <td>
                                 {% if licence.status != 1 %}
-                                    <a href="{{ path('app_admin_licence_edit', {'id': licence.id}) }}" class="mx-2"><i class="fa-solid fa-pen-to-square"></i></a>
+                                    <a href="{{ path('app_admin_licence_edit', {'id': licence.id}|merge(app.request.query.all) )}}" class="mx-2"><i class="fa-solid fa-pen-to-square"></i></a>
                                 {% endif %}
 
-                                <a href="{{ path('app_admin_licence_show', {'id': licence.id}) }}" class="mx-2"><i class="fa-solid fa-eye"></i></a>
+                                <a href="{{ path('app_admin_licence_show', {'id': licence.id}|merge(app.request.query.all) )}}" class="mx-2"><i class="fa-solid fa-eye"></i></a>
                             </td>
                         </tr>
                     {% else %}
