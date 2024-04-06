@@ -1,8 +1,6 @@
 {{ form_start(form) }}
     {# {{ form_widget(form) }} #}
-    <div class="my-custom-class-for-errors text-danger">
-        {{ form_errors(form) }}
-    </div>
+
     <div class="row mb-5">
         <div class="col-12">
             {{ form_label(form.username) }}
@@ -61,7 +59,7 @@
 
     <div class="row">
        <div class="col-12">
-            {{ form_row(form.plainPassword) }}
+            {{ form_row(form.password) }}
         </div>
     </div>
  

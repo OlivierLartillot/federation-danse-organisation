@@ -73,6 +73,23 @@ class Licence
         return $this->getCategory() . ': '. $danseursText;
     }
 
+    public function fullPresentationWithClub() {
+
+        $danseursText = '';
+        $i = 1;
+       
+        foreach ($this->getDanseurs() as $danseur) {
+            if ($i < count($this->getDanseurs())) {
+                $danseursText .= $danseur . ', ';
+            } else {
+                $danseursText .= $danseur ;
+            }
+            $i++;
+        }
+
+        return $this->getClub() . ' - '. $this->getCategory() . ': '. $danseursText;
+    }
+
 
     public function getId(): ?int
     {

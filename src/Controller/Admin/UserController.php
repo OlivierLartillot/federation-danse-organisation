@@ -3,6 +3,7 @@
 namespace App\Controller\Admin;
 
 use App\Entity\User;
+use App\Form\UserEditType;
 use App\Form\UserType;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -54,12 +55,8 @@ class UserController extends AbstractController
         $user = new User();
         $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
-        if ($form->isSubmitted()) {
-            dd($form->getData());
-        }
-        
+
         if ($form->isSubmitted() && $form->isValid()) {
-            dd('ok create');
             $hashedPassword = $hasher->hashPassword(
                 $user, 
                 $user->getPassword()
@@ -129,7 +126,7 @@ class UserController extends AbstractController
             }
         }
         
-        $form = $this->createForm(UserType::class, $user);
+        $form = $this->createForm(UserEditType::class, $user);
         $form->handleRequest($request);
       
         if ($form->isSubmitted() && $form->isValid()) {

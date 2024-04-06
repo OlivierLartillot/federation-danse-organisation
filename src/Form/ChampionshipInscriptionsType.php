@@ -34,6 +34,11 @@ class ChampionshipInscriptionsType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {   
         
+        // si c est un club - propriété de l'entité licence => fullPresentation
+        // si c est un membre fdo - propriété de l'entité licence =>fullPresentationWithClub
+            // les clubs doivent arriver dans l 'ordre alphabétique c'est plus simple !
+
+
         $iHaveRoleClub = $this->iHaveRoleClub();
         $currentUser =  $this->tokenStorageInterface->getToken()->getUser();
         $currentSeason = $this->seasonRepository->findOneBy(['isCurrentSeason' => true]);
@@ -41,27 +46,26 @@ class ChampionshipInscriptionsType extends AbstractType
         if ($iHaveRoleClub) {
             $myClub = $this->clubRepository->findOneBy(['owner' => $currentUser]);
             $licences = $this->licencesRepository->findValidateLicencesByCurrentSeasonAndClubOrderByCategories($currentSeason, $myClub, true);
+            $choiceLabel = 'fullPresentation';
            
         } else {
             $licences = $this->licencesRepository->findValidateLicencesByCurrentSeasonAndClubOrderByCategories($currentSeason, null, false);
+            $choiceLabel = 'fullPresentationWithClub';
         } 
        
-        
-
         $builder
             ->add('licences', EntityType::class, [
                 'class' => Licence::class,
                 'multiple' => true,
                 'expanded' => true, 
-                'choice_label' => 'fullPresentation',
+                'choice_label' => $choiceLabel,
                 'choices' => $licences,
                 'autocomplete' => false,
                 'label' => 'Danseurs',
                 'row_attr' => ['class' => 'mb-5'],
                 'mapped' => false
             ])
-
-            ;
+        ;
     }
 
     public function configureOptions(OptionsResolver $resolver): void

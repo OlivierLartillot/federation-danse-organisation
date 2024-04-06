@@ -16,12 +16,17 @@ class OrganizationTeamType extends AbstractType
     {
         $builder
             ->add('name', null, [
-                'label' => 'Nom',
-                'row_attr' => ['class' => 'mt-3 mb-5']
+                'label' => 'Nom Complet',
+                'row_attr' => ['class' => 'mt-3 mb-5'],
+                'help' => '*ex:John Doeuf',
+                'help_attr' => ['class' => 'fst-italic'],
+
             ])
             ->add('organizationRole', null, [
-                'label' => 'Nom',
-                'row_attr' => ['class' => 'mb-5']
+                'label' => 'Role',
+                'row_attr' => ['class' => 'mb-5'],
+                'help' => '*ex:Président',
+                'help_attr' => ['class' => 'fst-italic'],
             ])
             ->add('imageFile', VichImageType::class, [
                 'label' => 'Photo (png, jpeg, jpg)',

@@ -56,8 +56,12 @@
                                         </ul>
                                     </li>
                                     <li>
-                                        <a href="contact.html">Contact</a>
+                                        <a href="">Contact</a>
                                     </li>
+                                    <li>
+                                        <a href="{{path('app_tuto_video')}}">Tutos</a>
+                                    </li>
+                                    
 
                                     <!-- MENU CONNECTE-->
                                     {% if is_granted('ROLE_CLUB') %}
@@ -82,9 +86,6 @@
                                             {% else %}
                                                 Gestion
                                             {% endif %}
-
-
-
                                         </a>
                                         <ul class="sub-menu">
                                             {% if is_granted('ROLE_SUPERMAN') %}

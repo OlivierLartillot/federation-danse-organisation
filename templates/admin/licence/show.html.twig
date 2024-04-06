@@ -10,13 +10,39 @@
     <p class="fs-4">
         {{ licence.category }} - {{ licence.category.minAge}} ans à {{ licence.category.maxAge}} ans - Min: {{ licence.category.nbMin}} Max: {{ licence.category.nbMax}}
     </p>
- 
+    
+
     
     <div class="d-inline-flex">
         <div class="me-2"><a href="{{ path('app_admin_licence_index',{}|merge(app.request.query.all) ) }}" class="btn btn-sm btn-secondary">Retour liste Licences</a></div>
-        {% if licence.status != 1 %}
-            <div class="me-2"><a href="{{ path('app_admin_licence_edit', {'id': licence.id}|merge(app.request.query.all) ) }}" class="btn btn-sm btn-success">Modifier</a></div>
-        {% endif %}
+
+
+            {% if licence.status != 1 %} 
+                <div class="me-2"><a href="{{ path('app_admin_licence_edit', {'id': licence.id}|merge(app.request.query.all) ) }}" class="btn btn-sm btn-success">Modifier</a></div>
+            {% else %}
+                <!-- Button trigger modal -->
+                <button type="button" class="btn btn-sm btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                    Modifier
+                </button>
+                <!-- Modal -->
+                <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" style="z-index:9999">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            Attention: Si vous modifiez une licence validée, celle-ci devra être revalidée par l'équipe FDO
+                        </div>
+                        <div class="modal-footer">
+                            <a href="{{ path('app_admin_licence_edit', {'id': licence.id}|merge(app.request.query.all) ) }}" class="btn btn-sm btn-success">Modifier</a>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+            {% endif %} 
+
         {# Archive
             <div class="mx-5">{{ include('admin/licence/_archived_form.html.twig') }}</div>  
         #}
@@ -34,24 +60,24 @@
                         <td>{{ licence.dossard }}</td>
                     </tr>
                     <tr>
-                    {% set status = [
-                        {
-                            'status' : 'En cours', 
-                            'bgColor': 'bg-warning',
-                            'textColor': 'text-warning'
-                        }, 
-                        {
-                            'status' :'Validée', 
-                            'bgColor':'bg-success',
-                            'textColor': 'text-success'
-                        }, 
-                        {
-                            'status' :'Rejetée', 
-                            'bgColor':'bg-danger',
-                            'textColor': 'text-danger'
-                        }
-                    ] 
-                    %}
+                        {% set status = [
+                            {
+                                'status' : 'En cours', 
+                                'bgColor': 'bg-warning',
+                                'textColor': 'text-warning'
+                            }, 
+                            {
+                                'status' :'Validée', 
+                                'bgColor':'bg-success',
+                                'textColor': 'text-success'
+                            }, 
+                            {
+                                'status' :'Rejetée', 
+                                'bgColor':'bg-danger',
+                                'textColor': 'text-danger'
+                            }
+                        ] 
+                        %}
                         <th>Status</th>
                         <td class="{{ status[licence.status].textColor }}">
                             {{ status[licence.status].status }}

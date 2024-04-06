@@ -52,7 +52,7 @@
                         <td class="{{dateLimiteExpireCssClass}}">{{ championship.championshipInscriptionsLimitDate ? championship.championshipInscriptionsLimitDate|date('d M Y') : '' }}</td>
                         <td >{{ championship.place }}</td>
                         <td>
-                            {% if dateLimite >= now %}
+                            {% if ((dateLimite >= now) or (is_granted('ROLE_DIRECTEUR_TECHNIQUE'))) %}
                                 <a href="{{ path('app_admin_championship_edit_inscriptions', {'id': championship.id}) }}" class="mx-2"><i class="fa-solid fa-pen-to-square"></i></a>
                             {% endif %} 
                                 <a href="{{ path('app_admin_championship_show_inscriptions', {'id': championship.id}) }}" class="mx-2"><i class="fa-solid fa-eye"></i></a>

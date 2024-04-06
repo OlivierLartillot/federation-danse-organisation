@@ -108,4 +108,14 @@ class MainController extends AbstractController
     }
 
 
+    /** Dossards -> impression*/
+    #[Route('/tutos/videos', name: 'app_tuto_video')]
+    public function tutosVideos(): Response
+    {
+
+        return $this->render('main/tutos_videos.html.twig', [
+        ]);
+    }
+
+
 }

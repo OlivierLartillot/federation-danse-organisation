@@ -67,6 +67,7 @@ class LicenceRepository extends ServiceEntityRepository
     {
         $request =  $this->createQueryBuilder('l')
             ->innerJoin('App\Entity\category', 'category', 'WITH', 'l.category = category.id')
+            ->innerJoin('App\Entity\club', 'club', 'WITH', 'l.club = club.id')
             ->andWhere('l.season = :season')
             ->setParameter('season', $currentSeason);
 
@@ -84,6 +85,8 @@ class LicenceRepository extends ServiceEntityRepository
             }
 
         $request = $request
+            ->OrderBy('club.name', 'ASC')
+            ->addorderBy('category.name', 'ASC')
             ->getQuery()
             ->getResult()
         ;

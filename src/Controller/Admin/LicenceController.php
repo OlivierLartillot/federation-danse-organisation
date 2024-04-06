@@ -147,9 +147,12 @@ class LicenceController extends AbstractController
 
 
         // si tu es un club et que la licence a le status validé tu ne peux pas la changer !!!
-        if((in_array('ROLE_CLUB', $this->getUser()->getRoles())) && $licence->getStatus() == 1) {
+        // => EN FAIT SI  !!! Mais tu dois repasser les status en "en cours"
+            /* 
+            if((in_array('ROLE_CLUB', $this->getUser()->getRoles())) && $licence->getStatus() == 1) {
             return $this->redirectToRoute('app_admin_licence_index', [], Response::HTTP_SEE_OTHER);
-        }
+            } 
+            */
 
         if ($form->isSubmitted()) {
             // service qui se renseigne sur le nombre min et max de danseur
@@ -158,6 +161,11 @@ class LicenceController extends AbstractController
         }
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            if((in_array('ROLE_CLUB', $this->getUser()->getRoles())) && $licence->getStatus() == 1) {
+                $licence->setStatus(0);
+            }
+
             $entityManager->flush();
 
             return $this->redirectToRoute('app_admin_licence_index', [], Response::HTTP_SEE_OTHER);

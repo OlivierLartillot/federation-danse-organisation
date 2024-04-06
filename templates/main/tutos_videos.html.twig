@@ -1,0 +1,236 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Documents et Règlements{% endblock %}
+
+{% block body %}
+    <!--==============================
+    Breadcumb
+============================== -->
+    <div class="breadcumb-wrapper " data-bg-src="{{asset('assets/img/breadcumb/breadcumb-danse-unsplash-bg.jpg')}}">
+        <div class="container">
+            <div class="breadcumb-content">
+                <h1 class="breadcumb-title">Tutos Vidéos</h1>
+                <ul class="breadcumb-menu">
+                    <li><a href="{{path('app_main')}}">Accueil</a></li>
+                    <li>Tutos Vidéos</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="container my-5">
+        <div class="row">
+
+                <div class="col-xl-6 mb-4">
+                    <div class="card bg-light">
+                        <div class="card-body shadow">
+                            <h5 class="card-title mb-4">Présentation rapide et clubs</h5>
+                            <h6 class="card-subtitle mb-2 text-muted">
+                               Connexion
+                            </h6>
+                            <hr>
+                            <div class="card-text">
+                                Hors ligne et connexion Club 
+                                <ul>
+                                    <li>pseudo: club</li>
+                                    <li>mdp: 12345678</li>
+                                </ul>
+                                <a href="https://youtu.be/mZFrwcDL0hc" target="_blank" class="btn btn-outline-secondary btn-sm">Visionner</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-xl-6 mb-4">
+                    <div class="card bg-light">
+                        <div class="card-body shadow">
+                            <h5 class="card-title mb-4">Licence et secrétaire</h5>
+                            <h6 class="card-subtitle mb-2 text-muted">
+                               Connexion
+                            </h6>
+                            <hr>
+                            <div class="card-text">
+                                Cest rôles ont les même pouvoirs
+                                <ul>
+                                    <li>pseudo: secretaire ou licence</li>
+                                    <li>mdp: 12345678</li>
+                                </ul>
+                                <a href="https://youtu.be/mok5tkZxd0c" target="_blank" class="btn btn-outline-secondary btn-sm">Visionner</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-xl-6 mb-4">
+                    <div class="card bg-light">
+                        <div class="card-body shadow">
+                            <h5 class="card-title mb-4">Directeur Technique</h5>
+                            <h6 class="card-subtitle mb-2 text-muted">
+                               Connexion
+                            </h6>
+                            <hr>
+                            <div class="card-text">
+                                Même pouvoir que les licence et secrétaire avec en plus la gestion des championnats
+                                <ul>
+                                    <li>pseudo: directeur technique</li>
+                                    <li>mdp: 12345678</li>
+                                </ul>
+                                <a href="https://youtu.be/Jxsq2hHfhlE" target="_blank" class="btn btn-outline-secondary btn-sm">Visionner</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-xl-6 mb-4">
+                    <div class="card bg-light">
+                        <div class="card-body shadow">
+                            <h5 class="card-title mb-4">President</h5>
+                            <h6 class="card-subtitle mb-2 text-muted">
+                               Connexion
+                            </h6>
+                            <hr>
+                            <div class="card-text">
+                                Même pouvoir que ldirecteur technique avec en plus gestion des utilisateurs et du site 
+                                <ul>
+                                    <li>pseudo: président</li>
+                                    <li>mdp: 12345678</li>
+                                </ul>
+                                <a href="https://youtu.be/N1Gwcd7hp-A" target="_blank" class="btn btn-outline-secondary btn-sm">Visionner</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-xl-6 mb-4">
+                    <div class="card bg-light">
+                        <div class="card-body shadow">
+                            <h5 class="card-title mb-4">Tuto - Validation des licences</h5>
+                            <h6 class="card-subtitle mb-2 text-muted">
+                               Equipe FDO - Club
+                            </h6>
+                            <hr>
+                            <div class="card-text">
+                                Rectification dans la vidéo suivante suivante: Une licence validée peut etre modifiée mais elle devra être revalidée obligatoirement. <br>
+
+                                Système de communication bi directionnel entre le club et FDO pour créér et valider les licences.
+                                <ul>
+                                    <li>En cours - Validée - Rejetée </li>
+                                    <li>Mesagerie liée à la licence pour communiquer des informations </li>
+                                    <li>Bouton "d'alerte" signifiant qu'une tâche est à accomplir </li>
+                                </ul>
+
+                                <a href="https://youtu.be/VnzXvn-9eT4" target="_blank" class="btn btn-outline-secondary btn-sm">Visionner</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-xl-6 mb-4">
+                    <div class="card bg-light">
+                        <div class="card-body shadow">
+                            <h5 class="card-title mb-4">Tuto - Modification d'une licence validée</h5>
+                            <h6 class="card-subtitle mb-2 text-muted">
+                               Equipe FDO - Club
+                            </h6>
+                            <hr>
+                            <div class="card-text">
+                            <p>
+                                Le club modifiant une licence déjà validée reçoit une alerte prévenant que si il modifie sa licence, celle ci devra être revalidée pour être utilisée !
+                            </p>
+                            <a href="https://youtu.be/07zfa3wKsJ8" target="_blank" class="btn btn-outline-secondary btn-sm">Visionner</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-xl-6 mb-4">
+                    <div class="card bg-light">
+                        <div class="card-body shadow">
+                            <h5 class="card-title mb-4">Tuto - Inscription d'un nouveau club</h5>
+                            <h6 class="card-subtitle mb-2 text-muted">
+                               Président
+                            </h6>
+                            <hr>
+                            <div class="card-text">
+                                Un nouveau club souhaite s'inscrire ? Rien de plus simple, cela prend moins d'une minute !
+                                <ol>
+                                    <li>Le président créé le compte utilisateur: pseudo - role - mot de passe</li>
+                                    <li>Créons un nouveau club en renseignant 
+                                        <ul>
+                                            <li>le nom du club</li>
+                                            <li>le gestionnaire (nouvel utilisateur créé précédemment)</li>
+                                        </ul>
+                                    </li>
+                                </ol>
+                                Vous n'avez plus qu'a communqiuer pseudo et mot de passe au club pour que le gestionnaire
+                                <ol>
+                                    <li>se connecte</li>
+                                    <li>modifie le mot de passe</li>
+                                    <li>complète les infos de son club</li>
+                                    <li>inscrive de nouveaux danseurs etc...</li>
+                                </ol>
+                                <a href="https://youtu.be/b-u041_i2nY" target="_blank" class="btn btn-outline-secondary btn-sm">Visionner</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>              
+
+                <div class="col-xl-6 mb-4">
+                    <div class="card bg-light">
+                        <div class="card-body shadow">
+                            <h5 class="card-title mb-4">Tuto - Création danseur, validation, inscription championnat</h5>
+                            <h6 class="card-subtitle mb-2 text-muted">
+                               Club
+                            </h6>
+                            <hr>
+                            <div class="card-text">
+                                <p>
+                                    La démarche pour le club pour inscrire ses danseurs aux championnats
+                                </p>
+                                <a href="https://youtu.be/Kz-3XGfgygE" target="_blank" class="btn btn-outline-secondary btn-sm">Visionner</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>  
+
+                <div class="col-xl-6 mb-4">
+                    <div class="card bg-light">
+                        <div class="card-body shadow">
+                            <h5 class="card-title mb-4">Tuto - Création des documents et des réglements</h5>
+                            <h6 class="card-subtitle mb-2 text-muted">
+                               Directeur Technique
+                            </h6>
+                            <hr>
+                            <div class="card-text">
+                                <p>
+                                    Comment ajouter des documents visibles sur la page <a href="{{ path('app_competition_reglement')}}">compétition->réglements</a>
+                                </p>
+                                <a href="https://youtu.be/gOKMbkTpG8E" target="_blank" class="btn btn-outline-secondary btn-sm">Visionner</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>  
+
+                <div class="col-xl-6 mb-4">
+                    <div class="card bg-light">
+                        <div class="card-body shadow">
+                            <h5 class="card-title mb-4">Tuto - Gestion de la saison, implications</h5>
+                            <h6 class="card-subtitle mb-2 text-muted">
+                               Directeur Technique
+                            </h6>
+                            <hr>
+                            <div class="card-text">
+                                <p>
+                                    Un petit bouton, de grande responsabilités ! La saison en cours détermine les championnats, les dossards, et les licences qui vont être affichées sur le site. <br>
+                                    <span class="text-danger">A la fin d'une saison ou au début d'une nouvelle, pensez donc à changer de saison dans les paramètres.</span>
+                                </p>
+                                <a href="https://youtu.be/8Nc2xRw6qGs" target="_blank" class="btn btn-outline-secondary btn-sm">Visionner</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>  
+                
+        </div>
+    </div>
+
+{% endblock %}
