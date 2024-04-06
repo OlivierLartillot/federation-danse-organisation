@@ -39,23 +39,24 @@
         </div>
     </div>
 
-    <div class="row mb-5">
+    <div class="row">
 
-        <!-- Un Bug du au CSS acheté m'a obligé a insérer des div avant et apres chaque bloc >>input / label<< -->
-        <!-- En Symfony cela oblige d'utiliser le helper name=" field_name(form roles) " -->
-        {% if form.roles is defined %}
-            <div name="{{ field_name(form.roles) }}">
-                {{ field_label(form.roles )}}
-                {% set i = 0 %}
-                {% for label, value in field_choices(form.roles) %}
-                <div class="mt-3">
-                    <input type="checkbox" id="user_roles_{{i }}" name="user[roles][]" value="{{ value }}" {{ value in user.roles ? 'checked' : ''}}>
-                    <label for="user_roles_{{i }}">{{ label }}</label>
-                </div>
-                {% set i = i + 1 %}
-                {% endfor %}
+    <!-- Un Bug du au CSS acheté m'a obligé a insérer des div avant et apres chaque bloc >>input / label<< -->
+    <!-- En Symfony cela oblige d'utiliser le helper name=" field_name(form roles) " -->
+    {% if form.roles is defined %}
+        <div name="{{ field_name(form.roles) }}">
+            {{ field_label(form.roles )}}
+            {% set i = 0 %}
+            {% for label, value in field_choices(form.roles) %}
+            <div class="mt-3">
+                <input type="checkbox" id="user_roles_{{i }}" name="user_edit[roles][]" value="{{ value }}" {{ value in user.roles ? 'checked' : ''}}>
+                <label for="user_roles_{{i }}">{{ label }}</label>
             </div>
-        {% endif %}
+            {% set i = i + 1 %}
+            {% endfor %}
+        </div>
+    {% endif %}
+
     </div>
 
 

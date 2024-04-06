@@ -105,11 +105,7 @@ class UserController extends AbstractController
     public function edit(Request $request, User $user, EntityManagerInterface $entityManager, UserPasswordHasherInterface $hasher, UserRepository $userRepository): Response
     {
 
-        $initialPassword = $userRepository->find($user)->getPassword();
-
-
-
-
+        // $initialPassword = $userRepository->find($user)->getPassword();
         // si je ne suis pas dans la liste autorisée, je ne peux voir que moi !
         $autorisationRolesList = self::AUTORISATION_LIST;
         $manageUsersAuthorisation = false;
@@ -139,7 +135,7 @@ class UserController extends AbstractController
                 ); 
                 $userRepository->upgradePassword($user,  $newHashedPassword); 
             }
-    
+
             $entityManager->flush();
 
             

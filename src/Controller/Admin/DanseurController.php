@@ -68,6 +68,7 @@ class DanseurController extends AbstractController
     public function archiveDanseurs(DanseurRepository $danseurRepository): Response
     {
 
+        
         return $this->render('admin/danseur/index.html.twig', [
             'danseurs' => $danseurRepository->findBy(['archived' => true]),
             'identifiant_route' => 'archives'
