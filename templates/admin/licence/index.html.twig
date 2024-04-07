@@ -6,70 +6,68 @@
 <div class="container my-5">
 
     <h3 class="my-5">Demandes de Licences </h3>
+    {# Aide #}
+        <!-- Button trigger modal -->
+        <button type="button" class="btn btn-outline-secondary mb-3" data-bs-toggle="modal" data-bs-target="#exampleModal">
+            Aide
+        </button>
 
-    <!-- Button trigger modal -->
-    <button type="button" class="btn btn-outline-secondary mb-3" data-bs-toggle="modal" data-bs-target="#exampleModal">
-        Aide
-    </button>
+        <!-- Modal -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" style="z-index:9999;" >
+            <div class="modal-dialog">
+                <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Aide</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <h6>Menu</h6>
+                    <p>
+                        <i class="fa-solid fa-pen-to-square text-danger"></i> Modifier la licence <br/>
+                        {% if 'ROLE_CLUB' in app.user.roles %}
+                            <i class="fa-solid fa-eye text-danger"></i> Refaire une demande de licence qui a été rejetée <br/>
+                        {% else %}
+                            <i class="fa-solid fa-eye text-danger"></i> Valider / Rejeter la licence <br/>  
+                        {% endif %}
+                    </p>
+                    <h6>Lecture du tableau</h6>
+                    <p>
+                        Les Licences <bouton class="btn btn-warning btn-sm">En cours</bouton> apparaissent en premier<br/>
+                    </p>
+                    <h6>Fonctionnement</h6>
+                    <ul>
+                        <li>Le club créé sa licence</li>
+                        <li>La fédération étudie la licence et la valide ou la rejette</li>
+                    </ul>
 
-    <!-- Modal -->
-    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" style="z-index:9999;" >
-        <div class="modal-dialog">
-            <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Aide</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <h6>Menu</h6>
-                <p>
-                    <i class="fa-solid fa-pen-to-square text-danger"></i> Modifier la licence <br/>
-                    {% if 'ROLE_CLUB' in app.user.roles %}
-                        <i class="fa-solid fa-eye text-danger"></i> Refaire une demande de licence qui a été rejetée <br/>
-                    {% else %}
-                        <i class="fa-solid fa-eye text-danger"></i> Valider / Rejeter la licence <br/>  
-                    {% endif %}
-                </p>
-                <h6>Lecture du tableau</h6>
-                <p>
-                    Les Licences <bouton class="btn btn-warning btn-sm">En cours</bouton> apparaissent en premier<br/>
-                </p>
-                <h6>Fonctionnement</h6>
-                <ul>
-                    <li>Le club créé sa licence</li>
-                    <li>La fédération étudie la licence et la valide ou la rejette</li>
-                </ul>
+                    <h6>Licence Validée</h6>
+                        <p>Une licence Validée n'est plus modifiable par le club</p>
 
-                <h6>Licence Validée</h6>
-                    <p>Une licence Validée n'est plus modifiable par le club</p>
-
-                <h6>Licence Rejetée</h6>
-                <ul>
-                    <li>Le club reçoit une licence comme <bouton class="btn btn-danger btn-sm">Rejetée</bouton>. Cela siginfie qu'il faut changer quelque chose avant de resoumettre la licence</li>
-                    <li>Une fois la licence modifiée, le club peut passer la licence  <bouton class="btn btn-danger btn-sm">Rejetée</bouton> en une licence <bouton class="btn btn-warning btn-sm">En cours</bouton> dans l'action <i class="fa-solid fa-eye text-danger"></i></li>
-                    <li>La fédération peut maintenant réétudier la demande car elle ré-apparait comme <bouton class="btn btn-warning btn-sm">En cours</bouton> dans sa liste.</li>
-                </ul>    
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
-            </div>
+                    <h6>Licence Rejetée</h6>
+                    <ul>
+                        <li>Le club reçoit une licence comme <bouton class="btn btn-danger btn-sm">Rejetée</bouton>. Cela siginfie qu'il faut changer quelque chose avant de resoumettre la licence</li>
+                        <li>Une fois la licence modifiée, le club peut passer la licence  <bouton class="btn btn-danger btn-sm">Rejetée</bouton> en une licence <bouton class="btn btn-warning btn-sm">En cours</bouton> dans l'action <i class="fa-solid fa-eye text-danger"></i></li>
+                        <li>La fédération peut maintenant réétudier la demande car elle ré-apparait comme <bouton class="btn btn-warning btn-sm">En cours</bouton> dans sa liste.</li>
+                    </ul>    
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+                </div>
+                </div>
             </div>
         </div>
-    </div>
+    {# Fin Aide #}
 
 
+    {# Bouton de création et navigation en cours / validée / rejetée #}
+            <div class="me-3">
+                <a href="{{ path('app_admin_licence_new') }}" class="btn btn-sm btn-success mb-3">Créer une nouvelle licence</a>
+            </div>
+    {# FIN - Bouton de création et navigation en cours / validée / rejetée #}
 
-    <div class="d-flex ">
-        <div class="me-3">
-            <a href="{{ path('app_admin_licence_new') }}" class="btn btn-sm btn-success mb-3">Créer une nouvelle licence</a>
-        </div>
-        <div >
-            <a href="" class="btn btn-sm btn-secondary mb-3">Licences Archivées</a>
-        </div>
-    </div>
 
     <div class="card my-3 p-3 shadow">
-        <form action="{{ path('app_admin_licence_index') }}" method="GET" >
+        <form action="{{ path('app_admin_licence_index',{}|merge(app.request.query.all)) }}" method="GET" >
             <div>
                 <label for="saison" class="form-label">Saison</label>
                 <select class="form-select" id="saison" name="saison" >
@@ -90,6 +88,15 @@
                 </select>
             </div>
             {% endif %}
+            <div class="mt-3">
+                <label for="status" class="form-label">Status</label>
+                <select class="form-select" id="status" name="status" >
+                    <option value="all" {{ app.request.query.get('status') == 'all' ? 'selected' }}>Tous les status</option>
+                    <option value="cours" {{ app.request.query.get('status') == 'cours' ? 'selected' }}>En Cours</option>
+                    <option value="validees" {{ app.request.query.get('status') == 'validees' ? 'selected' }}>Validées</option>
+                    <option value="rejetees" {{ app.request.query.get('status') == 'rejetees' ? 'selected' }}>Rejetées</option>
+                </select>
+            </div>
             <div class="text-center">
                 <button type="submit" class="btn btn-success btn-sm mt-3">Envoyer</button>
             </div>

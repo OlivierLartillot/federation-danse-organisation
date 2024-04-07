@@ -25,9 +25,15 @@ class LicenceController extends AbstractController
     {
         
         $seasons = $seasonRepository->findBy([], ['name' => 'ASC']);
-
         $currentSeason = $seasonRepository->findOneBy(['isCurrentSeason' => true]);
-        
+    
+        // si on a cliqué sur un bouton de status
+             if ($request->query->get('status') == 'cours') { $status = 0;}
+        else if ($request->query->get('status') == 'validees') {$status = 1;} 
+        else if ($request->query->get('status') == 'rejetees') { $status = 2;} 
+        else {$status = 'all';}
+
+
         // si la saison a été transmise dans la barre
         if ($request->query->get('saison') != null) {
             $selectedSeason = intval($request->query->get('saison'));
@@ -41,12 +47,18 @@ class LicenceController extends AbstractController
         // si le club a été transmis dans la barre 
         if (($request->query->get('club') != null) && ($request->query->get('club') != 'all')) {
             $selectedClub = intval($request->query->get('club'));
-            $licences = $currentSeason ? $licenceRepository->findBy([
-                'season' => $selectedSeason, 'club' => $selectedClub,
-                ], 
-                ['status' => 'ASC', 'category' => 'ASC']) : $licenceRepository->findAll();
+            if ($status == 'all') {
+                $licences = $currentSeason ? $licenceRepository->findBy(['season' => $selectedSeason, 'club' => $selectedClub,], ['status' => 'ASC', 'category' => 'ASC']) : $licenceRepository->findAll();
+            } else {
+                $licences = $currentSeason ? $licenceRepository->findBy(['season' => $selectedSeason, 'club' => $selectedClub, 'status' => $status], ['status' => 'ASC', 'category' => 'ASC']) : $licenceRepository->findAll();
+            }
         } else {
-            $licences = $currentSeason ? $licenceRepository->findBy(['season' => $selectedSeason], ['status' => 'ASC', 'category' => 'ASC']) : $licenceRepository->findAll();
+            if ($status == 'all') {
+                $licences = $currentSeason ? $licenceRepository->findBy(['season' => $selectedSeason], ['status' => 'ASC', 'category' => 'ASC']) : $licenceRepository->findAll();
+            }else {
+                $licences = $currentSeason ? $licenceRepository->findBy(['season' => $selectedSeason, 'status' => $status], ['status' => 'ASC', 'category' => 'ASC']) : $licenceRepository->findAll();
+            }
+
         }
 
         // si tu es un club tu ne peux avoir acces qu'à la liste de tes licences
@@ -54,7 +66,12 @@ class LicenceController extends AbstractController
             // cherche mon club
             $myClub = $clubRepository->findBy(['owner' => $this->getUser()]);
             // et mes licences en affichant en premier les rejetées
-            $licences = $currentSeason ? $licenceRepository->findBy(['season' => $selectedSeason, 'club' => $myClub], ['status' => 'DESC', 'category' => 'ASC']) : []; 
+            if ($status == 'all') {
+                $licences = $currentSeason ? $licenceRepository->findBy(['season' => $selectedSeason, 'club' => $myClub], ['status' => 'DESC', 'category' => 'ASC']) : [];
+            } else {
+                $licences = $currentSeason ? $licenceRepository->findBy(['season' => $selectedSeason, 'club' => $myClub, 'status' => $status], ['status' => 'DESC', 'category' => 'ASC']) : [];
+
+            } 
         }
 
 
