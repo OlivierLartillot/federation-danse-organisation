@@ -10,6 +10,13 @@
 
     {% if droitACreerUnCLub %}
         <a href="{{ path('app_admin_club_new') }}" class="btn btn-sm btn-success mb-3">Créer un nouveau club</a>
+        
+        {% if app.request.get('archived') == null or app.request.get('archived') == 'false' %}    
+        <a href="{{ path('app_admin_club_index', {'archived': 'true'}) }}" class="btn btn-sm btn-secondary mb-3">Club archivés</a>
+        {% else %}     
+            <a href="{{ path('app_admin_club_index', {'archived': 'false'}) }}" class="btn btn-sm btn-secondary mb-3">Clubs</a>
+        {% endif %}
+
     {% endif %}
 
     <div class="card my-3 p-3 shadow">

@@ -9,10 +9,14 @@
     <h3 class="my-5">Index des Catégories </h3>
 
     <a href="{{ path('app_admin_category_new') }}" class="btn btn-sm btn-success mb-3">Créer une nouvelle catégorie</a>
-
+    {% if app.request.get('archived') == null or app.request.get('archived') == 'false' %}    
+        <a href="{{ path('app_admin_category_index', {'archived': 'true'}) }}" class="btn btn-sm btn-secondary mb-3">Catégories archivées</a>
+    {% else %}     
+        <a href="{{ path('app_admin_category_index', {'archived': 'false'}) }}" class="btn btn-sm btn-secondary mb-3">Catégories</a>
+    {% endif %}
 
     <!-- formulaire select -->
-    {% if 'ROLE_CLUB' not in app.user.roles %}
+{#     {% if 'ROLE_CLUB' not in app.user.roles %}
         <div class="card my-3 p-3 shadow">
             <form action="{{ path('app_admin_category_index') }}" method="GET" >
                 <div>
@@ -21,7 +25,6 @@
                         <option value="all" {{ app.request.query.get('archived') == 'all' ? 'selected' }}>Toutes</option>
                         <option value="false" {{ app.request.query.get('archived') == 'false' or app.request.query.get('archived') == null ? 'selected' }}> Actives</option>
                         <option value="true" {{ app.request.query.get('archived') == 'true' ? 'selected' }}> Archivées</option>
-                     
                     </select>
                     <div class="text-center">
                         <button type="submit" class="btn btn-success btn-sm mt-3">Envoyer</button>
@@ -30,6 +33,9 @@
             </form>
         </div>
     {% endif %}
+ #}
+
+
 
 
     <div class="card my-3 p-3 shadow">

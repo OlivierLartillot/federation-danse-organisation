@@ -1,0 +1,5 @@
+
+<form method="post" action="{{ path('app_admin_club_archived_traitement', {'id': club.id}) }}" onsubmit="Voulez vous archiver ce club ?');">
+    <input type="hidden" name="_token" value="{{ csrf_token('archived' ~ club.id) }}">
+    <button class="btn btn-sm btn-danger">{{ club.isArchived ? 'Désarchiver ' : 'Archiver'  }}</button>
+</form>

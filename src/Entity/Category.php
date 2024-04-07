@@ -36,7 +36,7 @@ class Category
 
     private ?string $categorieDescriptionText;
 
-    #[ORM\Column(nullable: true)]
+    #[ORM\Column(nullable: false)]
     private ?bool $archived = null;
 
     public function __construct()

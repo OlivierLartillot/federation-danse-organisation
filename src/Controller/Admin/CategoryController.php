@@ -20,11 +20,12 @@ class CategoryController extends AbstractController
 
         // si la request club et renvoyé par l admin 
         if ($request->query->get('archived') == null) {
-            $categories = $categoryRepository->findBy(['archived' => null], ['name' => 'ASC']);
+            $categories = $categoryRepository->findBy(['archived' => false], ['name' => 'ASC']);
         } else if (($request->query->get('archived') != null)  && ($request->query->get('archived') != 'all')) {
-            $selectedArchivedStatus = $request->query->get('archived') == "false" ? null : true;
+            $selectedArchivedStatus = $request->query->get('archived') == "false" ? false : true;
             $categories = $categoryRepository->findBy(['archived' => $selectedArchivedStatus], ['name' => 'ASC']);
         } else {
+            // au cas ou ... on renvoie tout
             $categories = $categoryRepository->findBy([], ['name' => 'ASC']);
         }
             
@@ -86,8 +87,20 @@ class CategoryController extends AbstractController
 
         if ($this->isCsrfTokenValid('archived'.$category->getId(), $request->request->get('_token'))) {
 
-            $category->isArchived() ? $category->setArchived(null) : $category->setArchived(true);
+            $category->isArchived() ? $category->setArchived(false) : $category->setArchived(true);
             $entityManager->flush();
+            if (!$category->isArchived()) {
+                $this->addFlash(
+                    'success',
+                    'La catégorie a été "désarchivée"'
+                );
+            }
+             else{
+                $this->addFlash(
+                    'danger',
+                    'La catégorie a été archivée'
+                );
+             }
         }
 
         return $this->redirectToRoute('app_admin_category_show', ['id' => $category->getId()], Response::HTTP_SEE_OTHER);

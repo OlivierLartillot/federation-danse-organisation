@@ -55,6 +55,9 @@ class Club
     #[ORM\OneToMany(targetEntity: Licence::class, mappedBy: 'club')]
     private Collection $licences;
 
+    #[ORM\Column(nullable: false)]
+    private ?bool $archived = null;
+
 
     public function __construct()
     {
@@ -279,6 +282,18 @@ class Club
                 $licence->setClub(null);
             }
         }
+
+        return $this;
+    }
+
+    public function isArchived(): ?bool
+    {
+        return $this->archived;
+    }
+
+    public function setArchived(?bool $archived): static
+    {
+        $this->archived = $archived;
 
         return $this;
     }

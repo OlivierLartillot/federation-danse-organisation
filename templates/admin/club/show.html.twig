@@ -11,12 +11,24 @@
     <div class="d-inline-flex">
         <div class="me-2"><a href="{{ path('app_admin_club_index') }}" class="btn btn-sm btn-secondary">Retour liste Clubs</a></div>
         <div class="me-2"><a href="{{ path('app_admin_club_edit', {'id': club.id}) }}" class="btn btn-sm btn-success">Modifier</a></div>
-        <div class="mx-5"><a href="" class="btn "><s>Archiver</s></a></div>
+        <div class="mx-5">{{ include('admin/club/_archived_form.html.twig') }}</div>
     </div>
     
     
 
     <div class="card my-3 p-3 shadow"> 
+
+        {% for message in app.flashes('success') %}
+            <div class="alert alert-success">
+                {{ message }}
+            </div>
+        {% endfor %}
+        {% for message in app.flashes('danger') %}
+            <div class="alert alert-danger">
+                {{ message }}
+            </div>
+        {% endfor %}
+
         <div class="table-responsive">
             <table class="table">
                 <tbody>

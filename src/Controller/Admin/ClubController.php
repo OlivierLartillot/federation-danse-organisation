@@ -18,9 +18,8 @@ use function PHPUnit\Framework\throwException;
 class ClubController extends AbstractController
 {
     #[Route('/', name: 'app_admin_club_index', methods: ['GET'])]
-    public function index(ClubRepository $clubRepository): Response
+    public function index(ClubRepository $clubRepository, Request $request): Response
     {
-
 
         // ================== AUTORISATIONS =============================
         // ==============================================================
@@ -35,6 +34,7 @@ class ClubController extends AbstractController
         // ================= FIN AUTORISATIONS ==========================
         // ==============================================================
 
+
         // droit modif et création
         $droitACreerUnCLub = true; 
         // si tu es un club il faut que ce soit le tiens pour le modifier
@@ -43,7 +43,17 @@ class ClubController extends AbstractController
             $clubs = $clubRepository->findBy(['owner' => $this->getUser()]);
             $droitACreerUnCLub = false; 
         } else {
-            $clubs = $clubRepository->findBy([], ['name' => 'ASC']);
+            // si la request club et renvoyé par l admin 
+            if ($request->query->get('archived') == null) {
+                $clubs = $clubRepository->findBy(['archived' => false], ['name' => 'ASC']);
+            } else if (($request->query->get('archived') != null)  && ($request->query->get('archived') != 'all')) {
+                $selectedArchivedStatus = $request->query->get('archived') == "false" ? false : true;
+                $clubs = $clubRepository->findBy(['archived' => $selectedArchivedStatus], ['name' => 'ASC']);
+            } else {
+                // au cas ou ... on renvoie tout
+                $clubs = $clubRepository->findBy([], ['name' => 'ASC']);
+            }
+           
         }
 
         return $this->render('admin/club/index.html.twig', [
@@ -122,6 +132,33 @@ class ClubController extends AbstractController
         ]);
     }
 
+
+    #[Route('/archived/{id}', name: 'app_admin_club_archived_traitement', methods: ['POST'])]
+    public function categoryArchived(Request $request, Club $club, EntityManagerInterface $entityManager): Response
+    {
+
+        if ($this->isCsrfTokenValid('archived'.$club->getId(), $request->request->get('_token'))) {
+
+            $club->isArchived() ? $club->setArchived(false) : $club->setArchived(true);
+            $entityManager->flush();
+
+            if (!$club->isArchived()) {
+                $this->addFlash(
+                    'success',
+                    'Le club a été "désarchivé"'
+                );
+            }
+             else{
+                $this->addFlash(
+                    'danger',
+                    'Le club a été archivé'
+                );
+             }
+
+        }
+
+        return $this->redirectToRoute('app_admin_club_show', ['id' => $club->getId()], Response::HTTP_SEE_OTHER);
+    }
 
     /* Supprimer un club implique les relations user, danseurs, licence etc     
     #[Route('/{id}', name: 'app_admin_club_delete', methods: ['POST'])]
