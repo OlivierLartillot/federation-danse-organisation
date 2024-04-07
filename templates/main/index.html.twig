@@ -4,9 +4,20 @@
 
 {% block body %}
 
+
+    {{ include('./composants/slider_hero_home.html.twig') }}  
+    {{ include('./composants/about.html.twig') }}
+        <div class="mb-5 d-none d-xl-block">
+        <br><br>
+        <br><br>
+        <br><br>
+        <br><br>
+    </div>
     {{ include('./composants/events.html.twig') }}  
    {#  {{ include('./composants/carousel_images.html.twig') }}   #}
-    {{ include('./composants/about.html.twig') }}   
+    <div class="mb-5">
+        <br><br>
+    </div>
     {{ include('./composants/counters_area.html.twig') }}  
     {{ include('./composants/equipe.html.twig') }}  
     {# {{ include('./composants/latest_news.html.twig') }}   #}
