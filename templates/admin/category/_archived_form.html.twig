@@ -1,0 +1,5 @@
+
+<form method="post" action="{{ path('app_admin_category_archived_traitement', {'id': category.id}) }}" onsubmit="Voulez vous archiver cette category ?');">
+    <input type="hidden" name="_token" value="{{ csrf_token('archived' ~ category.id) }}">
+    <button class="btn btn-sm btn-danger">{{ category.isArchived ? 'Désarchiver ' : 'Archiver'  }}</button>
+</form>

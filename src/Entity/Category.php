@@ -36,6 +36,9 @@ class Category
 
     private ?string $categorieDescriptionText;
 
+    #[ORM\Column(nullable: true)]
+    private ?bool $archived = null;
+
     public function __construct()
     {
         $this->licences = new ArrayCollection();
@@ -142,6 +145,18 @@ class Category
                 $licence->setCategory(null);
             }
         }
+
+        return $this;
+    }
+
+    public function isArchived(): ?bool
+    {
+        return $this->archived;
+    }
+
+    public function setArchived(?bool $archived): static
+    {
+        $this->archived = $archived;
 
         return $this;
     }

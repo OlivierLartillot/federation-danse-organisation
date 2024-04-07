@@ -14,11 +14,23 @@ use Symfony\Component\Routing\Attribute\Route;
 #[Route('/admin/categories')]
 class CategoryController extends AbstractController
 {
-    #[Route('/', name: 'app_admin_category_index', methods: ['GET'])]
-    public function index(CategoryRepository $categoryRepository): Response
+    #[Route('', name: 'app_admin_category_index', methods: ['GET'])]
+    public function index(CategoryRepository $categoryRepository, Request $request): Response
     {
+
+        // si la request club et renvoyé par l admin 
+        if ($request->query->get('archived') == null) {
+            $categories = $categoryRepository->findBy(['archived' => null], ['name' => 'ASC']);
+        } else if (($request->query->get('archived') != null)  && ($request->query->get('archived') != 'all')) {
+            $selectedArchivedStatus = $request->query->get('archived') == "false" ? null : true;
+            $categories = $categoryRepository->findBy(['archived' => $selectedArchivedStatus], ['name' => 'ASC']);
+        } else {
+            $categories = $categoryRepository->findBy([], ['name' => 'ASC']);
+        }
+            
+
         return $this->render('admin/category/index.html.twig', [
-            'categories' => $categoryRepository->findBy([], ['name' => 'ASC']),
+            'categories' => $categories
         ]);
     }
 
@@ -67,7 +79,21 @@ class CategoryController extends AbstractController
             'form' => $form,
         ]);
     }
+    
+    #[Route('/archived/{id}', name: 'app_admin_category_archived_traitement', methods: ['POST'])]
+    public function categoryArchived(Request $request, Category $category, EntityManagerInterface $entityManager): Response
+    {
 
+        if ($this->isCsrfTokenValid('archived'.$category->getId(), $request->request->get('_token'))) {
+
+            $category->isArchived() ? $category->setArchived(null) : $category->setArchived(true);
+            $entityManager->flush();
+        }
+
+        return $this->redirectToRoute('app_admin_category_show', ['id' => $category->getId()], Response::HTTP_SEE_OTHER);
+    }
+    
+    /* DELETE 
     #[Route('/{id}', name: 'app_admin_category_delete', methods: ['POST'])]
     public function delete(Request $request, Category $category, EntityManagerInterface $entityManager): Response
     {
@@ -77,5 +103,6 @@ class CategoryController extends AbstractController
         }
 
         return $this->redirectToRoute('app_admin_category_index', [], Response::HTTP_SEE_OTHER);
-    }
+    } 
+    */
 }

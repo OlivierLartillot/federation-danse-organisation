@@ -10,7 +10,7 @@
     <div class="d-inline-flex">
         <div class="me-2"><a href="{{ path('app_admin_category_index') }}" class="btn btn-sm btn-secondary">Retour liste des catégories</a></div>
         <div class="me-2"><a href="{{ path('app_admin_category_edit', {'id': category.id}) }}" class="btn btn-sm btn-success">Modifier</a></div>
-        <div class="mx-5">{{ include('admin/category/_delete_form.html.twig') }}</div>
+        <div class="mx-5">{{ include('admin/category/_archived_form.html.twig') }}</div>
     </div>
     
     

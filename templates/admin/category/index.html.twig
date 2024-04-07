@@ -10,6 +10,28 @@
 
     <a href="{{ path('app_admin_category_new') }}" class="btn btn-sm btn-success mb-3">Créer une nouvelle catégorie</a>
 
+
+    <!-- formulaire select -->
+    {% if 'ROLE_CLUB' not in app.user.roles %}
+        <div class="card my-3 p-3 shadow">
+            <form action="{{ path('app_admin_category_index') }}" method="GET" >
+                <div>
+                    <label for="status" class="form-label">Status</label>
+                    <select class="form-select" id="status" name="archived" >
+                        <option value="all" {{ app.request.query.get('archived') == 'all' ? 'selected' }}>Toutes</option>
+                        <option value="false" {{ app.request.query.get('archived') == 'false' or app.request.query.get('archived') == null ? 'selected' }}> Actives</option>
+                        <option value="true" {{ app.request.query.get('archived') == 'true' ? 'selected' }}> Archivées</option>
+                     
+                    </select>
+                    <div class="text-center">
+                        <button type="submit" class="btn btn-success btn-sm mt-3">Envoyer</button>
+                    </div>    
+                </div>
+            </form>
+        </div>
+    {% endif %}
+
+
     <div class="card my-3 p-3 shadow">
         <div class="table-responsive">
 
