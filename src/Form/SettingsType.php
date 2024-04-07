@@ -14,7 +14,7 @@ class SettingsType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('imageFile', VichImageType::class, [
+            /* ->add('imageFile', VichImageType::class, [
                 'label' => 'Logo',
 
                 // unmapped means that this field is not associated to any entity property
@@ -41,7 +41,7 @@ class SettingsType extends AbstractType
                 'row_attr' => ['class' => 'mb-5'],
                 'help' => 'Ne changez pas le logo si vous ne savez pas ce que vous faites !'
 
-            ])
+            ]) */
             ->add('phone', null, [
                 'label' => 'Télephone FDO',
                 'row_attr' => ['class' => 'mb-5']

@@ -20,10 +20,18 @@
                                 <span class="team-desig">{{ dirigeant.organizationRole }}</span>
                             </div>
                             <div class="team-social">
-                                <a href="https://facebook.com/"><i class="fab fa-facebook-f"></i></a>
-                                <a href="https://twitter.com/"><i class="fab fa-twitter"></i></a>
-                                <a href="https://instagram.com/"><i class="fab fa-instagram"></i></a>
-                                <a href="https://linkedin.com/"><i class="fab fa-linkedin-in"></i></a>
+                                {% if dirigeant.facebook %}
+                                    <a href="https://facebook.com/{{dirigeant.facebook}}" target="_blank"><i class="fab fa-facebook-f"></i></a>
+                                {% endif %}
+                                {% if dirigeant.twitter %}
+                                    <a href="https://twitter.com/{{dirigeant.twitter}}" target="_blank"><i class="fab fa-twitter"></i></a>
+                                {% endif %}
+                                {% if dirigeant.instagram %}
+                                    <a href="https://instagram.com/{{dirigeant.instagram}}" target="_blank"><i class="fab fa-instagram"></i></a>
+                                {% endif %}
+                                {% if dirigeant.linkedin %}
+                                    <a href="https://linkedin.com/{{dirigeant.linkedin}}" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+                                {% endif %}
                             </div>
                         </div>
                     </div>

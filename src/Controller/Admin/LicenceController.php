@@ -11,6 +11,7 @@ use App\Repository\LicenceRepository;
 use App\Repository\SeasonRepository;
 use App\Service\LicenceChecker;
 use Doctrine\ORM\EntityManagerInterface;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -20,7 +21,7 @@ use Symfony\Component\Routing\Attribute\Route;
 class LicenceController extends AbstractController
 {
     #[Route('', name: 'app_admin_licence_index', methods: ['GET'])]
-    public function index(LicenceRepository $licenceRepository, SeasonRepository $seasonRepository, Request $request, ClubRepository $clubRepository): Response
+    public function index(LicenceRepository $licenceRepository, SeasonRepository $seasonRepository, Request $request, ClubRepository $clubRepository, PaginatorInterface $paginator): Response
     {
         
         $seasons = $seasonRepository->findBy([], ['name' => 'ASC']);
@@ -56,8 +57,16 @@ class LicenceController extends AbstractController
             $licences = $currentSeason ? $licenceRepository->findBy(['season' => $selectedSeason, 'club' => $myClub], ['status' => 'DESC', 'category' => 'ASC']) : []; 
         }
 
+
+        $pagination = $paginator->paginate(
+            $licences,
+            $request->query->getInt('page', 1),
+            25,
+        );
+        $pagination->setPageRange(3);
+
         return $this->render('admin/licence/index.html.twig', [
-            'licences' => $licences,
+            'licences' => $pagination,
             'selectedSeason' => $selectedSeason,
             'seasons' => $seasons,
             'clubs' => $clubRepository->findBy([] , ['name' => 'ASC'])

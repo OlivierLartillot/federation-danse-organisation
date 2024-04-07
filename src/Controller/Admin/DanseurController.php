@@ -7,6 +7,7 @@ use App\Form\DanseurType;
 use App\Repository\ClubRepository;
 use App\Repository\DanseurRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -16,7 +17,7 @@ use Symfony\Component\Routing\Attribute\Route;
 class DanseurController extends AbstractController
 {
     #[Route('', name: 'app_admin_danseur_index', methods: ['GET'])]
-    public function index(DanseurRepository $danseurRepository, Request $request, ClubRepository $clubRepository): Response
+    public function index(DanseurRepository $danseurRepository, Request $request, ClubRepository $clubRepository, PaginatorInterface $paginator): Response
     {
         $clubs = $clubRepository->findBy([], ['name' => 'ASC']);
         $selectedClub = 'all';
@@ -52,12 +53,17 @@ class DanseurController extends AbstractController
                 $danseurs = $danseurRepository->findBy(['archived' => false]);
             }
             
-
-            
         }
 
+        $pagination = $paginator->paginate(
+            $danseurs,
+            $request->query->getInt('page', 1),
+            25,
+        );
+        $pagination->setPageRange(3);
+
         return $this->render('admin/danseur/index.html.twig', [
-            'danseurs' => $danseurs,
+            'danseurs' => $pagination,
             'identifiant_route' => 'index',
             'clubs' =>  $clubs,
             'selectedClub' => $selectedClub,

@@ -52,6 +52,26 @@ class OrganizationTeamType extends AbstractType
                     ])
                 ],
             ])
+            ->add('facebook', null, [
+                'help' => 'Ne marquer que la partie après facebook.com/ ! ',
+                'help_attr' => ['class' => 'text-danger fst-italic'],
+                'row_attr' => ['class' => 'mt-5 mb-5']
+            ])
+            ->add('twitter', null, [
+                'help' => 'Ne marquer que la partie après twitter.com/! ',
+                'help_attr' => ['class' => 'text-danger fst-italic'],
+                'row_attr' => ['class' => 'mb-5']
+            ])
+            ->add('instagram', null, [
+                'help' => 'Ne marquer que la partie après linkedin.com/ ! ',
+                'help_attr' => ['class' => 'text-danger fst-italic'],
+                'row_attr' => ['class' => 'mb-5']
+            ])
+            ->add('linkedin', null, [
+                'help' => 'Ne marquer que la partie après linkedin.com/ ! ',
+                'help_attr' => ['class' => 'text-danger fst-italic'],
+                'row_attr' => ['class' => 'mb-5']
+            ])
             
         ;
     }
