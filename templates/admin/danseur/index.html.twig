@@ -7,11 +7,18 @@
 
     <h3 class="my-5">Index des Danseurs </h3>
 
-    {% if identifiant_route == 'index' %}
-        <a href="{{ path('app_admin_danseur_new') }}" class="btn btn-sm btn-success mb-3">Créer un nouveau danseur</a>
-        <a href="{{ path('app_admin_danseur_archived') }}" class="btn btn-sm btn-secondary mb-3">Danseurs Archivés</a>
-    {% else %}
-        <a href="{{ path('app_admin_danseur_index') }}" class="btn btn-sm btn-secondary">Retour liste Danseurs</a>
+
+    {% if app.request.get('archived') == null or app.request.get('archived') == 'false' %}  
+        <div class="d-flex justify-content-between"> 
+            <div> 
+                <a href="{{ path('app_admin_danseur_new') }}" class="btn btn-sm btn-success mb-3">Créer un nouveau danseur</a>
+            </div> 
+            <div> 
+                <a href="{{ path('app_admin_danseur_index', {'archived': 'true'}) }}" class="btn btn-sm btn-secondary mb-3">Danseur archivées</a>
+            </div> 
+        </div>
+    {% else %}     
+        <a href="{{ path('app_admin_danseur_index', {'archived': 'false'}) }}" class="btn btn-sm btn-secondary mb-3">Retour liste Danseurs</a>
     {% endif %}
 
     <!-- formulaire select -->

@@ -28,6 +28,18 @@ class DanseurController extends AbstractController
         // ================= FIN AUTORISATIONS ==========================
         // ==============================================================
 
+
+
+        // si la request isArchived et renvoyée
+        if ($request->query->get('archived') == null) {
+            $isArchived=false;
+        } else if (($request->query->get('archived') != null)  && ($request->query->get('archived') != 'all')) {
+            $isArchived = $request->query->get('archived') == "false" ? false : true;
+        } else {
+            // au cas ou ... on renvoie tout
+            $isArchived=false;
+        }
+
         // si tu es un club il faut récup que tes danseurs
         if (in_array('ROLE_CLUB', $this->getUser()->getRoles())) {
             // chercher le club de ce gestionnaire
@@ -47,10 +59,10 @@ class DanseurController extends AbstractController
             if (($request->query->get('club') != null)  && ($request->query->get('club') != 'all')) {
                 $selectedClub = intval($request->query->get('club'));
                 $club = $clubRepository->findOneBy(['id' => $selectedClub], ['name' => 'ASC']);
-                $danseurs = $danseurRepository->findBy(['archived' => false, 'club' => $club]);
+                $danseurs = $danseurRepository->findBy(['archived' => $isArchived, 'club' => $club]);
 
             } else {
-                $danseurs = $danseurRepository->findBy(['archived' => false]);
+                $danseurs = $danseurRepository->findBy(['archived' => $isArchived]);
             }
             
         }
@@ -70,16 +82,6 @@ class DanseurController extends AbstractController
         ]);
     }
 
-    #[Route('/archives', name: 'app_admin_danseur_archived', methods: ['GET'])]
-    public function archiveDanseurs(DanseurRepository $danseurRepository): Response
-    {
-
-        
-        return $this->render('admin/danseur/index.html.twig', [
-            'danseurs' => $danseurRepository->findBy(['archived' => true]),
-            'identifiant_route' => 'archives'
-        ]);
-    }
 
     #[Route('/new', name: 'app_admin_danseur_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager, ClubRepository $clubRepository): Response
@@ -188,9 +190,21 @@ class DanseurController extends AbstractController
 
             $danseur->isArchived() ? $danseur->setArchived(false) : $danseur->setArchived(true);
             $entityManager->flush();
+            if (!$danseur->isArchived()) {
+                $this->addFlash(
+                    'success',
+                    'Ce danseur a été "désarchivée"'
+                );
+            }
+             else{
+                $this->addFlash(
+                    'danger',
+                    'Ce danseur a été archivée'
+                );
+             }
         }
 
-        return $this->redirectToRoute('app_admin_danseur_archived', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('app_admin_danseur_show', ['id' => $danseur->getId()], Response::HTTP_SEE_OTHER);
     }
 
     /*     
