@@ -31,7 +31,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private array $roles = [];
 
-
     public function __toString(): string
     {
         return $this->getUsername();
@@ -58,7 +57,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[Assert\Email]
     private ?string $email = null;
 
-    #[ORM\Column(nullable: true)]
+    #[ORM\Column(nullable: false)]
     private ?bool $archived = null;
 
     #[ORM\OneToMany(targetEntity: LicenceComment::class, mappedBy: 'user')]

@@ -8,9 +8,7 @@ use App\Entity\Season;
 use App\Repository\ClubRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Event\PostSetDataEvent;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class ChampionshipType extends AbstractType
@@ -18,9 +16,7 @@ class ChampionshipType extends AbstractType
 
 
     public function __construct(private ClubRepository $clubRepository)
-    {
-
-    }
+    {}
 
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {

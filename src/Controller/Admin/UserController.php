@@ -22,9 +22,10 @@ class UserController extends AbstractController
     */
     const AUTORISATION_LIST = ['ROLE_HULK', 'ROLE_SUPERMAN'];
 
-    #[Route('/', name: 'app_admin_user_index', methods: ['GET'])]
-    public function index(UserRepository $userRepository): Response
+    #[Route('', name: 'app_admin_user_index', methods: ['GET'])]
+    public function index(UserRepository $userRepository, Request $request): Response
     {
+
 
         // Les personnes autorisees a acéder à la liste complète des utilisateurs
         $autorisationRolesList = self::AUTORISATION_LIST;
@@ -36,14 +37,23 @@ class UserController extends AbstractController
         }
 
         if ($manageUsersAuthorisation) {
-           $usersList = $userRepository->findAll();
+            // si la request club et renvoyé par l admin 
+            if ($request->query->get('archived') == null) {
+                $users = $userRepository->findBy(['archived' => false]);
+            } else if (($request->query->get('archived') != null)  && ($request->query->get('archived') != 'all')) {
+                $selectedArchivedStatus = $request->query->get('archived') == "false" ? false : true;
+                $users = $userRepository->findBy(['archived' => $selectedArchivedStatus]);
+            } else {
+                // au cas ou ... on renvoie tout
+                $users = $userRepository->findBy([]);
+            }
         } else {
-            $usersList = $userRepository->findBy(['id' =>  $this->getUser()->getId()]);
+            $users = $userRepository->findBy(['id' =>  $this->getUser()->getId()]);
         }
 
 
         return $this->render('admin/user/index.html.twig', [
-            'users' => $usersList,
+            'users' => $users,
             'manageUsersAuthorisation' => $manageUsersAuthorisation
         ]);
     }
@@ -149,7 +159,33 @@ class UserController extends AbstractController
          
         ]);
     }
+    
+    #[Route('/archived/{id}', name: 'app_admin_user_archived_traitement', methods: ['POST'])]
+    public function userArchived(Request $request, User $user, EntityManagerInterface $entityManager): Response
+    {
 
+        if ($this->isCsrfTokenValid('archived'.$user->getId(), $request->request->get('_token'))) {
+
+            $user->isArchived() ? $user->setArchived(false) : $user->setArchived(true);
+            $entityManager->flush();
+            if (!$user->isArchived()) {
+                $this->addFlash(
+                    'success',
+                    'L\'utilisateur a été "désarchivée". Cela signifie qu\'il pourra à nouveau se connecter sur l\'applicaltion.'
+                );
+            }
+             else{
+                $this->addFlash(
+                    'danger',
+                    'L\'utilisateur a été archivée. Il ne pourra plus se connecter sur l\'application'
+                );
+             }
+        }
+
+        return $this->redirectToRoute('app_admin_user_show', ['id' => $user->getId()], Response::HTTP_SEE_OTHER);
+    }
+    
+    /* 
     #[Route('/{id}', name: 'app_admin_user_delete', methods: ['POST'])]
     public function delete(Request $request, User $user, EntityManagerInterface $entityManager): Response
     {
@@ -159,5 +195,6 @@ class UserController extends AbstractController
         }
 
         return $this->redirectToRoute('app_admin_user_index', [], Response::HTTP_SEE_OTHER);
-    }
+    } 
+    */
 }

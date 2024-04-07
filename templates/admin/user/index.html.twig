@@ -13,9 +13,12 @@
             <div class="me-3">
                 <a href="{{ path('app_admin_user_new') }}" class="btn btn-sm btn-success mb-3">Créer un nouvel utilisateur</a>
             </div>
-            <div >
-                <a href="#" class="btn btn-sm btn-secondary mb-3">Utilisateurs Archivées</a>
-            </div>
+            
+            {% if app.request.get('archived') == null or app.request.get('archived') == 'false' %}    
+                <a href="{{ path('app_admin_user_index', {'archived': 'true'}) }}" class="btn btn-sm btn-secondary mb-3">Utilisateurs archivées</a>
+            {% else %}     
+                <a href="{{ path('app_admin_user_index', {'archived': 'false'}) }}" class="btn btn-sm btn-secondary mb-3">Liste des utilisateurs</a>
+            {% endif %}
         </div>
     {% endif %}
     <div class="card my-3 p-3 shadow">
