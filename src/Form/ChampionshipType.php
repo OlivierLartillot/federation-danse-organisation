@@ -5,6 +5,7 @@ namespace App\Form;
 use App\Entity\Championship;
 use App\Entity\Club;
 use App\Entity\Season;
+use App\Repository\ClubRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Event\PostSetDataEvent;
@@ -14,13 +15,24 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class ChampionshipType extends AbstractType
 {
+
+
+    public function __construct(private ClubRepository $clubRepository)
+    {
+
+    }
+
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
+
         $builder
             ->add('season', EntityType::class, [
                 'label' => 'Saison',
                 'class' => Season::class,
                 'choice_label' => 'name',
+                'preferred_choices' => function (?Season $season): bool {
+                    return $season->isCurrentSeason() == true;
+                },
                 'row_attr' => ['class' => 'mb-5']
             ])
             ->add('championshipDate', null, [
@@ -37,6 +49,7 @@ class ChampionshipType extends AbstractType
                 'label' => 'Club organisateur',
                 'class' => Club::class,
                 'choice_label' => 'name',
+                'choices' => $this->clubRepository->findBy([], ['name' => 'ASC']),
                 'row_attr' => ['class' => 'mb-5'],
             ])
             ->add('place', NULL, [
