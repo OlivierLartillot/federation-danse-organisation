@@ -20,7 +20,7 @@ final class Version20240407092556 extends AbstractMigration
     public function up(Schema $schema): void
     {
         // this up() migration is auto-generated, please modify it to your needs
-        $this->addSql('ALTER TABLE category ADD archived TINYINT(1) DEFAULT NOT NULL');
+        $this->addSql('ALTER TABLE category ADD archived TINYINT(1) NOT NULL');
     }
 
     public function down(Schema $schema): void
