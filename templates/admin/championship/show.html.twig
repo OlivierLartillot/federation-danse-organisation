@@ -18,6 +18,13 @@
 
     <div class="card my-3 p-3 shadow">
 
+
+        {% for message in app.flashes('danger') %}
+            <div class="alert alert-danger">
+                {{ message }}
+            </div>
+        {% endfor %}
+
         <table class="table">
             <tbody>
                 <tr>

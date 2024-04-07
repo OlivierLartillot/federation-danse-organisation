@@ -15,6 +15,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\Flash\FlashBag;
 use Symfony\Component\Routing\Attribute\Route;
 
 #[Route('/admin/championnats')]
@@ -88,6 +89,21 @@ class ChampionshipController extends AbstractController
     #[Route('/{id}', name: 'app_admin_championship_delete', methods: ['POST'])]
     public function delete(Request $request, Championship $championship, EntityManagerInterface $entityManager): Response
     {
+
+        // si il y a des inscriptions -> tu ne peux pas supprimer le chanmpionnat
+        // retourne dans la page du championnat show
+        if (count($championship->getLicences())) {
+           
+            $this->addFlash(
+                'danger',
+                'Vous ne pouvez pas supprimer ce championnat car il y a des licences inscrites. Si vous êtes certains de vouloir supprimer ce championnat, veuillez supprimer les inscriptions associées avant de recommencer.'
+            );
+
+            return $this->redirectToRoute('app_admin_championship_show', ['id' => $championship->getId()], Response::HTTP_SEE_OTHER);
+
+
+        }
+
         if ($this->isCsrfTokenValid('delete'.$championship->getId(), $request->request->get('_token'))) {
             $entityManager->remove($championship);
             $entityManager->flush();
