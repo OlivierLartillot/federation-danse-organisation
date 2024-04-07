@@ -55,7 +55,7 @@ class MainController extends AbstractController
     public function clubs(ClubRepository $clubRepository): Response
     {
 
-        $clubs = $clubRepository->findBy([], ['name' => 'ASC']);
+        $clubs = $clubRepository->findBy(['archived' => false], ['name' => 'ASC']);
 
         return $this->render('main/clubs.html.twig', [
             'clubs' => $clubs,
