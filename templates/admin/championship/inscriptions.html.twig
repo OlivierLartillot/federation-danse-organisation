@@ -1,6 +1,25 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}Edit inscriptions{% endblock %}
+{% block javascripts %}
+    <script type="text/javascript">  
+        function selects(){  
+            var ele=document.getElementsByClassName('chk');  
+            for(var i=0; i<ele.length; i++){  
+                if(ele[i].type=='checkbox')  
+                    ele[i].checked=true;  
+            }  
+        }  
+        function deSelect(){  
+            var ele=document.getElementsByClassName('chk');  
+            for(var i=0; i<ele.length; i++){  
+                if(ele[i].type=='checkbox')  
+                    ele[i].checked=false;  
+                    
+            }  
+        }             
+    </script>  
+{% endblock %}
 
 {% block body %}
 
@@ -29,8 +48,19 @@
         {% endfor %}
 
 
+
+        <div class="my-3">
+            <a class="btn btn-success waves-effect waves-light btn-sm" type="button" onclick='selects()'/><i class="mdi mdi-plus me-2"></i>Selectionner tout</a> 
+            <a class="btn btn-warning waves-effect waves-light btn-sm" type="button" onclick='deSelect()'/> <i class="mdi mdi-minus me-2"></i>Deselectionner tout</a> 
+        </div>
+
         {{ include('admin/championship/_form_inscriptions.html.twig', {'button_label': 'Enregistrer'}) }}
 
     </div>
 </div>
+
+
+
+
+
 {% endblock %}
