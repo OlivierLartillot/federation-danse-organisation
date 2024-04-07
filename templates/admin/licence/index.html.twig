@@ -60,10 +60,16 @@
 
 
     {# Bouton de création et navigation en cours / validée / rejetée #}
-            <div class="me-3">
-                <a href="{{ path('app_admin_licence_new') }}" class="btn btn-sm btn-success mb-3">Créer une nouvelle licence</a>
+            <div class="me-3 d-flex justify-content-between">
+                <div>
+                    <a href="{{ path('app_admin_licence_new') }}" class="btn btn-sm btn-success mb-3">Créer une nouvelle licence</a>
+                </div>
+                <div>
+                    <a href="{{ path('app_admin_licence_validees') }}" class="btn btn-sm btn-secondary mb-3">Les licences validées par catégories</a>
+                </div>
             </div>
     {# FIN - Bouton de création et navigation en cours / validée / rejetée #}
+
 
 
     <div class="card my-3 p-3 shadow">

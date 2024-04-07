@@ -6,6 +6,7 @@ use App\Entity\Licence;
 use App\Entity\LicenceComment;
 use App\Form\LicenceCommentType;
 use App\Form\LicenceType;
+use App\Repository\CategoryRepository;
 use App\Repository\ClubRepository;
 use App\Repository\LicenceRepository;
 use App\Repository\SeasonRepository;
@@ -88,6 +89,43 @@ class LicenceController extends AbstractController
             'seasons' => $seasons,
             'clubs' => $clubRepository->findBy([] , ['name' => 'ASC'])
         ]);
+    }
+
+    
+    #[Route('/validees', name: 'app_admin_licence_validees', methods: ['GET', 'POST'])]
+    public function validateLicences(LicenceRepository $licenceRepository, Request $request, 
+                                     SeasonRepository $seasonRepository, ClubRepository $clubRepository, 
+                                     PaginatorInterface $paginator, CategoryRepository $categoryRepository): Response
+    {
+        $currentSeason = $seasonRepository->findOneBy(['isCurrentSeason' => true]);
+        //les licences validees de cette saison
+        $user = $this->getUser();
+        $categories = $categoryRepository->findBy([], ['name' => 'ASC']);
+        
+        $categorie = null;
+        if ($request->query->get('categorie') != 'all') { $categorie = $request->query->get('categorie');}
+
+        // si je suis un club 
+        if (in_array('ROLE_CLUB', $user->getRoles())) {
+            $myClub = $clubRepository->findOneBy(['owner' =>$user]);
+            $licencesValidees = $licenceRepository->findValidateLicencesByCurrentSeasonAndClubOrderByCategories($currentSeason, $myClub , true, $categorie);
+        } else {
+            $licencesValidees = $licenceRepository->findValidateLicencesByCurrentSeasonAndClubOrderByCategories($currentSeason, null , true, $categorie);
+        }
+
+
+        $pagination = $paginator->paginate(
+            $licencesValidees,
+            $request->query->getInt('page', 1),
+            25,
+        );
+        $pagination->setPageRange(3);
+
+        return $this->render('admin/licence/validees.html.twig', [
+            'licences' => $pagination,
+            'categories' => $categories
+        ]);
+
     }
 
     #[Route('/new', name: 'app_admin_licence_new', methods: ['GET', 'POST'])]

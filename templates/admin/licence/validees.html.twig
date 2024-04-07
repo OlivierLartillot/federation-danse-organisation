@@ -1,0 +1,127 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Licence index{% endblock %}
+
+{% block body %}
+<div class="container my-5">
+
+    <h3 class="my-5">Licences Validées, ordonnées par catégories </h3>
+
+
+
+    {# Bouton de création et navigation en cours / validée / rejetée #}
+            <div class="me-3 d-flex justify-content-between">
+                <div>
+                    <a href="{{ path('app_admin_licence_new') }}" class="btn btn-sm btn-success mb-3">Créer une nouvelle licence</a>
+                </div>
+                <div>
+                    <a href="{{ path('app_admin_licence_index') }}" class="btn btn-sm btn-secondary mb-3">Demandes de Licences</a>
+                </div>
+            </div>
+    {# FIN - Bouton de création et navigation en cours / validée / rejetée #}
+
+  
+    <div class="card my-3 p-3 shadow">
+        <form action="{{ path('app_admin_licence_validees',{}|merge(app.request.query.all)) }}" method="GET" >
+            <div>
+                <label for="categories" class="form-label">categories</label>
+                <select class="form-select" id="categories" name="categorie" >
+                    <option value="all">Toutes</option>
+                    {% for categorie in categories %}
+                        <option value="{{categorie.id}}" {{ categorie.id == app.request.query.get('categorie')  ? 'selected' }}>{{categorie.name}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="text-center">
+                <button type="submit" class="btn btn-success btn-sm mt-3">Envoyer</button>
+            </div>
+        </form>
+    </div> 
+   
+    
+    <div class="card my-3 p-3 shadow">
+
+        <div class="d-flex justify-content-center">
+            <div class="navigation">
+                {{ knp_pagination_render(licences, 'modules/pagination.html.twig') }}
+            </div>
+        </div>
+
+
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                    {% set displayTd = 'ROLE_CLUB' in app.user.roles ? 'd-none' %}
+                    <tr>
+                        <th class="{{displayTd}}">Club</th>
+                        <th>Dossard</th>
+                        <th>Danseurs</th>
+                        <th>Catégorie</th>
+                        <th>Status</th>
+                        <th>actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% set status = [
+                        {
+                            'status' : 'En cours', 
+                            'bgColor': 'bg-warning',
+                            'textColor': ''
+                        }, 
+                        {
+                            'status' :'Validée', 
+                            'bgColor':'bg-success',
+                            'textColor': 'text-white'
+                        }, 
+                        {
+                            'status' :'Rejetée', 
+                            'bgColor':'bg-danger',
+                            'textColor': 'text-white'
+                        }
+                    ] 
+                    %}
+                    {% for licence in licences %}
+                        <tr>
+                            <td class="{{displayTd}}">{{ licence.club }}</td>
+                            <td>{{ licence.dossard }}</td>
+                            <td>
+                                {% set retourLigne = [4,8,12,16,20,24,28] %}
+                                {% set iDanseurs = 1 %} <!-- pour la virgule entre les danseurs -->
+                                {% set separateur = ',' %}
+                                {% for danseur in licence.danseurs %}
+                                    {{ danseur.firstName }} {{ danseur.lastName }}{{licence.danseurs|length > iDanseurs ? separateur : null}}
+                                    {{ iDanseurs in retourLigne ? '<br/>' : ''}}
+                                    {% set iDanseurs = iDanseurs + 1 %}
+                                {% endfor %}
+                            </td>
+                            <td>
+                                {{ licence.category }}
+                            </td>
+                            <td class="{{ status[licence.status].bgColor }} {{ status[licence.status].textColor }} text-center">
+                                {{ status[licence.status].status }}
+                            </td>
+                            <td>
+                                {% if licence.status != 1 %}
+                                    <a href="{{ path('app_admin_licence_edit', {'id': licence.id}|merge(app.request.query.all) )}}" class="mx-2"><i class="fa-solid fa-pen-to-square"></i></a>
+                                {% endif %}
+
+                                <a href="{{ path('app_admin_licence_show', {'id': licence.id}|merge(app.request.query.all) )}}" class="mx-2"><i class="fa-solid fa-eye"></i></a>
+                            </td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="5">no records found</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div class="d-flex justify-content-center">
+            <div class="navigation">
+                {{ knp_pagination_render(licences, 'modules/pagination.html.twig') }}
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

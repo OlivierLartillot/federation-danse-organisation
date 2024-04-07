@@ -63,7 +63,7 @@ class LicenceRepository extends ServiceEntityRepository
         ;
     }
 
-    public function findValidateLicencesByCurrentSeasonAndClubOrderByCategories($currentSeason, $club = null, $validate = false): array
+    public function findValidateLicencesByCurrentSeasonAndClubOrderByCategories($currentSeason, $club = null, $validate = false, $categorie = null): array
     {
         $request =  $this->createQueryBuilder('l')
             ->innerJoin('App\Entity\category', 'category', 'WITH', 'l.category = category.id')
@@ -82,6 +82,11 @@ class LicenceRepository extends ServiceEntityRepository
                 $request = $request
                 ->andWhere('l.status = :status')
                 ->setParameter('status', 1);
+            }
+            if ($categorie) {
+                $request = $request
+                ->andWhere('l.category = :categorie')
+                ->setParameter('categorie', $categorie);
             }
 
         $request = $request

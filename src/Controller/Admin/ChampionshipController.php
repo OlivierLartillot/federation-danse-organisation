@@ -135,9 +135,10 @@ class ChampionshipController extends AbstractController
         else {
             // si je suis un club je vois mes inscrits
             $myClub = $clubRepository->findOneBy(['owner' => $this->getUser()]);
-            $licences =  $licenceRepository->findBy(['club' => $myClub, 'season' => $currentSeason]) ? $licenceRepository->findBy(['club' => $myClub, 'season' => $currentSeason]) : [] ;
+            $licences =  $licenceRepository->findBy(['club' => $myClub, 'season' => $currentSeason]) ? $licenceRepository->findBy(['club' => $myClub, 'season' => $currentSeason], ['category' => 'ASC']) : [] ;
         }
-        
+
+     
         $myChampionshipLicences = [];
         foreach ($championship->getLicences() as $licence) {
             // si cette licence est dans mon tableau de mon club, je la conserve
