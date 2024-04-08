@@ -37,20 +37,21 @@
                 </tr>
                 <tr>
                     <th>Date du Championnat</th>
-                    <td>{{ championship.championshipDate ? championship.championshipDate|date('Y-m-d') : '' }}</td>
+                    <td>{{ championship.championshipDate ? championship.championshipDate|date('d-m-Y') : '' }}</td>
                 </tr>
                 <tr>
                     <th>Date Limite d'inscription</th>
-                    <td>{{ championship.championshipInscriptionsLimitDate ? championship.championshipInscriptionsLimitDate|date('Y-m-d') : '' }}</td>
+                    <td>{{ championship.championshipInscriptionsLimitDate ? championship.championshipInscriptionsLimitDate|date('d-m-Y') : '' }}</td>
                 </tr>
                 <tr>
                     <th>Lieu</th>
                     <td>{{ championship.place }}</td>
                 </tr>
                 <tr>
-                    <th>Numéro</th>
-                    <td>{{ championship.number }}</td>
+                    <th>Inscriptions Ouvertes</th>
+                    <td>{{ championship.openRegistration ? 'Oui' : 'Non'}}</td>
                 </tr>
+
             </tbody>
         </table>
     </div>

@@ -116,8 +116,10 @@ class ChampionshipController extends AbstractController
     public function indexInscriptions(ChampionshipRepository $championshipRepository): Response
     {
 
+        //TODO: liste si le championnat est marqué comme inscription ouverte => true
+
         return $this->render('admin/championship/index_inscriptions.html.twig', [
-            'championships' => $championshipRepository->allChampionshipsByCurrentSeason(),
+            'championships' => $championshipRepository->allChampionshipsByCurrentSeason(true),
         ]);
     }
 
@@ -127,7 +129,8 @@ class ChampionshipController extends AbstractController
 
         $currentSeason = $seasonRepository->findOneBy(['isCurrentSeason' => true]);
 
-
+        // si l inscription n est pas ouverte tu gicle
+        if ($championship->isOpenRegistration() == false) { return throw $this->createAccessDeniedException();}
 
         if ($this->isGranted('ROLE_SECRETAIRE')) {
             $licences =  $licenceRepository->findBy(['season' => $currentSeason]) ? $licenceRepository->findBy(['season' => $currentSeason])  : [] ;
@@ -157,6 +160,9 @@ class ChampionshipController extends AbstractController
     #[Route('/inscriptions/{id}/edit', name: 'app_admin_championship_edit_inscriptions', methods: ['GET', 'POST'])]
     public function inscriptions(Request $request, Championship $championship, EntityManagerInterface $entityManager, SeasonRepository $seasonRepository, ClubRepository $clubRepository, LicenceRepository $licenceRepository): Response
     {
+
+        // si l inscription n est pas ouverte tu gicle
+        if ($championship->isOpenRegistration() == false) { return throw $this->createAccessDeniedException();}
 
         $currentSeason = $seasonRepository->findOneBy(['isCurrentSeason' => true]);
         // si tu n est pas l admin et que la date limite est dépassée tu te fais virer

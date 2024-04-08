@@ -54,13 +54,15 @@ class ChampionshipType extends AbstractType
                 'help' => '*ex: Sennecy Le Grand',
                 'help_attr' => ['class' => 'text-danger fst-italic']
             ] )
-            ->add('number', NULL, [
-                'label' => 'Numéro',
-                'row_attr' => ['class' => 'mb-5']
-            ] )
             ->add('isCurrentChampionship', NULL, [
                 'label' => 'Championnat en cours',
-                'row_attr' => ['class' => 'mb-5']
+                'row_attr' => ['class' => 'mb-5'],
+            ] )
+            ->add('openRegistration', NULL, [
+                'label' => 'inscriptions Ouvertes ?',
+                'row_attr' => ['class' => 'mb-5'],
+                'help' => '*Si cette case est cochée, les clubs peuvent commencer à inscrire leurs licenciés dans ce championnat.',
+                'help_attr' => ['class' => 'text-danger fst-italic']
             ] )
         ;
     }

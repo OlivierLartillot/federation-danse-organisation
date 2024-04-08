@@ -13,6 +13,11 @@
     
     <div class="card my-3 p-3 shadow">
 
+        <div class="my-5">
+        <b>Inscriptions:</b> <br>
+        <i class="fa-solid fa-check text-success"></i> Les clubs  peuvent inscrire leurs licenciés sous réserve que la date limite ne soit pas dépassée.<br>
+        <i class="fa-solid fa-x text-danger"></i> Les clubs ne peuvent pas encore inscrire leurs licenciés. Le championnat n'apparaît pas dans la liste "inscription championnat".
+        </div>
 
         <div class="table-responsive">
             <table class="table">
@@ -20,6 +25,7 @@
                     <tr>
                         <th>Id</th>
                         <th>Actuel</th>
+                        <th>Inscriptions</th>
                         <th>Club</th>
                         <th>Date</th>
                         <th>Limite</th>
@@ -46,6 +52,10 @@
                     <tr>
                         <td>{{ championship.id }}</td>
                         <td class="{{ championship.isCurrentChampionship ? 'bg-success text-center"' : 'text-center' }}">{{ championship.isCurrentChampionship ? '<i class="fa-solid fa-check text-white"></i>' : '<i class="fa-solid fa-x text-danger"></i>' }}</td>
+
+                        <td class="{{ championship.openRegistration ? 'text-center"' : 'text-center' }}">{{ championship.openRegistration ? '<i class="fa-solid fa-check text-success"></i>' : '<i class="fa-solid fa-x text-danger"></i>' }}</td>
+
+    
                         <td>{{ championship.organizingClub.name }}</td>
                         <td>{{ championship.championshipDate ? championship.championshipDate|date('d M Y') : '' }}</td>
                         <td class="{{dateLimiteExpireCssClass}}">{{ championship.championshipInscriptionsLimitDate ? championship.championshipInscriptionsLimitDate|date('d M Y') : '' }}</td>

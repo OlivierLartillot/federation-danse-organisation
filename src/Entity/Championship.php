@@ -29,8 +29,6 @@ class Championship
     #[ORM\Column(length: 255)]
     private ?string $place = null;
 
-    #[ORM\Column(type: Types::SMALLINT)]
-    private ?int $number = null;
 
     #[ORM\ManyToOne(inversedBy: 'championships')]
     #[ORM\JoinColumn(nullable: false)]
@@ -41,6 +39,9 @@ class Championship
 
     #[ORM\ManyToMany(targetEntity: Licence::class, inversedBy: 'championships')]
     private Collection $licences;
+
+    #[ORM\Column]
+    private ?bool $openRegistration = null;
 
 
     public function __construct()
@@ -101,18 +102,6 @@ class Championship
         return $this;
     }
 
-    public function getNumber(): ?int
-    {
-        return $this->number;
-    }
-
-    public function setNumber(int $number): static
-    {
-        $this->number = $number;
-
-        return $this;
-    }
-
     public function getOrganizingClub(): ?Club
     {
         return $this->organizingClub;
@@ -157,6 +146,18 @@ class Championship
     public function removeLicence(Licence $licence): static
     {
         $this->licences->removeElement($licence);
+
+        return $this;
+    }
+
+    public function isOpenRegistration(): ?bool
+    {
+        return $this->openRegistration;
+    }
+
+    public function setOpenRegistration(bool $openRegistration): static
+    {
+        $this->openRegistration = $openRegistration;
 
         return $this;
     }

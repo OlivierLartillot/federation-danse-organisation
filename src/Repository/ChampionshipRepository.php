@@ -24,16 +24,26 @@ class ChampionshipRepository extends ServiceEntityRepository
     /**
      * @return Championship[] Returns an array of Championship objects
      */
-    public function allChampionshipsByCurrentSeason(): array
+    public function allChampionshipsByCurrentSeason($inscriptionsOuverte = false): array
     {
-        return $this->createQueryBuilder('c')
+        $request = $this->createQueryBuilder('c')
             ->innerJoin('App\Entity\Season', 'season', 'WITH', 'c.season = season.id')
             ->andWhere('season.isCurrentSeason = :currentSeason')
-            ->setParameter('currentSeason', true)
+            ->setParameter('currentSeason', true);
+
+        if ($inscriptionsOuverte) {
+            $request= $request
+                ->andWhere('c.openRegistration = :inscriptionsOuverte')
+                ->setParameter('inscriptionsOuverte', $inscriptionsOuverte);
+        }
+
+        $request= $request
             ->orderBy('c.championshipDate', 'ASC')
             ->getQuery()
             ->getResult()
         ;
+
+        return $request;
     }
 
 
