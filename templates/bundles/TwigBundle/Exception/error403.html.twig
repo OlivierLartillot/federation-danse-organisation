@@ -1,0 +1,37 @@
+    {% extends 'base.html.twig' %}
+
+{% block title %}Hello MainController!{% endblock %}
+
+{% block body %}
+    
+<!--==============================
+    Breadcumb
+============================== -->
+    <div class="breadcumb-wrapper " data-bg-src="assets/img/breadcumb/breadcumb-bg.jpg">
+        <div class="container">
+            <div class="breadcumb-content">
+                <h1 class="breadcumb-title">403 - Error Page</h1>
+                <ul class="breadcumb-menu">
+                    <li><a href="index.html">Home</a></li>
+                    <li>403 - Error Page</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    
+    <section class="space">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="error-content">
+                        <h2 class="error-title">Oups, tu n'as pas le droit d'accéder à cette page...</h2>
+                        <p class="error-text">Il semble que tu n'ais pas les droits d'accéder à cette page ! </p>
+                        <a href="{{ path('app_main')}}" class="th-btn"><i class="fa-solid fa-arrow-left-long me-2"></i>Accueil</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    
+{% endblock %}
