@@ -1,0 +1,19 @@
+.font-size-dossard {
+    font-size: 15rem;
+  }
+  
+  @media print {
+    body * {
+        display: none;
+    }
+    .toImpressed, .toImpressed * {
+        display: block !important;
+    }
+    .impressedArea {
+        display: flex !important;
+        width: 740px !important;
+        height: 400px !important;
+    }
+  
+  }
+  
