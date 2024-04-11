@@ -35,6 +35,9 @@ class Danseur
     #[ORM\ManyToMany(targetEntity: Licence::class, mappedBy: 'danseurs')]
     private Collection $licences;
 
+    #[ORM\Column]
+    private ?bool $validated = null;
+
 
     public function __construct()
     {
@@ -140,6 +143,18 @@ class Danseur
         if ($this->licences->removeElement($licence)) {
             $licence->removeDanseur($this);
         }
+
+        return $this;
+    }
+
+    public function isValidated(): ?bool
+    {
+        return $this->validated;
+    }
+
+    public function setValidated(bool $validated): static
+    {
+        $this->validated = $validated;
 
         return $this;
     }

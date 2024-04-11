@@ -57,8 +57,8 @@
                 <thead>
                     <tr>
                         <th>Id</th>
-                        <th>Firstname</th>
-                        <th>Lastname</th>
+                        <th>Prénom</th>
+                        <th>Nom</th>
                         <th>Anniversaire</th>
                         <th>Club</th>
                         <th>actions</th>
@@ -72,9 +72,33 @@
                         <td>{{ danseur.lastname }}</td>
                         <td>{{ danseur.birthday ? danseur.birthday|date('d-m-Y') : '' }}</td>
                         <td>{{ danseur.club}}</td>
-                        <td>
-                            <a href="{{ path('app_admin_danseur_edit', {'id': danseur.id}|merge(app.request.query.all) ) }}" class="mx-2"><i class="fa-solid fa-pen-to-square"></i></a>
-                            <a href="{{ path('app_admin_danseur_show', {'id': danseur.id}|merge(app.request.query.all) ) }}" class="mx-2"><i class="fa-solid fa-eye"></i></a>
+                        <td class="d-flex justify-content-between">
+                            <div>
+
+                            {% if is_granted('ROLE_LICENCE')  %}
+                                <a href="{{ path('app_admin_danseur_edit', {'id': danseur.id}|merge(app.request.query.all) ) }}" class="mx-2"><i class="fa-solid fa-pen-to-square"></i></a>
+                                <a href="{{ path('app_admin_danseur_show', {'id': danseur.id}|merge(app.request.query.all) ) }}" class="mx-2"><i class="fa-solid fa-eye"></i></a>
+                            {% else %}
+                                {% set validate = danseur.validated ? false : true %}
+                                    {% if validate %}
+                                        <a href="{{ path('app_admin_danseur_edit', {'id': danseur.id}|merge(app.request.query.all) ) }}" class="mx-2"><i class="fa-solid fa-pen-to-square"></i></a>
+                                        <a href="{{ path('app_admin_danseur_show', {'id': danseur.id}|merge(app.request.query.all) ) }}" class="mx-2"><i class="fa-solid fa-eye"></i></a>
+                                    {% else %}
+                                        <a href="{{ path('app_admin_danseur_show', {'id': danseur.id}|merge(app.request.query.all) ) }}" class="mx-2"><i class="fa-solid fa-eye"></i></a>
+                                    {% endif %}
+                            {% endif %}
+                            </div>
+
+                            {% if is_granted('ROLE_LICENCE')  %}
+                                {% set validate = danseur.validated ? false : true %}
+                                <div>
+                                    {% if validate %}
+                                        <a href="{{ path('app_admin_danseur_validate', {'id': danseur.id, 'validate': validate, 'archived': app.request.get('archived'), 'club': app.request.get('club')  })}}" class="btn btn-success btn-sm align-end">Valider</a>
+                                    {% else %}
+                                        <a href="{{ path('app_admin_danseur_validate', {'id': danseur.id, 'validate': validate, 'archived': app.request.get('archived'), 'club': app.request.get('club') })}}" class="btn btn-danger btn-sm align-end">Invalider</a>
+                                    {% endif %}
+                                </diV>                       
+                            {% endif %}
                         </td>
                     </tr>
                 {% else %}

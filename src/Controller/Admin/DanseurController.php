@@ -12,6 +12,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[Route('/admin/danseur')]
 class DanseurController extends AbstractController
@@ -47,7 +48,8 @@ class DanseurController extends AbstractController
             // récupérer ses danseurs non archives
             $listeDesDanseursNonArchives = [];
             foreach ($club->getDanseurs() as $danseur) {
-                if (!$danseur->isArchived()) {
+
+                if ($danseur->isArchived() == $isArchived) {
                     $listeDesDanseursNonArchives[] = $danseur;
                 }
             }
@@ -82,6 +84,27 @@ class DanseurController extends AbstractController
         ]);
     }
 
+    #[IsGranted('ROLE_LICENCE')]
+    #[Route('/validate/{id}', name: 'app_admin_danseur_validate', methods: ['GET'])] 
+    public function validate(Danseur $danseur, Request $request, EntityManagerInterface $entityManager, ClubRepository $clubRepository): Response
+    {
+
+
+        //si tu es un admin uniquement ! 
+
+
+        if (($request->get('validate') === '0') or  ($request->get('validate') === '1')){
+            $danseur->setValidated($request->get('validate'));
+            $entityManager->flush();
+        } 
+
+        $validate = $request->get('validate') == '1' ? '1' : '0';
+        $archived = $request->get('archived') == 'true' ? 'true' : 'false';
+        $club = $request->get('club') != '' ? $request->get('club') : '';
+
+        return $this->redirectToRoute('app_admin_danseur_index', ['validate' =>  $validate, 'archived' => $archived, 'club' => $club], Response::HTTP_SEE_OTHER);
+        
+    }
 
     #[Route('/new', name: 'app_admin_danseur_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager, ClubRepository $clubRepository): Response
@@ -154,8 +177,12 @@ class DanseurController extends AbstractController
         // si tu es un club ou superieur tu peux accéder à la page
         if (!$this->isGranted('ROLE_CLUB')) { return throw $this->createAccessDeniedException();}
 
+    
         // si tu es un club il faut récup que tes danseurs
         if (in_array('ROLE_CLUB', $this->getUser()->getRoles())) {
+            // si tu es un club et que tu essaies de modifier un danseur valider tu te fais jeter
+            if ($danseur->isValidated()) { return throw $this->createAccessDeniedException();} 
+
             // chercher le club de ce gestionnaire
             $club = $clubRepository->findOneBy(['owner' => $this->getUser()]);
             // si ce danseur n est pas dans ton club on te vire 

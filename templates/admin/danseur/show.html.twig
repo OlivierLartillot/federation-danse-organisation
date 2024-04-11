@@ -9,7 +9,16 @@
     
     <div class="d-inline-flex">
         <div class="me-2"><a href="{{ path('app_admin_danseur_index', {}|merge(app.request.query.all)) }}" class="btn btn-sm btn-secondary">Retour liste danseur</a></div>
-        <div class="me-2"><a href="{{ path('app_admin_danseur_edit', {'id': danseur.id}|merge(app.request.query.all) ) }}" class="btn btn-sm btn-success">Modifier</a></div>
+
+        
+            {% set validate = danseur.validated ? false : true %}
+            {% if validate %}
+            <div>
+                <div class="me-2"><a href="{{ path('app_admin_danseur_edit', {'id': danseur.id}|merge(app.request.query.all) ) }}" class="btn btn-sm btn-success">Modifier</a></div>
+            </diV>                       
+            {% endif %}
+   
+
         <div class="mx-5">{{ include('admin/danseur/_archived_form.html.twig') }}</div> 
         {#         
             <div class="mx-5">{{ include('admin/season/_delete_form.html.twig') }}</div> 
