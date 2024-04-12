@@ -11,6 +11,7 @@ use App\Repository\ClubRepository;
 use App\Repository\LicenceRepository;
 use App\Repository\SeasonRepository;
 use App\Service\LicenceChecker;
+use Container56ECHFx\getSeasonService;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -178,6 +179,7 @@ class LicenceController extends AbstractController
     public function show(Licence $licence, Request $request, EntityManagerInterface $entityManager): Response
     {
 
+
         $licenceComment = new LicenceComment();
         $form = $this->createForm(LicenceCommentType::class, $licenceComment);
         $form->handleRequest($request);
@@ -206,17 +208,19 @@ class LicenceController extends AbstractController
     #[Route('/{id}/edit', name: 'app_admin_licence_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Licence $licence, EntityManagerInterface $entityManager, LicenceChecker $licenceChecker): Response
     {
+
+        // REGLES:
+        // si tu es un CLUB et que la licence a le status validé tu ne peux pas la changer !!!
+        // => Le status repasse en "en cours"
+        // si par contre dans la saison isModifiedValidatedLicence est a true => tu n'as plus le droit de modifier la licence
+        
         $form = $this->createForm(LicenceType::class, $licence);
         $form->handleRequest($request);
 
-
-        // si tu es un club et que la licence a le status validé tu ne peux pas la changer !!!
-        // => EN FAIT SI  !!! Mais tu dois repasser les status en "en cours"
-            /* 
-            if((in_array('ROLE_CLUB', $this->getUser()->getRoles())) && $licence->getStatus() == 1) {
-            return $this->redirectToRoute('app_admin_licence_index', [], Response::HTTP_SEE_OTHER);
-            } 
-            */
+        // si tu es un club, que la licence est validée et que dans la saison, la licence validée ne peux plus être modifiée, tu te fais gicler (tu n'as pas acces au bouton)
+        if((in_array('ROLE_CLUB', $this->getUser()->getRoles())) && $licence->getStatus() == 1 && $licence->getSeason()->isModifiedValidatedLicence()) {
+            return throw $this->createAccessDeniedException();
+        }
 
         if ($form->isSubmitted()) {
             // service qui se renseigne sur le nombre min et max de danseur

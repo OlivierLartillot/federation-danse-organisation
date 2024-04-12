@@ -25,6 +25,23 @@
         </div>
     </div>
 
+    <div class="row mt-3">
+       
+       <div class="form-group col-12 ms-3 mt-3">
+            <div >
+                {{ form_widget(form.modifiedValidatedLicence) }}
+                {{ form_label(form.modifiedValidatedLicence) }}
+
+                <small>{{ form_help(form.modifiedValidatedLicence) }}</small>
+
+                <div class="form-error">
+                    {{ form_errors(form.modifiedValidatedLicence) }}
+                </div>
+            </div>
+        </div>
+    </div>
+
+
     <button class="btn btn-success my-3">{{ button_label|default('Enregistrer') }}</button>
 
 

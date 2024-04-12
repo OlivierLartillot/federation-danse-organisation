@@ -30,6 +30,9 @@ class Season
     #[ORM\OneToMany(targetEntity: Licence::class, mappedBy: 'season')]
     private Collection $licences;
 
+    #[ORM\Column]
+    private ?bool $modifiedValidatedLicence = null;
+
     public function __construct()
     {
         $this->championships = new ArrayCollection();
@@ -139,6 +142,18 @@ class Season
                 $licence->setSeason(null);
             }
         }
+
+        return $this;
+    }
+
+    public function isModifiedValidatedLicence(): ?bool
+    {
+        return $this->modifiedValidatedLicence;
+    }
+
+    public function setModifiedValidatedLicence(bool $modifiedValidatedLicence): static
+    {
+        $this->modifiedValidatedLicence = $modifiedValidatedLicence;
 
         return $this;
     }

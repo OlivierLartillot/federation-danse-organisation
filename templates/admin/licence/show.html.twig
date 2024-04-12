@@ -17,8 +17,15 @@
         <div class="me-2"><a href="{{ path('app_admin_licence_index',{}|merge(app.request.query.all) ) }}" class="btn btn-sm btn-secondary">Retour liste Licences</a></div>
 
 
+            
+
             {% if licence.status != 1 %} 
                 <div class="me-2"><a href="{{ path('app_admin_licence_edit', {'id': licence.id}|merge(app.request.query.all) ) }}" class="btn btn-sm btn-success">Modifier</a></div>
+            <!-- Si tu es un club et que dans saison, la licence validée ne peux plus être modifiée -->
+            {% elseif 'ROLE_CLUB' in  app.user.roles and licence.Season.isModifiedValidatedLicence %}
+                <div class="alert alert-secondary px-3 py-1" role="alert">
+                    Fdo a bloqué la modification des licences déjà validées
+                </div>
             {% else %}
                 <!-- Button trigger modal -->
                 <button type="button" class="btn btn-sm btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal">
@@ -29,7 +36,7 @@
                     <div class="modal-dialog">
                         <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                            <h5 class="modal-title" id="exampleModalLabel">Modification de licence validée !</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">

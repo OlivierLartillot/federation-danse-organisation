@@ -18,6 +18,12 @@ class SeasonType extends AbstractType
             ->add('isCurrentSeason', NULL, [
                 'label' => 'Saison Actuelle ?'
             ] )
+            ->add('modifiedValidatedLicence', null, [
+                'label' => 'Ne plus permettre la modification  par les clubs des licences déjà validées',
+                'help' => '*Si cette case est cochée, l\'équipe FDO peut toujours modifier une licence. Astuce: pour permettre à un club de modifier une licence, vous pouvez la rejeter. N\'étant plus en status validée, elle sera donc à nouveau modifiable.',
+                'help_attr' => ['class' => 'text-danger fst-italic']
+            
+                ])
         ;
     }
 
