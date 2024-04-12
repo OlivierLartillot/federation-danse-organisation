@@ -1,0 +1,99 @@
+{{ form_start(form) }}
+    {# {{ form_widget(form) }} #}
+
+
+
+    <div name="{{ field_name(form.identityFile) }}">
+    {#  {{ form_row(form.identityFile) }}  #}
+        <div>
+            {{ form_label(form.identityFile)}}
+            <div class="vich-image">
+                <input class="pt-3 pb-5 form-control" type="file" id="danseur_document_identityFile_file" name="danseur_documents[identityFile][file]" accept="image/*">            
+
+                {% if danseur_document.identity != null %}
+                {# Inversion de l'input et du label pour faire apparaitre la case en front #}
+                    <div class="mt-3">
+                        <input type="checkbox" id="danseur_document_identityFile_delete" name="danseur_documents[identityFile][delete]" value="1">
+                        <label for="danseur_document_identityFile_delete">Supprimer ?</label>
+                    </div>
+                    
+                        <img src="{{ asset('images/danseurs/documents/')}}{{ danseur_document.identity }}" alt="identity du dirigeant" style="height:250px;" class="rounded mx-auto d-block">
+
+                    <div class="text-center">      
+                        <a href="{{ asset('images/danseurs/documents/')}}{{ danseur_document.identity }}" download="">
+                            Télécharger
+                        </a> 
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    {{ form_row(form.maxValidityIdentityDate) }}
+
+    <hr class="border border-danger border-3 my-5">
+
+    <div name="{{ field_name(form.medicalCertificateFile) }}">
+    {#  {{ form_row(form.medicalCertificateFile) }}  #}
+        <div>
+            {{ form_label(form.medicalCertificateFile)}}
+            <div class="vich-image">
+                <input class="pt-3 pb-5 form-control" type="file" id="danseur_document_medicalCertificateFile_file" name="danseur_documents[medicalCertificateFile][file]" accept="image/*">
+                
+                {% if danseur_document.medicalCertificate != null %}
+                {# Inversion de l'input et du label pour faire apparaitre la case en front #}
+                    <div class="mt-3">
+                        <input type="checkbox" id="danseur_document_medicalCertificateFile_delete" name="danseur_documents[medicalCertificateFile][delete]" value="1">
+                        <label for="danseur_document_medicalCertificateFile_delete">Supprimer ?</label>
+                    </div>
+                    
+                    <img src="{{ asset('images/danseurs/documents/')}}{{ danseur_document.medicalCertificate }}" alt="medicalCertificate du dirigeant" style="height:250px;" class="rounded mx-auto d-block">
+
+                    <div class="text-center">      
+                    <a href="{{ asset('images/danseurs/documents/')}}{{ danseur_document.medicalCertificate }}" download="">
+                        Télécharger
+                    </a> 
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    {{ form_row(form.maxValidityCertificateDate) }}
+
+    <hr class="border border-danger border-3 my-5">
+
+    <div name="{{ field_name(form.photographicPermissionFile) }}">
+    {#  {{ form_row(form.photographicPermissionFile) }}  #}
+        <div>
+            {{ form_label(form.photographicPermissionFile)}}
+            <div class="vich-image">
+                <input class="pt-3 pb-5 form-control" type="file" id="danseur_document_photographicPermissionFile_file" name="danseur_documents[photographicPermissionFile][file]" accept="image/*">
+                
+                {% if danseur_document.photographicPermission != null %}
+                {# Inversion de l'input et du label pour faire apparaitre la case en front #}
+                    <div class="mt-3">
+                        <input type="checkbox" id="danseur_document_photographicPermissionFile_delete" name="danseur_documents[photographicPermissionFile][delete]" value="1">
+                        <label for="danseur_document_photographicPermissionFile_delete">Supprimer ?</label>
+                    </div>
+                    
+                    <img src="{{ asset('images/danseurs/documents/')}}{{ danseur_document.photographicPermission }}" alt="photographicPermission du dirigeant" style="height:250px;" class="rounded mx-auto d-block">
+
+                    <div class="text-center">      
+                    <a href="{{ asset('images/danseurs/documents/')}}{{ danseur_document.photographicPermission }}" download="">
+                        Télécharger
+                    </a> 
+                    </div>
+                {% endif %}
+            </div>
+
+        </div>
+    </div>
+    {{ form_row(form.maxValidityPhotographicPermissionDate) }}
+
+
+    <hr class="border border-danger border-3 my-5">
+
+
+
+
+    <button class="btn btn-success">{{ button_label|default('Enregistrer') }}</button>
+{{ form_end(form) }}

@@ -7,18 +7,33 @@
 
     <h3 class="my-5">Danseur </h3>
     
-    <div class="d-inline-flex">
-        <div class="me-2"><a href="{{ path('app_admin_danseur_index', {}|merge(app.request.query.all)) }}" class="btn btn-sm btn-secondary">Retour liste danseur</a></div>
+    <div class="d-flex justify-content-between">
+        <div>
+            <div class="me-2">
+                <a href="{{ path('app_admin_danseur_index', {}|merge(app.request.query.all)) }}" class="btn btn-sm btn-secondary">Retour liste danseur</a>
 
-        
-            {% set validate = danseur.validated ? false : true %}
-            {% if validate %}
-            <div>
-                <div class="me-2"><a href="{{ path('app_admin_danseur_edit', {'id': danseur.id}|merge(app.request.query.all) ) }}" class="btn btn-sm btn-success">Modifier</a></div>
-            </diV>                       
+
+
+            {% if is_granted('ROLE_LICENCE')  %}
+                {% if danseur.danseurDocuments is not null %}
+                    {% if danseur.danseurDocuments.validatedForSeason == currentSeason %}
+                        <a href="{{ path('app_admin_danseur_documents_validate', {'id': danseur.id, 'validation' : false}|merge(app.request.query.all)) }}" class="btn btn-sm btn-danger">Invalider les papiers pour la saison</a>
+                    {% else %}
+                        <a href="{{ path('app_admin_danseur_documents_validate', {'id': danseur.id , 'validation' : true}|merge(app.request.query.all)) }}" class="btn btn-sm btn-success">Valider les papiers pour la saison</a>
+                    {% endif %}     
+                {% endif %}
             {% endif %}
-   
-
+            
+            
+            </div>
+                {% set validate = danseur.validated ? false : true %}
+                {% if validate %}
+                <div>
+                    <div class="me-2"><a href="{{ path('app_admin_danseur_edit', {'id': danseur.id}|merge(app.request.query.all) ) }}" class="btn btn-sm btn-success">Modifier</a></div>
+                </diV>                       
+                {% endif %}
+    
+        </div>
         <div class="mx-5">{{ include('admin/danseur/_archived_form.html.twig') }}</div> 
         {#         
             <div class="mx-5">{{ include('admin/season/_delete_form.html.twig') }}</div> 
@@ -61,6 +76,96 @@
                         <th>Archivés</th>
                         <td>{{ danseur.archived ? 'Oui' : 'Non' }}</td>
                     </tr>
+                    <tr>
+                        <th>Identité Date Validité</th>
+                        <td>
+                        {% if danseur.danseurDocuments %}
+                            {{ danseur.danseurDocuments.maxValidityIdentityDate|date('d/m/Y') }}
+                        {% endif %}
+                        </td>
+                    </tr>
+                    <tr>
+
+                        <th>Identité</th>
+                        <td>
+                            {% if danseur.danseurDocuments %}
+
+                                {% if danseur.danseurDocuments.identity %}  
+                                    <img src='{{ asset('images/danseurs/documents/'~danseur.danseurDocuments.identity)}}'>
+                                    <div class="text-center">
+                                        <a class="btn btn-secondary my-3" href="{{ asset('images/danseurs/documents/')}}{{ danseur.danseurDocuments.identity }}" download="">
+                                            Télécharger
+                                        </a> 
+                                    </div>
+                                {% else %}
+                                    Pas de document
+                                {% endif %}
+                            {% else %}
+                                Pas de document
+                            {% endif %}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>Certificat Medical Date Validité</th>
+                        <td>
+                        {% if danseur.danseurDocuments %}
+                            {{ danseur.danseurDocuments.maxValidityCertificateDate|date('d/m/Y') }}
+                        {% endif %}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>Certificat medical</th>
+                        <td>
+                            {% if danseur.danseurDocuments %}
+
+                                {% if danseur.danseurDocuments.medicalCertificate %}  
+                                    <img src='{{ asset('images/danseurs/documents/'~danseur.danseurDocuments.medicalCertificate )}}'>
+                                    <div class="text-center">
+                                        <a class="btn btn-secondary my-3" href="{{ asset('images/danseurs/documents/')}}{{ danseur.danseurDocuments.medicalCertificate }}" download="">
+                                            Télécharger
+                                        </a> 
+                                    </div>
+                                {% else %}
+                                    Pas de document
+                                {% endif %}
+                            {% else %}
+                                Pas de document
+                            {% endif %}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>Droit à l'image Date Validité</th>
+                        <td>
+                        {% if danseur.danseurDocuments %}
+                            {% if danseur.danseurDocuments.maxValidityPhotographicPermissionDate > date('now') %}
+                                {{ danseur.danseurDocuments.maxValidityPhotographicPermissionDate|date('d/m/Y') }}
+                            {% else %}
+                                <span class="text-danger">{{ danseur.danseurDocuments.maxValidityPhotographicPermissionDate|date('d/m/Y') }}</span>
+                            {% endif %}
+                        {% endif %}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>Droit à l'image</th>
+                        <td>
+                            {% if danseur.danseurDocuments %}
+
+                                {% if danseur.danseurDocuments.photographicPermission %}  
+                                    <img src='{{ asset('images/danseurs/documents/'~danseur.danseurDocuments.photographicPermission )}}'>
+                                    <div class="text-center">
+                                        <a class="btn btn-secondary my-3" href="{{ asset('images/danseurs/documents/')}}{{ danseur.danseurDocuments.photographicPermission }}" download="">
+                                            Télécharger
+                                        </a> 
+                                    </div>
+                                {% else %}
+                                    Pas de document
+                                {% endif %}
+                            {% else %}
+                                Pas de document
+                            {% endif %}
+                        </td>
+                    </tr>
+
                 </tbody>
             </table>
 

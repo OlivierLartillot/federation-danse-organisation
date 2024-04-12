@@ -33,11 +33,15 @@ class Season
     #[ORM\Column]
     private ?bool $modifiedValidatedLicence = null;
 
+    #[ORM\OneToMany(targetEntity: DanseurDocuments::class, mappedBy: 'validatedForSeason')]
+    private Collection $danseurDocuments;
+
     public function __construct()
     {
         $this->championships = new ArrayCollection();
         $this->isArchived = false;
         $this->licences = new ArrayCollection();
+        $this->danseurDocuments = new ArrayCollection();
     }
 
     public function __toString()
@@ -154,6 +158,36 @@ class Season
     public function setModifiedValidatedLicence(bool $modifiedValidatedLicence): static
     {
         $this->modifiedValidatedLicence = $modifiedValidatedLicence;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, DanseurDocuments>
+     */
+    public function getDanseurDocuments(): Collection
+    {
+        return $this->danseurDocuments;
+    }
+
+    public function addDanseurDocument(DanseurDocuments $danseurDocument): static
+    {
+        if (!$this->danseurDocuments->contains($danseurDocument)) {
+            $this->danseurDocuments->add($danseurDocument);
+            $danseurDocument->setValidatedForSeason($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDanseurDocument(DanseurDocuments $danseurDocument): static
+    {
+        if ($this->danseurDocuments->removeElement($danseurDocument)) {
+            // set the owning side to null (unless already changed)
+            if ($danseurDocument->getValidatedForSeason() === $this) {
+                $danseurDocument->setValidatedForSeason(null);
+            }
+        }
 
         return $this;
     }

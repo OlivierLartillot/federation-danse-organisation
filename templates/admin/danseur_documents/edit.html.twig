@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit DanseurDocuments{% endblock %}
+
+{% block body %}
+<div class="container my-5">
+
+    <h3 class="my-5">Modification des documents de {{ danseur_document.danseur.firstname }} {{ danseur_document.danseur.lastname }} </h3>
+    
+    <a href="{{ path('app_admin_danseur_index') }}" class="btn btn-sm btn-secondary">Retour liste des danseurs</a>
+    
+    <div class="card my-3 p-3 shadow">
+
+        {% for message in app.flashes('success') %}
+            <div class="alert alert-success">
+                {{ message }}
+            </div>
+        {% endfor %}
+
+
+        {{ include('admin/danseur_documents/_form.html.twig', {'button_label': 'Modifier'}) }}
+    </div>
+</div>
+
+
+
+{% endblock %}

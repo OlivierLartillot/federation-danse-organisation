@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New DanseurDocuments{% endblock %}
+
+{% block body %}
+    <div class="container my-5">
+
+        <h3 class="my-5">Documents de {{ danseur.firstname }} {{ danseur.lastname }} </h3>
+
+        <a href="{{ path('app_admin_danseur_index') }}" class="btn btn-sm btn-secondary">Retour danseurs</a>
+        
+        <div class="card my-3 p-3 shadow">
+
+            {{ include('admin/danseur_documents/_form.html.twig') }}
+
+        </div>
+    </div>
+{% endblock %}

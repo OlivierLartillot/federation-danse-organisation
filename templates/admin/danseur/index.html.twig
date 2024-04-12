@@ -62,6 +62,8 @@
                         <th>Anniversaire</th>
                         <th>Club</th>
                         <th>actions</th>
+                        <th>Danseur</th>
+                        <th colspan="2" class="text-center">documents</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -89,6 +91,9 @@
                             {% endif %}
                             </div>
 
+
+                        </td>
+                        <td>
                             {% if is_granted('ROLE_LICENCE')  %}
                                 {% set validate = danseur.validated ? false : true %}
                                 <div>
@@ -98,7 +103,27 @@
                                         <a href="{{ path('app_admin_danseur_validate', {'id': danseur.id, 'validate': validate, 'archived': app.request.get('archived'), 'club': app.request.get('club') })}}" class="btn btn-danger btn-sm align-end">Invalider</a>
                                     {% endif %}
                                 </diV>                       
-                            {% endif %}
+                            {% endif %}                        
+                        </td>
+                        <td>
+                            <!-- Si le document existe pas encore = new -->
+                            {% if danseur.danseurDocuments is null %}
+                                <a href="{{ path('app_admin_danseur_documents_new', {'id': danseur.id }) }}" class="btn btn-sm btn-success mb-3">Ajouter</a>
+                            {% else %}
+                            <!-- Si le document existe = edit -->
+                                <a href="{{ path('app_admin_danseur_documents_edit', {'id': danseur.danseurDocuments.id }) }}" class="btn btn-sm btn-warning mb-3">Modifier</a>
+                            {% endif %} 
+
+                  
+                        </td>
+                        <td>
+                            {% if danseur.danseurDocuments is not null %}
+                                {% if danseur.danseurDocuments.validatedForSeason == currentSeason %}
+                                    <i class="fa-solid fa-check text-success"></i>
+                                {% else %}
+                                    <i class="fa-solid fa-x text-danger"></i>
+                                {% endif %} 
+                            {% endif %}     
                         </td>
                     </tr>
                 {% else %}

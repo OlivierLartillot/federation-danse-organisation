@@ -1,0 +1,61 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}DanseurDocuments{% endblock %}
+
+{% block body %}
+<div class="container my-5">
+
+    <h3 class="my-5">documents du danseur </h3>
+    
+
+    <div class="d-inline-flex">
+   
+ <a href="{{ path('app_admin_danseur_documents_index_liste') }}">back to list</a>
+    <a href="{{ path('app_admin_danseur_documents_edit', {'id': danseur_document.id}) }}">edit</a>
+
+    </div>
+        
+    <div class="card my-3 p-3 shadow"> 
+        <div class="table-responsive">
+            <table class="table">
+                <tbody>
+                    <tr>
+                        <th>Id</th>
+                        <td>{{ danseur_document.id }}</td>
+                    </tr>
+                    <tr>
+                        <th>Identity</th>
+                        <td>{{ danseur_document.identity }}</td>
+                    </tr>
+                    <tr>
+                        <th>MaxValidityIdentityDate</th>
+                        <td>{{ danseur_document.maxValidityIdentityDate ? danseur_document.maxValidityIdentityDate|date('Y-m-d') : '' }}</td>
+                    </tr>
+                    <tr>
+                        <th>MedicalCertificate</th>
+                        <td>
+                        {{ danseur_document.medicalCertificate }}
+                        
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>MaxValidityCertificateDate</th>
+                        <td>{{ danseur_document.maxValidityCertificateDate ? danseur_document.maxValidityCertificateDate|date('Y-m-d') : '' }}</td>
+                    </tr>
+                    <tr>
+                        <th>PhotographicPermission</th>
+                        <td>{{ danseur_document.photographicPermission }}</td>
+                    </tr>
+                    <tr>
+                        <th>MaxValidityPhotographicPermissionDate</th>
+                        <td>{{ danseur_document.maxValidityPhotographicPermissionDate ? danseur_document.maxValidityPhotographicPermissionDate|date('Y-m-d') : '' }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+
+{% endblock %}

@@ -38,6 +38,9 @@ class Danseur
     #[ORM\Column]
     private ?bool $validated = null;
 
+    #[ORM\OneToOne(mappedBy: 'danseur', cascade: ['persist', 'remove'])]
+    private ?DanseurDocuments $danseurDocuments = null;
+
 
     public function __construct()
     {
@@ -155,6 +158,28 @@ class Danseur
     public function setValidated(bool $validated): static
     {
         $this->validated = $validated;
+
+        return $this;
+    }
+
+    public function getDanseurDocuments(): ?DanseurDocuments
+    {
+        return $this->danseurDocuments;
+    }
+
+    public function setDanseurDocuments(?DanseurDocuments $danseurDocuments): static
+    {
+        // unset the owning side of the relation if necessary
+        if ($danseurDocuments === null && $this->danseurDocuments !== null) {
+            $this->danseurDocuments->setDanseur(null);
+        }
+
+        // set the owning side of the relation if necessary
+        if ($danseurDocuments !== null && $danseurDocuments->getDanseur() !== $this) {
+            $danseurDocuments->setDanseur($this);
+        }
+
+        $this->danseurDocuments = $danseurDocuments;
 
         return $this;
     }

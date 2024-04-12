@@ -19,3 +19,18 @@ vich_uploader:
             uri_prefix: /images/logo
             upload_destination: '%kernel.project_dir%/public/images/logo'
             namer: Vich\UploaderBundle\Naming\SmartUniqueNamer
+
+        identity:
+            uri_prefix: /images/danseurs/documents
+            upload_destination: '%kernel.project_dir%/public/images/danseurs/documents'
+            namer: Vich\UploaderBundle\Naming\SmartUniqueNamer
+
+        medicalCertificate:
+            uri_prefix: /images/danseurs/documents
+            upload_destination: '%kernel.project_dir%/public/images/danseurs/documents'
+            namer: Vich\UploaderBundle\Naming\SmartUniqueNamer
+
+        photographicPermission:
+            uri_prefix: /images/danseurs/documents
+            upload_destination: '%kernel.project_dir%/public/images/danseurs/documents'
+            namer: Vich\UploaderBundle\Naming\SmartUniqueNamer

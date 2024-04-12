@@ -6,6 +6,7 @@ use App\Entity\Danseur;
 use App\Form\DanseurType;
 use App\Repository\ClubRepository;
 use App\Repository\DanseurRepository;
+use App\Repository\SeasonRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -18,7 +19,7 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 class DanseurController extends AbstractController
 {
     #[Route('', name: 'app_admin_danseur_index', methods: ['GET'])]
-    public function index(DanseurRepository $danseurRepository, Request $request, ClubRepository $clubRepository, PaginatorInterface $paginator): Response
+    public function index(DanseurRepository $danseurRepository, Request $request, ClubRepository $clubRepository, PaginatorInterface $paginator, SeasonRepository $seasonRepository): Response
     {
         $clubs = $clubRepository->findBy([], ['name' => 'ASC']);
         $selectedClub = 'all';
@@ -29,6 +30,7 @@ class DanseurController extends AbstractController
         // ================= FIN AUTORISATIONS ==========================
         // ==============================================================
 
+        $currentSeason = $seasonRepository->findOneBy(['isCurrentSeason' => true]);
 
 
         // si la request isArchived et renvoyée
@@ -81,6 +83,7 @@ class DanseurController extends AbstractController
             'identifiant_route' => 'index',
             'clubs' =>  $clubs,
             'selectedClub' => $selectedClub,
+            'currentSeason' => $currentSeason,
         ]);
     }
 
@@ -143,7 +146,7 @@ class DanseurController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_admin_danseur_show', methods: ['GET'])]
-    public function show(Danseur $danseur, ClubRepository $clubRepository): Response
+    public function show(Danseur $danseur, ClubRepository $clubRepository, SeasonRepository $seasonRepository): Response
     {
 
         // ================== AUTORISATIONS =============================
@@ -163,8 +166,11 @@ class DanseurController extends AbstractController
         // ================= FIN AUTORISATIONS ==========================
         // ==============================================================
 
+
+        $currentSeason = $seasonRepository->findOneBy(['isCurrentSeason' => true]);
         return $this->render('admin/danseur/show.html.twig', [
             'danseur' => $danseur,
+            'currentSeason' => $currentSeason
         ]);
     }
 
